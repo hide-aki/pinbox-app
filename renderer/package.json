@@ -20,18 +20,9 @@
     "react-start": "react-scripts start",
     "react-build": "react-scripts build",
     "react-test": "react-scripts test --env=jsdom",
-    "react-eject": "react-scripts eject",
     "react-prebuild": "cross-env cp ../main/src/*.js public/",
     "start": "cross-env BROWSER=none npm run react-start",
-    "build": "rimraf -rf ./release-builds && npm run build:app",
-    "build:app": "npm run react-prebuild && npm run react-build && npm run electron-build",
-    "electron-build": "electron-builder -p 'never' --config electron-builder.json",
-    "release:all": "npm run pack -- -wml",
-    "release:linux": "npm run pack -- -l",
-    "release:win32": "npm run pack -- -w",
-    "release:macos": "npm run pack -- -m",
-    "postinstall": "electron-builder install-app-deps",
-    "publish": "electron-builder -p 'always' -wml"
+    "build": "cross-env BROWSER=none npm run react-build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -57,7 +48,6 @@
     "concurrently": "^4.1.1",
     "cross-env": "^5.2.0",
     "electron": "^6.0.9",
-    "electron-builder": "^21.2.0",
     "electron-reload": "^1.4.0",
     "wait-on": "^3.2.0",
     "watch": "^1.0.2"

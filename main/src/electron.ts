@@ -1,8 +1,9 @@
 import {BrowserWindow, app, ipcMain, IpcMessageEvent} from 'electron' ;
-import * as isDev from "electron-is-dev" ;
 import * as path from 'path'
 
 let mainWindow: BrowserWindow;
+
+const isDev = process.env.dev;
 
 function createWindow() {
     mainWindow = new BrowserWindow({
@@ -10,16 +11,18 @@ function createWindow() {
         height: 800,
         webPreferences: {
             nodeIntegration: true,
+            webSecurity: false
         }
     });
-    mainWindow.loadURL(
-        isDev
-            ? "http://localhost:3000"
-            : `file://${path.join(__dirname, "../build/index.html")}`
-    );
+
+    const url = isDev
+        ? "http://localhost:3000"
+        : `file://${path.join(__dirname, "../build/index.html")}`;
+
+    mainWindow.loadURL(url);
     mainWindow.on("closed", () => (mainWindow.destroy()));
 
-    ipcMain.on('channel', (event: IpcMessageEvent, msg: any) => {
+    ipcMain.on('channel', (event, msg: any) => {
         console.log(msg);
         mainWindow.webContents.send('response', {title: 'mymessage', data: 1});
     });

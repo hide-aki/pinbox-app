@@ -8,11 +8,10 @@
   "files": [
     "build/**/*",
     "node_modules/**/*",
-    "assets/**/*",
     "src/**/*",
     "package.json"
   ],
-  "icon": "./assets/images/png/512x512.png",
+  "icon": "../renderer/assets/images/png/512x512.png",
   "mac": {
     "artifactName": "${os}-pinbox.${version}.${ext}",
     "publish": [
@@ -23,9 +22,7 @@
   "linux": {
     "artifactName": "${os}-pinbox.${version}.${ext}",
     "target": [
-      "AppImage",
-      "deb",
-      "tar.gz"
+      "AppImage"
     ],
     "publish": [
       "github"

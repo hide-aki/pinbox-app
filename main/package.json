@@ -3,18 +3,29 @@
   "version": "1.0.0",
   "main": "./src/electron.js",
   "scripts": {
-    "start": "concurrently \"tsc ./src/electron.ts -w\" \"cross-env NODE_ENV=dev nodemon --exec\" \"wait-on http://localhost:3000 && electron src/electron.js\""
+    "compile": "tsc ./src/electron.ts",
+    "start": "concurrently \"tsc ./src/electron.ts -w\" \"cross-env NODE_ENV=dev nodemon --exec\" \"wait-on http://localhost:3000 && electron src/electron.js\"",
+    "start:fast": "cross-env NODE_ENV=bla && npm run compile && electron ./src/electron.js",
+    "build:electron": "electron-builder -p 'never' --config ../main/electron-builder.json",
+    "build:react": "bash scripts/build-react.sh",
+    "pack": "rimraf -rf ./release-builds && npm run build:react && electron-builder -p 'never' --config electron-builder.json",
+    "release:all": "npm run pack -- -wml",
+    "release:linux": "npm run pack -- -l",
+    "release:win32": "npm run pack -- -w",
+    "release:macos": "npm run pack -- -m",
+    "postinstall": "electron-builder install-app-deps",
+    "publish": "electron-builder -p 'always' -wml"
   },
-  "author": "nateshmbhat",
-  "dependencies": {
-    "electron": "^5.0.6"
-  },
+  "author": "nateshmbhat, ohager",
   "devDependencies": {
     "@types/electron": "^1.6.10",
     "concurrently": "^4.1.1",
+    "electron": "^6.0.9",
     "cross-env": "^5.2.0",
+    "electron-builder": "^21.2.0",
     "electron-is-dev": "^1.1.0",
     "nodemon": "^1.19.1",
+    "rimraf": "^3.0.0",
     "typescript": "^3.5.2",
     "wait-on": "^3.2.0"
   }
