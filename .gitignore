@@ -3,6 +3,7 @@
 main/src/electron.js
 renderer/build
 renderer/dist
+renderer/release-builds
 
 # dependencies
 node_modules/
@@ -87,3 +88,7 @@ typings/
 # next.js build output
 .next
 renderer/public/electron.js
+
+# custom
+.idea
+

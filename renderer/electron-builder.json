@@ -1,0 +1,53 @@
+{
+  "productName": "Pinbox",
+  "appId": "org.burstcoin.pinbox",
+  "directories": {
+    "output": "release-builds",
+    "buildResources": "build"
+  },
+  "files": [
+    "build/**/*",
+    "node_modules/**/*",
+    "assets/**/*",
+    "src/**/*",
+    "package.json"
+  ],
+  "icon": "./assets/images/png/512x512.png",
+  "mac": {
+    "artifactName": "${os}-pinbox.${version}.${ext}",
+    "publish": [
+      "github"
+    ],
+    "category": "public.app-category.utilities"
+  },
+  "linux": {
+    "artifactName": "${os}-pinbox.${version}.${ext}",
+    "target": [
+      "AppImage",
+      "deb",
+      "tar.gz"
+    ],
+    "publish": [
+      "github"
+    ],
+    "category": "FileTools"
+  },
+  "win": {
+    "artifactName": "${os}-pinbox.${version}.${ext}",
+    "target": [
+      "nsis",
+      "portable"
+    ],
+    "publish": [
+      "github"
+    ]
+  },
+  "nsis": {
+    "multiLanguageInstaller": true,
+    "oneClick": true,
+    "allowElevation": false,
+    "packElevateHelper": false,
+    "perMachine": false,
+    "artifactName": "${os}-pinbox.${version}.${ext}"
+  }
+}

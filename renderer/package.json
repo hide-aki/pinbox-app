@@ -3,30 +3,18 @@
   "description": "This is a boilerplate starter for an electron project that uses react with typescript and has some fixes applied for common bugs.",
   "version": "0.1.0",
   "private": true,
-  "author": "nateshmbhat",
-  "homepage": "./",
-  "build": {
-    "appId": "com.example.myApplication",
-    "productName": "My Application",
-    "copyright": "Copyright © 2019 Natesh M Bhat",
-    "files": [
-      "build/**/*",
-      "node_modules/**/*"
-    ],
-    "directories": {
-      "buildResources": "assets"
-    },
-    "win": {
-      "target": "portable",
-      "icon": "assets/app.ico"
-    }
+  "author": "ohager",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ohager/pinbox-app"
   },
+  "homepage": "./",
   "dependencies": {
+    "electron-is-dev": "^1.1.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.1",
-    "typescript": "3.5.2",
-    "electron-is-dev": "^1.1.0"
+    "typescript": "3.5.2"
   },
   "scripts": {
     "react-start": "react-scripts start",
@@ -34,10 +22,16 @@
     "react-test": "react-scripts test --env=jsdom",
     "react-eject": "react-scripts eject",
     "react-prebuild": "cross-env cp ../main/src/*.js public/",
-    "electron-build": "electron-builder",
-    "release": "npm run react-prebuild && npm run react-build && electron-builder --publish=always",
-    "build": "npm run react-prebuild && npm run react-build && npm run electron-build",
-    "start": "cross-env BROWSER=none npm run react-start"
+    "start": "cross-env BROWSER=none npm run react-start",
+    "build": "rimraf -rf ./release-builds && npm run build:app",
+    "build:app": "npm run react-prebuild && npm run react-build && npm run electron-build",
+    "electron-build": "electron-builder -p 'never' --config electron-builder.json",
+    "release:all": "npm run pack -- -wml",
+    "release:linux": "npm run pack -- -l",
+    "release:win32": "npm run pack -- -w",
+    "release:macos": "npm run pack -- -m",
+    "postinstall": "electron-builder install-app-deps",
+    "publish": "electron-builder -p 'always' -wml"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -55,17 +49,17 @@
     ]
   },
   "devDependencies": {
-    "electron": "^5.0.6",
-    "electron-reload": "^1.4.0",
-    "electron-builder": "^20.44.4",
-    "wait-on": "^3.2.0",
+    "@types/electron": "^1.6.10",
     "@types/jest": "24.0.15",
     "@types/node": "12.0.10",
     "@types/react": "16.8.22",
     "@types/react-dom": "16.8.4",
     "concurrently": "^4.1.1",
     "cross-env": "^5.2.0",
-    "@types/electron": "^1.6.10",
+    "electron": "^6.0.9",
+    "electron-builder": "^21.2.0",
+    "electron-reload": "^1.4.0",
+    "wait-on": "^3.2.0",
     "watch": "^1.0.2"
   }
 }
