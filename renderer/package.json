@@ -10,9 +10,12 @@
   },
   "homepage": "./",
   "dependencies": {
+    "@material-ui/core": "^4.4.2",
+    "@material-ui/icons": "^4.4.1",
     "electron-is-dev": "^1.1.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-file-drop": "^0.2.8",
     "react-scripts": "3.0.1",
     "typescript": "3.5.2"
   },
@@ -49,6 +52,7 @@
     "cross-env": "^5.2.0",
     "electron": "^6.0.9",
     "electron-reload": "^1.4.0",
+    "react-intl": "^3.2.3",
     "wait-on": "^3.2.0",
     "watch": "^1.0.2"
   }

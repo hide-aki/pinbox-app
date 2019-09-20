@@ -1,5 +1,5 @@
 import * as Electron from 'electron';
-import { ElectronWindow } from './typings/electron.window';
+import { ElectronWindow } from '../typings/electron.window';
 
 declare let window: ElectronWindow;
 

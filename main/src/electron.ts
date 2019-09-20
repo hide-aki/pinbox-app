@@ -3,7 +3,7 @@ import * as path from 'path'
 
 let mainWindow: BrowserWindow;
 
-const isDev = process.env.dev;
+const isDev = process.env.NODE_ENV === 'dev';
 
 function createWindow() {
     mainWindow = new BrowserWindow({
@@ -18,6 +18,10 @@ function createWindow() {
     const url = isDev
         ? "http://localhost:3000"
         : `file://${path.join(__dirname, "../build/index.html")}`;
+
+    console.log('================');
+    console.log('Using url:', url);
+    console.log('================');
 
     mainWindow.loadURL(url);
     mainWindow.on("closed", () => (mainWindow.destroy()));
