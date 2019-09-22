@@ -1,5 +1,4 @@
 import {ElectronMessageType} from './electron';
-import {encryptFile} from './encryptFile';
 
 const MessageName = {
     Test: 'Test',
@@ -14,10 +13,11 @@ export const handleMessage = (
 
     switch (messageName) {
         case MessageName.FileDrop:
-            encryptFile(payload);
+            console.log(payload);
+            // encryptFile(payload);
             break;
         case MessageName.Test:
         default:
-            console.log(payload)
+            console.log('Test', payload)
     }
 };
