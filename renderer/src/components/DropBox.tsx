@@ -1,5 +1,5 @@
 import React from 'react';
-import {makeStyles, Typography} from '@material-ui/core';
+import {makeStyles} from '@material-ui/core';
 import MoveToInboxTwoTone from '@material-ui/icons/MoveToInboxTwoTone';
 import FileDrop from 'react-file-drop';
 
@@ -18,15 +18,16 @@ const useStyles = makeStyles({
     }
 });
 
-export const DropBox: React.FC = () => {
+type OnDropFn = ((files: FileList| null, event: React.DragEvent<HTMLDivElement>) => any) | undefined
+interface DropBoxProps{
+    onDrop: OnDropFn
+}
+
+export const DropBox: React.FunctionComponent<DropBoxProps> = ({onDrop}) => {
     const classes = useStyles();
     return (
         <FileDrop className={classes.root}
-            onDrop={ (files,event) => {
-
-                // @ts-ignore
-                console.log(event.dataTransfer.items[0].webkitGetAsEntry())
-            } }
+                  onDrop={onDrop}
         >
             <MoveToInboxTwoTone className={classes.icon}/>
         </FileDrop>

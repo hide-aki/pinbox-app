@@ -4,8 +4,7 @@
   "main": "./src/electron.js",
   "scripts": {
     "compile": "tsc ./src/electron.ts",
-    "start": "concurrently \"tsc ./src/electron.ts -w\" \"cross-env NODE_ENV=dev nodemon --exec\" \"wait-on http://localhost:3000 && electron src/electron.js\"",
-    "start:fast": "npm run compile && cross-env NODE_ENV=dev electron ./src/electron.js",
+    "start": "npm run compile && cross-env NODE_ENV=dev electron ./src/electron.js",
     "build:electron": "electron-builder -p 'never' --config ../main/electron-builder.json",
     "build:react": "bash scripts/build-react.sh",
     "pack": "rimraf -rf ./release-builds && npm run build:react && electron-builder -p 'never' --config electron-builder.json",
@@ -19,12 +18,10 @@
   "author": "ohager",
   "devDependencies": {
     "@types/electron": "^1.6.10",
-    "concurrently": "^4.1.1",
     "cross-env": "^5.2.0",
     "electron": "^6.0.9",
     "electron-builder": "^21.2.0",
     "electron-is-dev": "^1.1.0",
-    "nodemon": "^1.19.1",
     "rimraf": "^3.0.0",
     "typescript": "^3.5.2",
     "wait-on": "^3.2.0"
