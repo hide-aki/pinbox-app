@@ -5,12 +5,13 @@ import {ElectronContext} from './contexts/ElectronContext';
 
 export const DemoButton: React.FC = () => {
     const electronService = useContext(ElectronContext);
-    let ipcRenderer = electronService.ipcRenderer
     return (
-        <Button variant="contained" color="primary" onClick={e => ipcRenderer && ipcRenderer.send('channel', {
-            title: 'hi',
-            content: 'hello this is my message'
-        })}>
+        <Button variant="contained" color="primary" onClick={e =>
+            electronService.sendMessage({
+                messageName: 'Test',
+                payload: {foo: 'bar'}
+            })
+        }>
             <FormattedMessage id="button.click_me"
                               defaultMessage={"Click me!"}
             />

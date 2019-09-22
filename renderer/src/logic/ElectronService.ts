@@ -3,6 +3,11 @@ import { ElectronWindow } from '../typings/electron.window';
 
 declare let window: ElectronWindow;
 
+interface ElectronMessageType {
+    messageName: string;
+    payload: any;
+}
+
 export class ElectronService {
     // @ts-ignore
     private _electron: Electron.RendererInterface;
@@ -83,5 +88,14 @@ export class ElectronService {
 
     public get shell(): Electron.Shell | null {
         return this.electron ? this.electron.shell : null;
+    }
+
+    public sendMessage(message: ElectronMessageType){
+        if(!this.ipcRenderer){
+            console.info('ipcRenderer not supported');
+            return;
+        }
+
+        this.ipcRenderer.send('channel', message);
     }
 }

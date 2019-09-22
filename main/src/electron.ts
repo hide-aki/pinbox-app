@@ -1,9 +1,15 @@
 import {BrowserWindow, app, ipcMain, IpcMessageEvent} from 'electron' ;
 import * as path from 'path'
+import {handleMessage} from './handleMessage';
 
 let mainWindow: BrowserWindow;
 
 const isDev = process.env.NODE_ENV === 'dev';
+
+export interface ElectronMessageType {
+    messageName: string;
+    payload: any;
+}
 
 function createWindow() {
     mainWindow = new BrowserWindow({
@@ -26,9 +32,8 @@ function createWindow() {
     mainWindow.loadURL(url);
     mainWindow.on("closed", () => (mainWindow.destroy()));
 
-    ipcMain.on('channel', (event, msg: any) => {
-        console.log(msg);
-        mainWindow.webContents.send('response', {title: 'mymessage', data: 1});
+    ipcMain.on('channel', (event, msg: ElectronMessageType) => {
+        handleMessage(msg)
     });
 
     mainWindow.maximize();
