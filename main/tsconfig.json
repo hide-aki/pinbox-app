@@ -1,5 +1,7 @@
 {
+  "compileOnSave": true,
   "compilerOptions": {
+    "rootDir": "./src",
     "target": "es5",
     "lib": [
       "dom",
@@ -19,6 +21,13 @@
     "noEmit": true,
     "jsx": "preserve"
   },
+  "files": [
+    "./src/fileDropHandler/fileWorker.ts"
+  ],
+  "include": [
+    "./**/*.ts",
+    "./src/**/*.ts"
+  ],
   "exclude": [
     "node_modules",
     "release-builds",

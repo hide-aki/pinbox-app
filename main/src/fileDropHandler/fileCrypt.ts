@@ -26,7 +26,7 @@ class NullStream extends Transform {
 
 const getCipherKey = (secret: string): Buffer => createHash('sha256').update(secret).digest();
 
-interface FileCryptArgs {
+export interface FileCryptArgs {
     secret: string,
     inputFilePath: string,
     outputFilePath: string,

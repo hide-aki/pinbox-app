@@ -25,9 +25,9 @@ function createWindow() {
         ? "http://localhost:3000"
         : `file://${path.join(__dirname, "../build/index.html")}`;
 
-    console.log('================');
-    console.log('Using url:', url);
-    console.log('================');
+    console.log('==================');
+    console.log('Using url :', url);
+    console.log('==================');
 
     mainWindow.loadURL(url);
     mainWindow.on("closed", () => (mainWindow.destroy()));

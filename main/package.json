@@ -5,7 +5,7 @@
   "scripts": {
     "build:electron": "electron-builder -p 'never' --config ../main/electron-builder.json",
     "build:react": "bash scripts/build-react.sh",
-    "compile": "tsc",
+    "compile": "tsc **/*.ts",
     "pack": "rimraf -rf ./release-builds && npm run build:react && electron-builder -p 'never' --config electron-builder.json",
     "postinstall": "electron-builder install-app-deps",
     "publish": "electron-builder -p 'always' -wml",
@@ -20,6 +20,7 @@
   "devDependencies": {
     "@types/electron": "^1.6.10",
     "@types/jest": "^24.0.18",
+    "@types/workerpool": "^3.1.0",
     "cross-env": "^5.2.0",
     "electron": "^6.0.9",
     "electron-builder": "^21.2.0",
@@ -31,6 +32,8 @@
     "wait-on": "^3.2.0"
   },
   "dependencies": {
-    "node-worker-threads-pool": "^1.0.8"
+    "node-worker-threads-pool": "^1.0.8",
+    "tslib": "^1.10.0",
+    "workerpool": "^5.0.0"
   }
 }
