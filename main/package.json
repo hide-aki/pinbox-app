@@ -1,26 +1,25 @@
 {
   "name": "pinbox-app",
   "version": "1.0.0",
-  "main": "./src/electron.js",
+  "main": "./out/electron.js",
   "scripts": {
     "build:electron": "electron-builder -p 'never' --config ../main/electron-builder.json",
     "build:react": "bash scripts/build-react.sh",
-    "compile": "tsc **/*.ts",
-    "pack": "rimraf -rf ./release-builds && npm run build:react && electron-builder -p 'never' --config electron-builder.json",
+    "compile": "tsc",
+    "pack": "rimraf -rf ./release-builds && npm run build:react && npm run compile && electron-builder -p 'never' --config electron-builder.json",
     "postinstall": "electron-builder install-app-deps",
     "publish": "electron-builder -p 'always' -wml",
     "release:all": "npm run pack -- -wml",
     "release:linux": "npm run pack -- -l",
     "release:win32": "npm run pack -- -w",
     "release:macos": "npm run pack -- -m",
-    "start": "npm run compile && cross-env NODE_ENV=dev electron ./src/electron.js",
+    "start": "npm run compile && cross-env NODE_ENV=dev electron ./out/electron.js",
     "test": "jest"
   },
   "author": "ohager",
   "devDependencies": {
     "@types/electron": "^1.6.10",
     "@types/jest": "^24.0.18",
-    "@types/workerpool": "^3.1.0",
     "cross-env": "^5.2.0",
     "electron": "^6.0.9",
     "electron-builder": "^21.2.0",
@@ -31,9 +30,5 @@
     "typescript": "^3.5.2",
     "wait-on": "^3.2.0"
   },
-  "dependencies": {
-    "node-worker-threads-pool": "^1.0.8",
-    "tslib": "^1.10.0",
-    "workerpool": "^5.0.0"
-  }
+  "dependencies": {}
 }

@@ -8,7 +8,7 @@
   "files": [
     "build/**/*",
     "node_modules/**/*",
-    "src/**/*",
+    "out/**/*",
     "package.json"
   ],
   "icon": "../renderer/assets/images/png/512x512.png",

@@ -26,7 +26,7 @@ function createWindow() {
         : `file://${path.join(__dirname, "../build/index.html")}`;
 
     console.log('==================');
-    console.log('Using url :', url);
+    console.log('Using url:', url);
     console.log('==================');
 
     mainWindow.loadURL(url);
