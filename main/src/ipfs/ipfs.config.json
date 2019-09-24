@@ -1,0 +1,6 @@
+{
+  "silent": true,
+  "EXPERIMENTAL": {
+    "pubsub": true
+  }
+}

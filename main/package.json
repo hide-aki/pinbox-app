@@ -30,5 +30,7 @@
     "typescript": "^3.5.2",
     "wait-on": "^3.2.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "ipfs": "^0.37.1"
+  }
 }
