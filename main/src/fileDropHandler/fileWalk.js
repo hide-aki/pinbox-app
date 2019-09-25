@@ -36,29 +36,39 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var fs = require("fs");
 var path_1 = require("path");
-var fs_1 = require("fs");
-var index_1 = require("../index");
-var resetFiles = function (filePath) {
-    if (fs_1.existsSync(filePath)) {
-        fs_1.unlinkSync(filePath);
-    }
-};
-describe('handleFileDrop', function () {
-    it('should encrypt a file in a worker', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var secret, inputFilePath, outputFilePath;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    secret = 'MySecret';
-                    inputFilePath = path_1.join(__dirname, './testfile.txt');
-                    outputFilePath = path_1.join(__dirname, './testfile_1.txt.enc');
-                    resetFiles(outputFilePath);
-                    return [4 /*yield*/, index_1.__handleFile(inputFilePath)];
-                case 1:
-                    _a.sent();
-                    return [2 /*return*/];
-            }
-        });
-    }); });
-});
+var fsp = fs.promises;
+exports.fileWalk = function (filePath, applyFn) { return __awaiter(void 0, void 0, void 0, function () {
+    var fileStats, dirFiles, i, dirFile;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, fsp.stat(filePath)];
+            case 1:
+                fileStats = _a.sent();
+                if (!fileStats.isDirectory()) return [3 /*break*/, 7];
+                return [4 /*yield*/, fsp.readdir(filePath)];
+            case 2:
+                dirFiles = _a.sent();
+                i = 0;
+                _a.label = 3;
+            case 3:
+                if (!(i < dirFiles.length)) return [3 /*break*/, 6];
+                dirFile = dirFiles[i];
+                if (dirFile === '.' || dirFile === '..')
+                    return [3 /*break*/, 5];
+                return [4 /*yield*/, exports.fileWalk(path_1.join(filePath, dirFile), applyFn)];
+            case 4:
+                _a.sent();
+                _a.label = 5;
+            case 5:
+                ++i;
+                return [3 /*break*/, 3];
+            case 6: return [3 /*break*/, 8];
+            case 7:
+                applyFn(filePath);
+                _a.label = 8;
+            case 8: return [2 /*return*/];
+        }
+    });
+}); };

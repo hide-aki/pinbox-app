@@ -75,4 +75,6 @@ exports.__handleFile = function (file) {
         });
     }); });
 };
-exports.handleFileDrop = function (files) { return files.forEach(exports.__handleFile); };
+exports.handleFileDrop = function (files) {
+    files.forEach(exports.__handleFile);
+};

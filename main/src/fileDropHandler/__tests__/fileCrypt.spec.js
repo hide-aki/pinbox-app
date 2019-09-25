@@ -51,7 +51,7 @@ describe('fileCrypt', function () {
             switch (_a.label) {
                 case 0:
                     secret = 'MySecret';
-                    inputFilePath = path_1.join(__dirname, './testfile.txt');
+                    inputFilePath = path_1.join(__dirname, './testFiles/testfile.txt');
                     outputFilePath = path_1.join(__dirname, './testfile_1.txt.enc');
                     decryptedOutputFilePath = path_1.join(__dirname, './testfile_1.txt.dec');
                     resetFiles(outputFilePath);
