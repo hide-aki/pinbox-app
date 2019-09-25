@@ -24,4 +24,9 @@ export const __handleFile = (file: string): void => {
     })
 };
 
-export const handleFileDrop = (files: string[]) => files.forEach(__handleFile);
+
+
+
+export const handleFileDrop = (files: string[]) => {
+    files.forEach(__handleFile);
+}
