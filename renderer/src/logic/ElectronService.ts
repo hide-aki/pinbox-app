@@ -1,5 +1,6 @@
 import * as Electron from 'electron';
 import { ElectronWindow } from '../typings/electron.window';
+import { IpcRendererEvent } from 'electron';
 
 declare let window: ElectronWindow;
 
@@ -97,5 +98,15 @@ export class ElectronService {
         }
 
         this.ipcRenderer.send('channel', message);
+    }
+
+    public onMessage(messageHandler : (message: ElectronMessageType) => void) : void {
+        if(!this.ipcRenderer){
+            console.info('ipcRenderer not supported');
+            return;
+        }
+        this.ipcRenderer.on('channel', (event: IpcRendererEvent, message: ElectronMessageType) => {
+            messageHandler(message)
+        })
     }
 }

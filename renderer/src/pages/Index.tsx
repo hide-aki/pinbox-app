@@ -22,6 +22,7 @@ const sendFilesToElectron = (service: ElectronService) => (files: FileList | nul
 
 export const Index: React.FC = () => {
     const electronService = useContext(ElectronContext);
+    electronService.onMessage(console.log);
     return (
         <div>
             <LinearProgress />

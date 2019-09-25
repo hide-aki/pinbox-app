@@ -1,4 +1,4 @@
-{
+export const config = {
   "repo": "./ipfs/data",
   "silent": false,
   "config": {
@@ -12,4 +12,5 @@
   "EXPERIMENTAL": {
     "pubsub": true
   }
-}
+};
+

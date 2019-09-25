@@ -88,6 +88,7 @@ typings/
 
 # custom
 .idea
+main/ipfs
 *.txt.dec
 *.txt.enc
 *.txt.x
