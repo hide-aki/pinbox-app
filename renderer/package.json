@@ -13,14 +13,13 @@
     "@material-ui/core": "^4.4.2",
     "@material-ui/icons": "^4.4.1",
     "electron-is-dev": "^1.1.0",
-    "immer": "^4.0.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-file-drop": "^0.2.8",
     "react-redux": "^7.1.1",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
-    "redux": "^4.0.4",
+    "redux-starter-kit": "^0.7.0",
     "typescript": "3.5.2"
   },
   "scripts": {
@@ -52,6 +51,7 @@
     "@types/node": "12.0.10",
     "@types/react": "16.8.22",
     "@types/react-dom": "16.8.4",
+    "@types/react-redux": "^7.1.4",
     "@types/react-router-dom": "^4.3.5",
     "concurrently": "^4.1.1",
     "cross-env": "^5.2.0",
