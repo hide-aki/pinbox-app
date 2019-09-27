@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var path = require("path");
 var winston_1 = require("winston");
-var nullTransport_1 = require("./nullTransport");
 var isLoggingEnabled = function () {
     var isEnabled = false;
     process.argv.forEach(function (val) {
@@ -26,9 +25,7 @@ var createTransports = function () {
             new winston_1.transports.File({ filename: createFilename('error'), level: 'error', handleExceptions: true }),
             new winston_1.transports.File({ filename: createFilename('combined') })
         ]
-        : [
-            new nullTransport_1.NullTransport()
-        ];
+        : [];
     if (process.env.TODE_ENV !== 'production') {
         transports.push(new winston_1.transports.Console({
             format: winston_1.format.combine(winston_1.format.colorize(), winston_1.format.simple())

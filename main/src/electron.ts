@@ -1,8 +1,10 @@
-import {BrowserWindow, app, ipcMain, IpcMessageEvent, ipcRenderer} from 'electron' ;
+import {BrowserWindow, app, ipcMain} from 'electron' ;
 import * as path from 'path'
 import {handleMessage} from './handleMessage';
 import {createIpfsNode} from './ipfs/createIpfsNode';
 import {logger} from './logger';
+import {IpcChannelName} from './constants';
+import {initializeMetaInfo} from './metaInfo';
 
 let mainWindow: BrowserWindow;
 
@@ -16,18 +18,21 @@ export interface ElectronMessageType {
 // @ts-ignore
 global.ipfs = null;
 
-function initializeIpfs() {
+function initializeApp() {
     createIpfsNode(async ipfsNode => {
         const ident = await ipfsNode.id();
         logger.info(`Successfully initialized IPFS node - ID: ${ident.id}`);
         // @ts-ignore
         global.ipfs = ipfsNode;
-        mainWindow.webContents.send('channel', {
+        mainWindow.webContents.send(IpcChannelName, {
             messageName: 'IpfsReady',
             payload: {
                 ipfsId: ident.id,
             }
-        })
+        });
+
+        // TODO: this can only be done, when logged in
+        initializeMetaInfo()
     });
 }
 
@@ -56,14 +61,14 @@ function createWindow() {
     mainWindow.maximize();
     mainWindow.show();
 
-    ipcMain.on('channel', (event, msg: ElectronMessageType) => {
+    ipcMain.on(IpcChannelName, (event, msg: ElectronMessageType) => {
         handleMessage(msg)
     });
 }
 
 app.on("ready", async () => {
     createWindow();
-    initializeIpfs();
+    initializeApp();
 });
 app.on("window-all-closed", () => {
     if (process.platform !== "darwin") {

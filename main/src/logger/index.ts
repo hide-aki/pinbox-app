@@ -1,6 +1,5 @@
 import * as path from 'path';
-import {createLogger, transports as Transports, format, Logger} from 'winston';
-import {NullTransport} from './nullTransport';
+import {createLogger, transports as Transports, format} from 'winston';
 import TransportStream = require('winston-transport');
 
 const isLoggingEnabled = (): boolean => {
@@ -31,9 +30,7 @@ const createTransports = (): TransportStream[] => {
             new Transports.File({filename: createFilename('error'), level: 'error', handleExceptions: true}),
             new Transports.File({filename: createFilename('combined')})
         ]
-        : [
-            new NullTransport()
-        ];
+        : [];
 
     if (process.env.TODE_ENV !== 'production') {
         transports.push(new Transports.Console({

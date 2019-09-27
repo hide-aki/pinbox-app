@@ -3,9 +3,10 @@ import {withIpfs} from '../ipfs/withIpfs';
 import {logger} from '../logger';
 import * as fs from 'fs';
 import {randomString} from './randomString';
-import { join, dirname } from 'path';
+import {join, dirname} from 'path';
+import {fileWalk} from './fileWalk';
 
-export const __handleFile = (file: string): void => {
+const handleFile = (file: string): void => {
     withIpfs(async (ipfs: any) => {
         const args: FileCryptArgs = {
             secret: 'MySecretT',
@@ -16,7 +17,7 @@ export const __handleFile = (file: string): void => {
             await encryptFileTo(args);
             logger.debug('Adding file', args.inputFilePath);
             const result = await ipfs.addFromFs(args.outputFilePath);
-            logger.debug(`Added file: ${args.outputFilePath}, Ipfs: ${JSON.stringify(result)}`)
+            logger.debug(`Added file: ${args.outputFilePath}, Ipfs: ${JSON.stringify(result)}`);
             fs.unlinkSync(args.outputFilePath);
         } catch (e) {
             logger.error(e);
@@ -25,8 +26,8 @@ export const __handleFile = (file: string): void => {
 };
 
 
-
-
 export const handleFileDrop = (files: string[]) => {
-    files.forEach(__handleFile);
-}
+    files.forEach((file: string) => {
+        fileWalk(file, handleFile)
+    });
+};

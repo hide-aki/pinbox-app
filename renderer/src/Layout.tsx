@@ -1,8 +1,9 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {RouteProviders} from './routes';
+import {PinboxAppBar} from './components/PinboxAppBar';
 
-export const Layout: React.FC = () => (
+/*
     <div>
         <nav>
             <ul>
@@ -18,5 +19,11 @@ export const Layout: React.FC = () => (
             </ul>
         </nav>
     </div>
+
+ */
+
+
+export const Layout: React.FC = () => (
+    <PinboxAppBar />
 );
 

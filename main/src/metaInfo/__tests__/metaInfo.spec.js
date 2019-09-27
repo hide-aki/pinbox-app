@@ -36,38 +36,19 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var fileWalk_1 = require("../fileWalk");
-var path_1 = require("path");
-describe('fileWalk', function () {
-    it('calls callback for single file correctly', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var testFile, walker;
+var MetaInfo_1 = require("../MetaInfo");
+describe('MetaInfo', function () {
+    it('creates and saves MetaInfo File', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var metaInfo;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    testFile = path_1.join(__dirname, '/testFiles/testfile.txt');
-                    walker = jest.fn();
-                    return [4 /*yield*/, fileWalk_1.fileWalk(testFile, walker)];
+                    metaInfo = new MetaInfo_1.MetaInfo('account123');
+                    metaInfo.addFileRecord(new MetaInfo_1.MetaInfoFileRecord('originalFilePath', 'ipfsHash'));
+                    metaInfo.addFileRecord(new MetaInfo_1.MetaInfoFileRecord('originalFilePath_1', 'ipfsHash_1'));
+                    return [4 /*yield*/, metaInfo.publish()];
                 case 1:
                     _a.sent();
-                    expect(walker).toHaveBeenCalledTimes(1);
-                    return [2 /*return*/];
-            }
-        });
-    }); });
-    it('calls callback for single directory recursively', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var testFile, walker;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    testFile = path_1.join(__dirname, '/testFiles');
-                    walker = jest.fn();
-                    return [4 /*yield*/, fileWalk_1.fileWalk(testFile, function (file) {
-                            // console.log('file', file);
-                            walker(file);
-                        })];
-                case 1:
-                    _a.sent();
-                    expect(walker).toHaveBeenCalledTimes(4);
                     return [2 /*return*/];
             }
         });

@@ -46,7 +46,6 @@ export const encryptFileTo = async (args: FileCryptArgs): Promise<void> =>
         const gzipStream = isCompressed ? createGzip() : new PassThrough();
 
         const iv = randomBytes(CryptoParams.IVByteLength);
-
         const cipherKey = getCipherKey(secret);
         const appendIVStream = new AppendInitVector(iv);
         const cipherStream = createCipheriv(CryptoParams.Algorithm, cipherKey, iv);
