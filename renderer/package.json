@@ -10,12 +10,17 @@
   },
   "homepage": "./",
   "dependencies": {
+    "@burstjs/core": "^0.4.0",
+    "@burstjs/crypto": "^0.4.0",
+    "@burstjs/util": "^0.4.0",
     "@material-ui/core": "^4.4.2",
     "@material-ui/icons": "^4.4.1",
     "electron-is-dev": "^1.1.0",
+    "qrcode.react": "^0.9.3",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-file-drop": "^0.2.8",
+    "react-intl": "^3.3.2",
     "react-redux": "^7.1.1",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
@@ -57,7 +62,6 @@
     "cross-env": "^5.2.0",
     "electron": "^6.0.9",
     "electron-reload": "^1.4.0",
-    "react-intl": "^3.2.3",
     "wait-on": "^3.2.0",
     "watch": "^1.0.2"
   }

@@ -1,3 +1,16 @@
 {
-  "button.click_me": "Clique em mim!"
+  "button.click_me": "Clique em mim!",
+  "button.next": "Próximo",
+  "button.previous": "Anterior",
+  "button.finish": "Finalizar",
+  "account.create.new_account": "Nova conta",
+  "account.create.description": "Siga as instruções para criar uma conta para o Pinbox",
+  "account.create.qrcode_explanation": "During this step, a secure random passphrase for your account is being generated. When you click the Stop button an unique passphrase is shown, or you can re-generate a new one",
+  "account.create.generate_passphrase": "Gerar frase secreta",
+  "account.create.show_account_info": "Mostrar informações da conta",
+  "account.create.create_pin": "Criar PIN",
+  "account.create.select_pool": "Selecionar Polo",
+  "account.create.finish": "Pronto",
+  "account.create.button_stop": "Pare",
+  "account.create.button_generate": "Gerar"
 }

@@ -3,6 +3,7 @@ import React, {useContext} from 'react';
 import {ElectronContext} from '../components/contexts/ElectronContext';
 import {ElectronService} from '../logic/ElectronService';
 import {LinearProgress} from '@material-ui/core';
+import {Page} from '../components/Page';
 
 const sendFilesToElectron = (service: ElectronService) => (files: FileList | null): void => {
     if (files === null) return;
@@ -24,10 +25,9 @@ export const Index: React.FC = () => {
     const electronService = useContext(ElectronContext);
     electronService.onMessage(console.log);
     return (
-        <div>
-            <LinearProgress />
+        <Page>
             <DropBox onDrop={sendFilesToElectron(electronService)}/>
-        </div>
+        </Page>
     )
 };
 

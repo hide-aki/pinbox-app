@@ -1,3 +1,16 @@
 {
-  "button.click_me": "Klick mich!"
+  "button.click_me": "Klick mich!",
+  "button.next": "Nächste",
+  "button.previous": "Zurück",
+  "button.finish": "Fertig",
+  "account.create.new_account": "Neues Konto",
+  "account.create.description": "Folge den Anweisungen um ein Pinbox-Konto zu erstellen",
+  "account.create.qrcode_explanation": "Jetzt wird eine zufällige Phrase für dein Konto erzeugt. Wenn du <i>STOP</i> anklickst, wird die Sicherheitsphrase angezeigt. Du kannst diese aber auch verwerfen und eine andere erzeugen. Die Phrase besteht immer aus zwölf englischen Wörtern.",
+  "account.create.generate_passphrase": "Generiere Sicherheitsphrase",
+  "account.create.show_account_info": "Kontoinformationen",
+  "account.create.create_pin": "PIN erzeugen",
+  "account.create.select_pool": "Pool auswählen",
+  "account.create.finish": "Fertig",
+  "account.create.button_stop": "Stop",
+  "account.create.button_generate": "Generiere"
 }
