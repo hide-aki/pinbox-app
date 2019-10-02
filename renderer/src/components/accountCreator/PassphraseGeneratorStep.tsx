@@ -57,6 +57,7 @@ interface IState {
 interface IProps {
     onReady: (isReady:boolean) => void,
     classes: any,
+    setPassphrase: any,
 }
 
 class _PassphraseGeneratorStep extends Component<IProps, IState> {
@@ -81,13 +82,17 @@ class _PassphraseGeneratorStep extends Component<IProps, IState> {
     }
 
     private startGenerator(): void {
+        const {onReady, setPassphrase} = this.props;
         // @ts-ignore
         clearInterval(this.interval);
         this.setState({
             isGenerating: true,
             randomString: '',
             passphrase: ''
-        }, () => this.props.onReady(false));
+        }, () => {
+            onReady(false);
+            setPassphrase(this.state.passphrase);
+        });
         // @ts-ignore
         this.interval = setInterval(() => {
             this.setState({
@@ -97,6 +102,8 @@ class _PassphraseGeneratorStep extends Component<IProps, IState> {
     };
 
     private stopGenerator(): void {
+        const {onReady, setPassphrase} = this.props;
+
         // @ts-ignore
         clearInterval(this.interval);
         let phraseGenerator = new PassPhraseGenerator();
@@ -104,7 +111,10 @@ class _PassphraseGeneratorStep extends Component<IProps, IState> {
         this.setState({
             passphrase: phraseGenerator.generate().join(' '),
             isGenerating: false,
-        }, () => this.props.onReady(true));
+        }, () => {
+            onReady(true);
+            setPassphrase(this.state.passphrase);
+        });
     };
 
     private toggleGenerator(): void {

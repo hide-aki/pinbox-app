@@ -10,6 +10,9 @@ import {
 } from '@material-ui/core';
 import {FormattedMessage} from 'react-intl';
 import {PassphraseGeneratorStep} from './PassphraseGeneratorStep';
+import {AccountInformationStep} from './AccountInformationStep';
+import {connect} from 'react-redux';
+import {accountCreationSlice} from '../../store/accountCreationSlice';
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -44,15 +47,24 @@ function getSteps() {
 
 interface IStepContentProviderProps {
     step: number,
-    onNextReady: (isReady:boolean) => void
+    onNextReady: (isReady: boolean) => void,
+    setPassphrase: any,
+    passphrase: string,
 }
 
 const StepContentProvider = (props: IStepContentProviderProps): any => {
-    switch (props.step) {
+    const {step, onNextReady} = props;
+    switch (step) {
         case 0:
-            return <PassphraseGeneratorStep onReady={props.onNextReady}/>;
+            return <PassphraseGeneratorStep
+                onReady={onNextReady}
+                setPassphrase={props.setPassphrase}
+            />;
         case 1:
-            return 'Write Down Passphrase';
+            return <AccountInformationStep
+                onReady={onNextReady}
+                passphrase={props.passphrase}
+            />;
         case 2:
             return 'Create Pin';
         case 3:
@@ -66,7 +78,7 @@ const StepContentProvider = (props: IStepContentProviderProps): any => {
 
 const MAX_STEPS = 4;
 
-export const AccountCreator: React.FC = () => {
+const _AccountCreator: React.FC = (props: any) => {
     const classes = useStyles();
     const [activeStep, setActiveStep] = React.useState(0);
     const [isNextStepReady, setIsNextStepReady] = React.useState(false);
@@ -84,7 +96,7 @@ export const AccountCreator: React.FC = () => {
         setActiveStep(0);
     };
 
-    const handleNextReady = (isReady:boolean) => {
+    const handleNextReady = (isReady: boolean) => {
         setIsNextStepReady(isReady);
     };
 
@@ -100,7 +112,7 @@ export const AccountCreator: React.FC = () => {
                 ))}
             </Stepper>
             <div className={classes.content}>
-                <StepContentProvider step={activeStep} onNextReady={handleNextReady}/>
+                <StepContentProvider step={activeStep} onNextReady={handleNextReady} {...props} />
             </div>
             <div>
                 {activeStep === steps.length ? (
@@ -134,3 +146,8 @@ export const AccountCreator: React.FC = () => {
     )
 };
 
+const {actions} = accountCreationSlice;
+const {setPassphrase} = actions;
+const mapDispatchToProps = {setPassphrase};
+
+export const AccountCreator = connect(null, mapDispatchToProps)(_AccountCreator);

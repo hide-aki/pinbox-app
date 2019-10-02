@@ -1,7 +1,7 @@
 import React from 'react';
 import {createStyles, makeStyles, Paper, Theme} from '@material-ui/core';
 import {Page} from '../components/Page';
-import { FormattedMessage } from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import {AccountCreator} from '../components/accountCreator';
 
 
