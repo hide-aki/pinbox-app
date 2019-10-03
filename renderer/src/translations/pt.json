@@ -12,5 +12,10 @@
   "account.create.select_pool": "Selecionar Polo",
   "account.create.finish": "Pronto",
   "account.create.button_stop": "Pare",
-  "account.create.button_generate": "Gerar"
+  "account.create.button_generate": "Gerar",
+  "account.info.burst_address": "Endereço da Carteira Burstcoin",
+  "account.info.burst_publickey": "Chave Pública",
+  "account.info.your_passphrase": "Frase Secreta",
+  "account.info.public_section": "The information in this section are public and can be passed to others",
+  "account.info.private_section": "The information in this section are private and <b>must not</b> be passed to others"
 }

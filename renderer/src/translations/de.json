@@ -12,5 +12,12 @@
   "account.create.select_pool": "Pool auswählen",
   "account.create.finish": "Fertig",
   "account.create.button_stop": "Stop",
-  "account.create.button_generate": "Generiere"
+  "account.create.button_generate": "Generiere",
+  "account.info.title": "Pinbox Kontoinformationen",
+  "account.info.burst_address": "Burstcoin Wallet Addresse",
+  "account.info.burst_publickey": "Öffentlicher Schlüssel",
+  "account.info.your_passphrase": "Deine Sicherheitsphrase",
+  "account.info.public_section": "Die Informationen in dieser Sektion sind öffentlich und können an Dritte weitergegeben werden",
+  "account.info.private_section": "Die Informationen in dieser Sektion sind geheim und dürfen <b>niemals</b> an Dritte weitergegeben werden"
+
 }

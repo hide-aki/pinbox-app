@@ -12,5 +12,10 @@
   "account.create.select_pool": "Select a Pool",
   "account.create.finish": "Finish",
   "account.create.button_stop": "Stop",
-  "account.create.button_generate": "Generate"
+  "account.create.button_generate": "Generate",
+  "account.info.burst_address": "Burstcoin Wallet Address",
+  "account.info.burst_publickey": "Public Key",
+  "account.info.your_passphrase": "Your Passphrase",
+  "account.info.public_section": "The information in this section are public and can be passed to others",
+  "account.info.private_section": "The information in this section are private and <b>must not</b> be passed to others"
 }

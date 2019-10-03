@@ -12,7 +12,8 @@ import {FormattedMessage} from 'react-intl';
 import {PassphraseGeneratorStep} from './PassphraseGeneratorStep';
 import {AccountInformationStep} from './AccountInformationStep';
 import {connect} from 'react-redux';
-import {accountCreationSlice} from '../../store/accountCreationSlice';
+import {accountCreationSlice} from '../../store/accountCreation/slice';
+import {selectPassphrase} from '../../store/accountCreation/selectors';
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -54,6 +55,7 @@ interface IStepContentProviderProps {
 
 const StepContentProvider = (props: IStepContentProviderProps): any => {
     const {step, onNextReady} = props;
+    console.log('stepCntentProv', props.passphrase);
     switch (step) {
         case 0:
             return <PassphraseGeneratorStep
@@ -80,7 +82,7 @@ const MAX_STEPS = 4;
 
 const _AccountCreator: React.FC = (props: any) => {
     const classes = useStyles();
-    const [activeStep, setActiveStep] = React.useState(0);
+    const [activeStep, setActiveStep] = React.useState(1);
     const [isNextStepReady, setIsNextStepReady] = React.useState(false);
     const steps = getSteps();
     const handleNext = () => {
@@ -146,8 +148,18 @@ const _AccountCreator: React.FC = (props: any) => {
     )
 };
 
+interface IState {
+    passphrase: string
+}
+
 const {actions} = accountCreationSlice;
 const {setPassphrase} = actions;
 const mapDispatchToProps = {setPassphrase};
+const mapStateToProps = (state: any) : IState => (
+    {
+        passphrase: selectPassphrase(state),
+    }
+);
 
-export const AccountCreator = connect(null, mapDispatchToProps)(_AccountCreator);
+
+export const AccountCreator = connect(mapStateToProps, mapDispatchToProps)(_AccountCreator);
