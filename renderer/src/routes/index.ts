@@ -1,7 +1,7 @@
 export const RoutePaths = {
     Index: '/',
     Account: '/account',
-    NewAccount: '/new-account',
+    AccountNew: '/account/new',
     Settings: '/settings',
 
 };
@@ -9,7 +9,7 @@ export const RoutePaths = {
 export const RouteProviders = {
     Index: () => RoutePaths.Index,
     Account: () => RoutePaths.Account,
-    NewAccount: () => RoutePaths.NewAccount,
+    NewAccount: () => RoutePaths.AccountNew,
     Settings: () => RoutePaths.Settings,
 };
 

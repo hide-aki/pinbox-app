@@ -27,9 +27,11 @@ const styles = {
         flexFlow: 'column',
         justifyContent: 'space-between',
         textAlign: 'justify',
+        alignItems: 'center',
         paddingRight: '2rem',
         '& button':{
             marginTop: '0.5rem',
+            width: "fit-content",
         }
     },
     passphrase: {
@@ -138,7 +140,10 @@ class _PassphraseGeneratorStep extends Component<IProps, IState> {
                 <div className={classes.generator}>
                     <div className={classes.explanation}>
                         <FormattedHTMLMessage id={"account.create.qrcode_explanation"}/>
-                        <Button onClick={() => this.toggleGenerator()}>
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            onClick={() => this.toggleGenerator()}>
                             <FormattedMessage
                                 id={`account.create.${isGenerating? 'button_stop' : 'button_generate'}`}
                             />

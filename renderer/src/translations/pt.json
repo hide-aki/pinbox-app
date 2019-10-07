@@ -3,6 +3,7 @@
   "button.next": "Próximo",
   "button.previous": "Anterior",
   "button.finish": "Finalizar",
+  "button.print": "Imprimir",
   "account.create.new_account": "Nova conta",
   "account.create.description": "Siga as instruções para criar uma conta para o Pinbox",
   "account.create.qrcode_explanation": "During this step, a secure random passphrase for your account is being generated. When you click the Stop button an unique passphrase is shown, or you can re-generate a new one",
@@ -15,7 +16,10 @@
   "account.create.button_generate": "Gerar",
   "account.info.burst_address": "Endereço da Carteira Burstcoin",
   "account.info.burst_publickey": "Chave Pública",
+  "account.info.burst_accountId": "Id de conta da Carteira Burstcoin",
   "account.info.your_passphrase": "Frase Secreta",
   "account.info.public_section": "The information in this section are public and can be passed to others",
-  "account.info.private_section": "The information in this section are private and <b>must not</b> be passed to others"
+  "account.info.private_section": "The information in this section are private and <b>must not</b> be passed to others",
+  "account.info.secure_information": "It's important that you keep the private information in a safe place. We recommend to save the certificate as PDF using the print function, and store it in a password store tool, like KeePass",
+  "account.info.has_secured": "Yes, I wrote down/printed the account information and stored securely"
 }

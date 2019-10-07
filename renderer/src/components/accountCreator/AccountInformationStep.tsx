@@ -1,24 +1,25 @@
 import React from 'react';
-import {Grid, makeStyles, Paper, Theme} from '@material-ui/core';
+import {Button, Checkbox, FormControlLabel, Grid, makeStyles, Paper, Theme} from '@material-ui/core';
 import PublicTwoTone from '@material-ui/icons/PublicTwoTone';
 import SecurityTwoTone from '@material-ui/icons/SecurityTwoTone';
+import PrintTwoTone from '@material-ui/icons/PrintTwoTone';
 
 import Guilloche from '../../images/certificate1280.jpg';
 import {generateMasterKeys, getAccountIdFromPublicKey} from '@burstjs/crypto';
-import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {FormattedHTMLMessage, FormattedMessage, useIntl} from 'react-intl';
 import {convertNumericIdToAddress} from '@burstjs/util';
 
 const useStyles = makeStyles((theme: Theme) => ({
         root: {},
         certificate: {
+            printColorAdjust: 'exact',
             backgroundImage: `url(${Guilloche})`,
             backgroundSize: 'cover',
             backgroundPositionY: 'center',
-            width: '90%',
             margin: theme.spacing(4)
         },
         grid: {
-            padding: theme.spacing(4, 8),
+            padding: theme.spacing(2, 8),
         },
         icon: {
             padding: '2rem',
@@ -33,7 +34,18 @@ const useStyles = makeStyles((theme: Theme) => ({
             padding: theme.spacing(2, 4)
         },
         separator: {
-            width: '100%'
+            width: '90%'
+        },
+        confirmation: {
+            display: 'flex',
+            flexFlow: 'column',
+            textAlign: 'justify',
+            alignItems: 'center',
+            margin: theme.spacing(2, 4),
+            '& button': {
+                marginBottom: theme.spacing(2),
+                width: 'fit-content'
+            }
         }
     })
 );
@@ -63,7 +75,8 @@ const LabeledInfo = (props: ILabeledInfoProps) => {
 
 interface IAccountInfoType {
     publicKey: string,
-    burstAddress: string
+    burstAddress: string,
+    accountId: string,
 }
 
 const getAccountInformation = (passphrase: string): IAccountInfoType => {
@@ -71,6 +84,7 @@ const getAccountInformation = (passphrase: string): IAccountInfoType => {
         return {
             publicKey: '',
             burstAddress: '',
+            accountId: '',
         }
     }
     const {publicKey} = generateMasterKeys(passphrase);
@@ -79,13 +93,19 @@ const getAccountInformation = (passphrase: string): IAccountInfoType => {
     return {
         publicKey,
         burstAddress,
+        accountId,
     }
+};
+
+const printCertificate = (): void => {
+    window.print()
 };
 
 export const AccountInformationStep: React.FC<IProps> =
     ({onReady, passphrase}) => {
         const classes = useStyles();
-        const {burstAddress, publicKey} = getAccountInformation(passphrase);
+        const intl = useIntl();
+        const {burstAddress, publicKey, accountId} = getAccountInformation(passphrase);
         return (
             <div className={classes.root}>
                 <Paper className={classes.certificate}>
@@ -102,6 +122,7 @@ export const AccountInformationStep: React.FC<IProps> =
                             </Grid>
                             <Grid item xs={9}>
                                 <LabeledInfo labelId="account.info.burst_address" text={burstAddress}/>
+                                <LabeledInfo labelId="account.info.burst_accountId" text={accountId}/>
                                 <div style={{wordBreak: 'break-all'}}>
                                     <LabeledInfo labelId="account.info.burst_publickey" text={publicKey}/>
                                 </div>
@@ -121,6 +142,27 @@ export const AccountInformationStep: React.FC<IProps> =
                         </Grid>
                     </Grid>
                 </Paper>
+                <div className={classes.confirmation}>
+                    <p><FormattedHTMLMessage id="account.info.secure_information"/></p>
+                    <Button
+                        variant="contained"
+                        color="secondary"
+                        startIcon={<PrintTwoTone/>}
+                        onClick={printCertificate}
+                    >
+                        <FormattedMessage id="button.print"/>
+                    </Button>
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                onChange={({target}) => onReady(target.checked)}
+                                value="hasSecured"/>
+                        }
+                        label={intl.formatMessage({
+                            id: "account.info.has_secured"
+                        })}
+                    />
+                </div>
             </div>
         )
     };

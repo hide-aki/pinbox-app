@@ -11,8 +11,8 @@ export const AppRouter: React.FC = () => (
         <div>
             <Layout/>
             <Route path={RoutePaths.Index} exact component={Index}/>
-            <Route path={RoutePaths.NewAccount} component={NewAccount}/>
-            <Route path={RoutePaths.Account} component={Account}/>
+            <Route path={RoutePaths.AccountNew} exact component={NewAccount}/>
+            <Route path={RoutePaths.Account} exact component={Account}/>
         </div>
     </Router>
 );
