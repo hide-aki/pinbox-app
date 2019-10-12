@@ -4,6 +4,7 @@
   "button.previous": "Zurück",
   "button.finish": "Fertig",
   "button.print": "Drucken",
+  "input.enter_pin": "PIN eingeben",
   "account.create.new_account": "Neues Konto",
   "account.create.description": "Folge den Anweisungen um ein Pinbox-Konto zu erstellen",
   "account.create.qrcode_explanation": "Jetzt wird eine zufällige Phrase für dein Konto erzeugt. Wenn du <i>STOP</i> anklickst, wird die Sicherheitsphrase angezeigt. Du kannst diese aber auch verwerfen und eine andere erzeugen. Die Phrase besteht immer aus zwölf englischen Wörtern.",
@@ -22,5 +23,8 @@
   "account.info.public_section": "Die Informationen in dieser Sektion sind öffentlich und können an Dritte weitergegeben werden",
   "account.info.private_section": "Die Informationen in dieser Sektion sind <b>geheim</b> und dürfen <b>niemals</b> an Dritte weitergegeben werden",
   "account.info.secure_information": "Es ist wichtig, dass du diese Daten sicher verwahrst. Wir empfehlen das Zertifikat mit Hilfe der Druckfunktion als PDF zu speichern und dann als PDF in einem Passworttresor, wie z.B. KeePass zu verwahren",
-  "account.info.has_secured": "Ja, ich habe die Kontoinformationen aufgeschrieben/ausgedruckt und sicher verwahrt"
+  "account.info.has_secured": "Ja, ich habe die Kontoinformationen aufgeschrieben/ausgedruckt und sicher verwahrt",
+  "account.pin.explanation": "Die PIN ist einn alphanumerischer Wert, an den du dich einfach erinnern kannst. Sie wird benötigt, um Transaktionen/Zahlungen zu bestätigen. Im Gegensatz zu der Passphrase kann die PIN nachträglich geändert oder sogar neu erstellt werden.",
+  "account.finish.summary": "Finished"
+
 }
