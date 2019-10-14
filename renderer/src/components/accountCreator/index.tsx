@@ -51,16 +51,12 @@ function getSteps() {
     ];
 }
 
-<<<<<<< HEAD
-enum Steps {
-=======
 enum Steps{
->>>>>>> 4dd5735d8a6d629e0b520fb84a4c398044c6da0c
     GeneratePassphrase,
     AccountInformation,
     CreatePin,
     Finish,
-    Max
+    Max,
 }
 
 interface IStepContentProviderProps {
