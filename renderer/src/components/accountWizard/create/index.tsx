@@ -9,18 +9,13 @@ import {
     Button
 } from '@material-ui/core';
 import {FormattedMessage} from 'react-intl';
+import {useHistory} from 'react-router';
 import {PassphraseGeneratorStep} from './PassphraseGeneratorStep';
 import {AccountInformationStep} from './AccountInformationStep';
-import {connect} from 'react-redux';
-import {accountCreationSlice} from '../../store/accountCreation/slice';
-import {selectPassphrase} from '../../store/accountCreation/selectors';
-import {CreatePinStep} from './CreatePinStep';
-import {IPoolDescription} from '../../typings/IPoolDescription';
+import {CreatePinStep} from '../CreatePinStep';
 import {FinishStep} from './FinishStep';
-import {SecureKeyService} from '../../logic/SecureKeyService';
-import {useHistory} from 'react-router';
-import {RoutePaths} from '../../routes';
-
+import {SecureKeyService} from '../../../logic/SecureKeyService';
+import {RoutePaths} from '../../../routes';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -51,7 +46,7 @@ function getSteps() {
     ];
 }
 
-enum Steps{
+enum Steps {
     GeneratePassphrase,
     AccountInformation,
     CreatePin,
@@ -61,31 +56,29 @@ enum Steps{
 
 interface IStepContentProviderProps {
     step: number,
-    onNextReady: (isReady: boolean) => void,
-    setPassphrase: any,
     passphrase: string,
+    onNextReady: (isReady: boolean) => void,
+    onPassphraseChanged: (passphrase: string) => void,
     onPinChanged: (pin: string) => void,
-    availablePools: IPoolDescription[],
 }
 
 const StepContentProvider = (props: IStepContentProviderProps): any => {
-    const {step, onNextReady, onPinChanged} = props;
+    const {step, passphrase, onNextReady, onPinChanged, onPassphraseChanged} = props;
     switch (step) {
         case Steps.GeneratePassphrase:
             return <PassphraseGeneratorStep
                 onReady={onNextReady}
-                setPassphrase={props.setPassphrase}
+                onPassphraseChanged={onPassphraseChanged}
             />;
         case Steps.AccountInformation:
             return <AccountInformationStep
                 onReady={onNextReady}
-                passphrase={props.passphrase}
+                passphrase={passphrase}
             />;
         case Steps.CreatePin:
             return <CreatePinStep
                 onReady={onNextReady}
                 onPinChanged={onPinChanged}
-                passphrase={props.passphrase}
             />;
         case Steps.Finish:
             return <FinishStep
@@ -97,11 +90,12 @@ const StepContentProvider = (props: IStepContentProviderProps): any => {
 };
 
 
-const _AccountCreator: React.FC = (props: any) => {
+export const AccountCreator: React.FC = (props: any) => {
     const classes = useStyles();
     const [activeStep, setActiveStep] = React.useState(0);
     const [isNextStepReady, setIsNextStepReady] = React.useState(false);
     const [pin, setPin] = React.useState('');
+    const [passphrase, setPassphrase] = React.useState('');
     const history = useHistory();
     const steps = getSteps();
 
@@ -113,8 +107,8 @@ const _AccountCreator: React.FC = (props: any) => {
 
     const handleFinished = () => {
         const secureKeyService = new SecureKeyService();
-        secureKeyService.storeKeys(pin, props.passphrase);
-        props.setPassphrase(null);
+        secureKeyService.storeKeys(pin, passphrase);
+        setPassphrase('');
         // redirect
         history.push(RoutePaths.Index)
     };
@@ -135,6 +129,10 @@ const _AccountCreator: React.FC = (props: any) => {
         setPin(pin)
     };
 
+    const handlePassphraseChanged = (passphrase: string) => {
+        setPassphrase(passphrase)
+    };
+
     return (
         <div>
             <Stepper activeStep={activeStep} alternativeLabel>
@@ -149,9 +147,10 @@ const _AccountCreator: React.FC = (props: any) => {
             <div className={classes.content}>
                 <StepContentProvider
                     step={activeStep}
+                    passphrase={passphrase}
                     onNextReady={handleNextReady}
                     onPinChanged={handlePinChanged}
-                    {...props}
+                    onPassphraseChanged={handlePassphraseChanged}
                 />
             </div>
             <div>
@@ -189,17 +188,3 @@ const _AccountCreator: React.FC = (props: any) => {
         </div>
     )
 };
-
-interface IState {
-    passphrase: string,
-}
-
-const {setPassphrase} = accountCreationSlice.actions;
-const mapDispatchToProps = {setPassphrase};
-const mapStateToProps = (state: any): IState => (
-    {
-        passphrase: selectPassphrase(state),
-    }
-);
-
-export const AccountCreator = connect(mapStateToProps, mapDispatchToProps)(_AccountCreator);

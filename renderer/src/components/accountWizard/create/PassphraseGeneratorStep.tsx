@@ -51,15 +51,15 @@ const styles = {
 
 
 interface IState {
-    passphrase?: string,
-    isGenerating?: boolean,
-    randomString?: string,
+    passphrase: string,
+    isGenerating: boolean,
+    randomString: string,
 }
 
 interface IProps {
     onReady: (isReady:boolean) => void,
+    onPassphraseChanged: (passphrase:string) => void,
     classes: any,
-    setPassphrase: any,
 }
 
 class _PassphraseGeneratorStep extends Component<IProps, IState> {
@@ -84,7 +84,7 @@ class _PassphraseGeneratorStep extends Component<IProps, IState> {
     }
 
     private startGenerator(): void {
-        const {onReady, setPassphrase} = this.props;
+        const {onReady, onPassphraseChanged} = this.props;
         // @ts-ignore
         clearInterval(this.interval);
         this.setState({
@@ -93,7 +93,7 @@ class _PassphraseGeneratorStep extends Component<IProps, IState> {
             passphrase: ''
         }, () => {
             onReady(false);
-            setPassphrase(this.state.passphrase);
+            onPassphraseChanged(this.state.passphrase);
         });
         // @ts-ignore
         this.interval = setInterval(() => {
@@ -104,7 +104,7 @@ class _PassphraseGeneratorStep extends Component<IProps, IState> {
     };
 
     private stopGenerator(): void {
-        const {onReady, setPassphrase} = this.props;
+        const {onReady, onPassphraseChanged} = this.props;
 
         // @ts-ignore
         clearInterval(this.interval);
@@ -115,7 +115,7 @@ class _PassphraseGeneratorStep extends Component<IProps, IState> {
             isGenerating: false,
         }, () => {
             onReady(true);
-            setPassphrase(this.state.passphrase);
+            onPassphraseChanged(this.state.passphrase);
         });
     };
 

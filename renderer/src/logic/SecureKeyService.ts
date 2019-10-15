@@ -8,6 +8,7 @@ export class SecureKeyService {
     constructor(private persistenceService: PersistenceService = new PersistenceService()) {
     }
 
+
     storeKeys(pin: string, passphrase: string) {
 
         if (!(pin && pin.length)) {
@@ -18,10 +19,11 @@ export class SecureKeyService {
             throw new Error('Invalid passphrase')
         }
 
-        const pinHash = hashSHA256(pin);
+        // FIXME: This is not secure enough...use PBKDF2
         const keys = generateMasterKeys(passphrase);
+        const hash = hashSHA256(pin);
         const keysStr = JSON.stringify(keys);
-        this.persistenceService.storeItem(ItemKey, encryptAES(keysStr, pinHash));
+        this.persistenceService.storeItem(ItemKey, encryptAES(keysStr, hash));
     }
 
     getKeys(pin: string): Keys {

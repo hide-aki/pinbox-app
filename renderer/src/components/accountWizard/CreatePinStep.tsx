@@ -22,13 +22,12 @@ const useStyles = makeStyles((theme: Theme) => ({
 interface IProps {
     onReady: (isReady: boolean) => void,
     onPinChanged: (pin: string) => void,
-    passphrase: string,
 }
 
 const MIN_PIN_LENGTH = 4;
 
 export const CreatePinStep: React.FC<IProps> =
-    ({onReady, passphrase, onPinChanged}) => {
+    ({onReady, onPinChanged}) => {
         const classes = useStyles();
         const intl = useIntl();
         const handleChange = ({target}: any): void => {

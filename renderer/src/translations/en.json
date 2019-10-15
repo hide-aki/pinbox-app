@@ -5,6 +5,7 @@
   "button.finish": "Finish",
   "button.print": "Print",
   "input.enter_pin": "Enter PIN",
+  "input.enter_passphrase": "Enter Passphrase",
   "account.create.new_account": "New Account",
   "account.create.description": "Follow the instruction to create a Pinbox account",
   "account.create.qrcode_explanation": "During this step, a secure random passphrase for your account is being generated. When you click the Stop button an unique passphrase is shown, or you can re-generate a new one",
@@ -24,6 +25,21 @@
   "account.info.secure_information": "It's important that you keep the private information in a safe place. We recommend to save the certificate as PDF using the print function, and store it in a password store tool, like KeePass",
   "account.info.has_secured": "Yes, I wrote down/printed the account information and stored securely",
   "account.pin.explanation": "The PIN is an alphanumeric value, that you can remember easily. It is needed to confirm your transactions/payments. In contrast to the passphrase the PIN can be changed or even recreated.",
-  "account.finish.summary": "Finished"
+  "account.finish.summary": "Finished",
+  "account.set.account": "Set Account",
+  "account.set.description": "Follow the instructions to setup Pinbox with your existing Burst account",
+  "account.set.enter_passphrase": "Identify your account",
+  "account.set.verify_account": "Verify account",
+  "account.set.verify_account.your_address_is": "Your accounts address is",
+  "account.set.verify_account.verifying": "Verifying...",
+  "account.set.create_pin": "Create a PIN",
+  "account.set.finish": "Finish",
+  "account.set.passphrase_description": "Enter your <em>secret</em> Passphrase to identify your existing account. Of course, the passphrase won't be saved and/or sent to anybody.",
+  "account.state.active": "Active",
+  "account.state.inactive": "Inactive",
+  "account.state.notfound": "Not found",
+  "account.state.active.description": "Your account is activated and fully secured",
+  "account.state.inactive.description": "Your account has no public key yet. To fully secure your account you should execute a transaction",
+  "account.state.notfound.description": "Your account was not found in the blockchain. Are you really sure using that account?"
 }
 

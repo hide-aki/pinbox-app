@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         text: {
             textAlign: "justify"
         },
-        pinField: {
+        passphraseField: {
             textAlign: "center",
             margin: theme.spacing(2,0, 4 ,0),
             fontSize: theme.typography.h4.fontSize,

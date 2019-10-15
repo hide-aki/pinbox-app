@@ -5,6 +5,7 @@
   "button.finish": "Fertig",
   "button.print": "Drucken",
   "input.enter_pin": "PIN eingeben",
+  "input.enter_passphrase": "Passphrase eingeben",
   "account.create.new_account": "Neues Konto",
   "account.create.description": "Folge den Anweisungen um ein Pinbox-Konto zu erstellen",
   "account.create.qrcode_explanation": "Jetzt wird eine zufällige Phrase für dein Konto erzeugt. Wenn du <i>STOP</i> anklickst, wird die Sicherheitsphrase angezeigt. Du kannst diese aber auch verwerfen und eine andere erzeugen. Die Phrase besteht immer aus zwölf englischen Wörtern.",
@@ -25,6 +26,21 @@
   "account.info.secure_information": "Es ist wichtig, dass du diese Daten sicher verwahrst. Wir empfehlen das Zertifikat mit Hilfe der Druckfunktion als PDF zu speichern und dann als PDF in einem Passworttresor, wie z.B. KeePass zu verwahren",
   "account.info.has_secured": "Ja, ich habe die Kontoinformationen aufgeschrieben/ausgedruckt und sicher verwahrt",
   "account.pin.explanation": "Die PIN ist einn alphanumerischer Wert, an den du dich einfach erinnern kannst. Sie wird benötigt, um Transaktionen/Zahlungen zu bestätigen. Im Gegensatz zu der Passphrase kann die PIN nachträglich geändert oder sogar neu erstellt werden.",
-  "account.finish.summary": "Finished"
+  "account.finish.summary": "Finished",
+  "account.set.account": "Konto einrichten",
+  "account.set.description": "Folge den Anweisungen um Pinbox mit deinem bestehenden Burstcoin Konto einzurichten",
+  "account.set.enter_passphrase": "Identifiziere dein Konto",
+  "account.set.create_pin": "PIN erzeugen",
+  "account.set.verify_account": "Konto verifizieren",
+  "account.set.verify_account.your_address_is": "Deine Kontoadresse ist",
+  "account.set.verify_account.verifying": "Überprüfe...",
+  "account.set.finish": "Fertig",
+  "account.set.passphrase_description": "Gebe deine <em>geheime</em> Passphrase ein, damit dein Konto identifizert werden kann. Die Passphrase wird selbstverständlich nicht gespeichert oder weitergegeben.",
+  "account.state.active": "Aktiv",
+  "account.state.inactive": "Inaktiv",
+  "account.state.notfound": "Unbekannt",
+  "account.state.active.description": "Dein Konto ist aktiv und sicher",
+  "account.state.inactive.description": "Dein Konto existiert, hat aber noch keinen öffentlichen Schlüssel. Um es richtig abzusichern, solltest Du mindestens eine Transaktion ausführen",
+  "account.state.notfound.description": "Dein Konto ist nicht in der Blockchain. Bist Du sicher, dass Du dieses Konto verwenden willst?"
 
 }

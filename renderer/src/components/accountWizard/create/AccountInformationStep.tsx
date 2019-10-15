@@ -4,10 +4,9 @@ import PublicTwoTone from '@material-ui/icons/PublicTwoTone';
 import SecurityTwoTone from '@material-ui/icons/SecurityTwoTone';
 import PrintTwoTone from '@material-ui/icons/PrintTwoTone';
 
-import Guilloche from '../../images/certificate1280.jpg';
-import {generateMasterKeys, getAccountIdFromPublicKey} from '@burstjs/crypto';
+import Guilloche from '../../../images/certificate1280.jpg';
 import {FormattedHTMLMessage, FormattedMessage, useIntl} from 'react-intl';
-import {convertNumericIdToAddress} from '@burstjs/util';
+import {BurstAccountService} from '../../../logic/BurstAccountService';
 
 const useStyles = makeStyles((theme: Theme) => ({
         root: {},
@@ -73,39 +72,17 @@ const LabeledInfo = (props: ILabeledInfoProps) => {
     )
 };
 
-interface IAccountInfoType {
-    publicKey: string,
-    burstAddress: string,
-    accountId: string,
-}
-
-const getAccountInformation = (passphrase: string): IAccountInfoType => {
-    if (!passphrase || !passphrase.length) {
-        return {
-            publicKey: '',
-            burstAddress: '',
-            accountId: '',
-        }
-    }
-    const {publicKey} = generateMasterKeys(passphrase);
-    const accountId = getAccountIdFromPublicKey(publicKey);
-    const burstAddress = convertNumericIdToAddress(accountId);
-    return {
-        publicKey,
-        burstAddress,
-        accountId,
-    }
-};
-
 const printCertificate = (): void => {
     window.print()
 };
+
+const burstAccountService = new BurstAccountService();
 
 export const AccountInformationStep: React.FC<IProps> =
     ({onReady, passphrase}) => {
         const classes = useStyles();
         const intl = useIntl();
-        const {burstAddress, publicKey, accountId} = getAccountInformation(passphrase);
+        const {burstAddress, publicKey, accountId} = burstAccountService.getAccountIdentifiers(passphrase);
         return (
             <div className={classes.root}>
                 <Paper className={classes.certificate}>
