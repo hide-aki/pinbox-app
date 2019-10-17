@@ -36,5 +36,9 @@ export class SecureKeyService {
         return JSON.parse(serializedKeys);
     }
 
+    hasKeysStored(): boolean {
+        return !!this.persistenceService.getItem(ItemKey);
+    }
+
 }
 
