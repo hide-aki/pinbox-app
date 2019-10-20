@@ -4,6 +4,8 @@
   "button.previous": "Anterior",
   "button.finish": "Finalizar",
   "button.print": "Imprimir",
+  "button.create_account": "Criar Nova Conta",
+  "button.set_account": "Usar Conta Existente",
   "input.enter_pin": "Digitar PIN",
   "input.enter_passphrase": "Digitar Frase Secreta",
   "account.create.new_account": "Nova conta",
@@ -40,5 +42,7 @@
   "account.state.notfound": "Desconhecido",
   "account.state.active.description": "Your account is activated and fully secured",
   "account.state.inactive.description": "Your account has no public key yet. To fully secure your account you should execute a transaction",
-  "account.state.notfound.description": "Your account was not found in the blockchain. Are you really sure using that account?"
+  "account.state.notfound.description": "Your account was not found in the blockchain. Are you really sure using that account?",
+  "login.title": "Login",
+  "login.description": "If you have a Burst account already you can enter with your existing account. Otherwise, you may create a new one."
 }

@@ -4,6 +4,8 @@
   "button.previous": "Back",
   "button.finish": "Finish",
   "button.print": "Print",
+  "button.create_account": "Create New Account",
+  "button.set_account": "Use Existing account",
   "input.enter_pin": "Enter PIN",
   "input.enter_passphrase": "Enter Passphrase",
   "account.create.new_account": "New Account",
@@ -40,6 +42,8 @@
   "account.state.notfound": "Not found",
   "account.state.active.description": "Your account is activated and fully secured",
   "account.state.inactive.description": "Your account has no public key yet. To fully secure your account you should execute a transaction",
-  "account.state.notfound.description": "Your account was not found in the blockchain. Are you really sure using that account?"
+  "account.state.notfound.description": "Your account was not found in the blockchain. Are you really sure using that account?",
+  "login.title": "Login",
+  "login.description": "If you have a Burst account already you can enter with your existing account. Otherwise, you may create a new one."
 }
 

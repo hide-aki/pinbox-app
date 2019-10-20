@@ -4,6 +4,8 @@
   "button.previous": "Zurück",
   "button.finish": "Fertig",
   "button.print": "Drucken",
+  "button.create_account": "Erstelle Neues Konto",
+  "button.set_account": "Benutze Bestehendes Konto",
   "input.enter_pin": "PIN eingeben",
   "input.enter_passphrase": "Passphrase eingeben",
   "account.create.new_account": "Neues Konto",
@@ -41,6 +43,7 @@
   "account.state.notfound": "Unbekannt",
   "account.state.active.description": "Dein Konto ist aktiv und sicher",
   "account.state.inactive.description": "Dein Konto existiert, hat aber noch keinen öffentlichen Schlüssel. Um es richtig abzusichern, solltest Du mindestens eine Transaktion ausführen",
-  "account.state.notfound.description": "Dein Konto ist nicht in der Blockchain. Bist Du sicher, dass Du dieses Konto verwenden willst?"
-
+  "account.state.notfound.description": "Dein Konto ist nicht in der Blockchain. Bist Du sicher, dass Du dieses Konto verwenden willst?",
+  "login.title": "Login",
+  "login.description": "Wenn du schon ein Burst-Konto hast, kannst Du dieses benutzen und Dich damit einloggen. Ansonsten musst Du Dir ein Konto erstellen."
 }
