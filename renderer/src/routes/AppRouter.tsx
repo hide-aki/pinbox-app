@@ -6,8 +6,10 @@ import {Index} from '../pages/Index';
 import {Account} from '../pages/Account';
 import {NewAccount} from '../pages/NewAccount';
 import {SetAccount} from '../pages/SetAccount';
-import {PrivateRoute} from './PrivateRoute';
+import {RequiresAccount} from './RequiresAccount';
 import {Login} from '../pages/Login';
+import {RequiresNode} from './RequiresNode';
+import {Nodes} from '../pages/Nodes';
 
 export const AppRouter: React.FC = () => (
     <Router>
@@ -15,12 +17,15 @@ export const AppRouter: React.FC = () => (
             <Layout/>
             <Switch>
                 <Route path={RoutePaths.Login} exact component={Login}/>
+                <Route path={RoutePaths.Nodes} exact component={Nodes}/>
                 <Route path={RoutePaths.AccountNew} exact component={NewAccount}/>
                 <Route path={RoutePaths.AccountSet} exact component={SetAccount}/>
-                <PrivateRoute>
-                    <Route path={RoutePaths.Index} exact component={Index}/>
+                <RequiresAccount>
+                    <RequiresNode>
+                        <Route path={RoutePaths.Index} exact component={Index}/>
+                    </RequiresNode>
                     <Route path={RoutePaths.Account} exact component={Account}/>
-                </PrivateRoute>
+                </RequiresAccount>
             </Switch>
         </div>
     </Router>
