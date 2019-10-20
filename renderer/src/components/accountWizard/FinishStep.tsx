@@ -1,6 +1,7 @@
 import React from 'react';
 import {makeStyles, Theme} from '@material-ui/core';
 import {FormattedHTMLMessage, useIntl} from 'react-intl';
+import FinishImage from '../../images/account_finish.png';
 
 const useStyles = makeStyles((theme: Theme) => ({
         root: {
@@ -10,11 +11,12 @@ const useStyles = makeStyles((theme: Theme) => ({
         text: {
             textAlign: "justify"
         },
-        passphraseField: {
-            textAlign: "center",
-            margin: theme.spacing(2,0, 4 ,0),
-            fontSize: theme.typography.h4.fontSize,
-            width: "20rem"
+        imageContainer: {
+            overflowY: "hidden",
+            height: 240
+        },
+        image: {
+            width: "100%"
         }
     })
 );
@@ -30,6 +32,9 @@ export const FinishStep: React.FC<IProps> =
 
         return (
             <div className={classes.root}>
+                <div className={classes.imageContainer}>
+                    <img className={classes.image} src={FinishImage} alt='Finish'/>
+                </div>
                 <p className={classes.text}>
                     <FormattedHTMLMessage id="account.finish.summary"/>
                 </p>

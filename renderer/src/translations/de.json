@@ -28,7 +28,7 @@
   "account.info.secure_information": "Es ist wichtig, dass du diese Daten sicher verwahrst. Wir empfehlen das Zertifikat mit Hilfe der Druckfunktion als PDF zu speichern und dann als PDF in einem Passworttresor, wie z.B. KeePass zu verwahren",
   "account.info.has_secured": "Ja, ich habe die Kontoinformationen aufgeschrieben/ausgedruckt und sicher verwahrt",
   "account.pin.explanation": "Die PIN ist einn alphanumerischer Wert, an den du dich einfach erinnern kannst. Sie wird benötigt, um Transaktionen/Zahlungen zu bestätigen. Im Gegensatz zu der Passphrase kann die PIN nachträglich geändert oder sogar neu erstellt werden.",
-  "account.finish.summary": "Finished",
+  "account.finish.summary": "Glückwunsch. Dein Konto ist eingerichtet.",
   "account.set.account": "Konto einrichten",
   "account.set.description": "Folge den Anweisungen um Pinbox mit deinem bestehenden Burstcoin Konto einzurichten",
   "account.set.enter_passphrase": "Identifiziere dein Konto",
@@ -45,5 +45,7 @@
   "account.state.inactive.description": "Dein Konto existiert, hat aber noch keinen öffentlichen Schlüssel. Um es richtig abzusichern, solltest Du mindestens eine Transaktion ausführen",
   "account.state.notfound.description": "Dein Konto ist nicht in der Blockchain. Bist Du sicher, dass Du dieses Konto verwenden willst?",
   "login.title": "Login",
-  "login.description": "Wenn du schon ein Burst-Konto hast, kannst Du dieses benutzen und Dich damit einloggen. Ansonsten musst Du Dir ein Konto erstellen."
+  "login.description": "Wenn du schon ein Burst-Konto hast, kannst Du dieses benutzen und Dich damit einloggen. Ansonsten musst Du Dir ein Konto erstellen.",
+  "dropbox.drop_here": "Ziehe Deine Dateien oder Ordner in diesen Bereich"
+
 }

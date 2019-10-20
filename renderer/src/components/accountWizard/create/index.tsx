@@ -13,7 +13,7 @@ import {useHistory} from 'react-router';
 import {PassphraseGeneratorStep} from './PassphraseGeneratorStep';
 import {AccountInformationStep} from './AccountInformationStep';
 import {CreatePinStep} from '../CreatePinStep';
-import {FinishStep} from './FinishStep';
+import {FinishStep} from '../FinishStep';
 import {SecureKeyService} from '../../../logic/SecureKeyService';
 import {RoutePaths} from '../../../routes';
 

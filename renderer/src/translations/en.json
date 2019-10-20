@@ -27,7 +27,7 @@
   "account.info.secure_information": "It's important that you keep the private information in a safe place. We recommend to save the certificate as PDF using the print function, and store it in a password store tool, like KeePass",
   "account.info.has_secured": "Yes, I wrote down/printed the account information and stored securely",
   "account.pin.explanation": "The PIN is an alphanumeric value, that you can remember easily. It is needed to confirm your transactions/payments. In contrast to the passphrase the PIN can be changed or even recreated.",
-  "account.finish.summary": "Finished",
+  "account.finish.summary": "Congratulations. Your account is set up.",
   "account.set.account": "Set Account",
   "account.set.description": "Follow the instructions to setup Pinbox with your existing Burst account",
   "account.set.enter_passphrase": "Identify your account",
@@ -44,6 +44,7 @@
   "account.state.inactive.description": "Your account has no public key yet. To fully secure your account you should execute a transaction",
   "account.state.notfound.description": "Your account was not found in the blockchain. Are you really sure using that account?",
   "login.title": "Login",
-  "login.description": "If you have a Burst account already you can enter with your existing account. Otherwise, you may create a new one."
+  "login.description": "If you have a Burst account already you can enter with your existing account. Otherwise, you may create a new one.",
+  "dropbox.drop_here": "Drag and drop your files or folders in this area"
 }
 

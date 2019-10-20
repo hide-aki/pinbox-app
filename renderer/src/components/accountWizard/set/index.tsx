@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core';
 import {FormattedMessage} from 'react-intl';
 import {CreatePinStep} from '../CreatePinStep';
-import {FinishStep} from './FinishStep';
+import {FinishStep} from '../FinishStep';
 import {SecureKeyService} from '../../../logic/SecureKeyService';
 import {useHistory} from 'react-router';
 import {RoutePaths} from '../../../routes';
