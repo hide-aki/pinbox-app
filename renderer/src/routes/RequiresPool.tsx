@@ -3,13 +3,13 @@ import {Redirect, RouteProps} from "react-router";
 import {RoutePaths} from './index';
 import {PersistenceService} from '../logic/PersistenceService';
 
-function hasNodeSet(): boolean {
+function hasPoolSet(): boolean {
     let service = new PersistenceService();
-    return !!service.getItem('selectedNode')
+    return !!service.getItem('selectedPool')
 }
 
-export const RequiresNode = (props: RouteProps) =>
+export const RequiresPool = (props: RouteProps) =>
     <React.Fragment>
-        { hasNodeSet() ? props.children : <Redirect to={RoutePaths.Nodes} /> }
+        { hasPoolSet() ? props.children : <Redirect to={RoutePaths.Pools} /> }
     </React.Fragment>;
 

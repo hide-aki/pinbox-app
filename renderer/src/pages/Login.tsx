@@ -1,9 +1,8 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {Page} from '../components/Page';
 import {
     Button,
     Card,
-    CardActionArea,
     CardActions,
     CardContent,
     CardMedia,
@@ -16,9 +15,13 @@ import {FormattedMessage} from 'react-intl';
 import {RoutePaths} from '../routes';
 import {useHistory} from 'react-router';
 
+import LoginBackgroundImage from '../images/background2.png';
+
+
 const useStyles = makeStyles({
     card: {
         maxWidth: 600,
+        height: 'fit-content'
     },
     media: {
         height: 360,
@@ -42,23 +45,21 @@ export const Login: React.FC = () => {
     }
 
     return (
-        <Page>
+        <Page backgroundImage={LoginBackgroundImage}>
             <Card className={classes.card}>
-                <CardActionArea>
-                    <CardMedia
-                        className={classes.media}
-                        image={LoginImage}
-                        title="Login Logo"
-                    />
-                    <CardContent>
-                        <Typography gutterBottom variant="h5" component="h2">
-                            <FormattedMessage id="login.title"/>
-                        </Typography>
-                        <Typography variant="body2" color="textSecondary" component="p">
-                            <FormattedMessage id="login.description"/>
-                        </Typography>
-                    </CardContent>
-                </CardActionArea>
+                <CardMedia
+                    className={classes.media}
+                    image={LoginImage}
+                    title="Login Logo"
+                />
+                <CardContent>
+                    <Typography gutterBottom variant="h5" component="h2">
+                        <FormattedMessage id="login.title"/>
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" component="p">
+                        <FormattedMessage id="login.description"/>
+                    </Typography>
+                </CardContent>
                 <CardActions className={classes.actions}>
                     <Button color="primary" onClick={gotoSetAccount}>
                         <FormattedMessage id="button.set_account"/>

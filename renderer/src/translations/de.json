@@ -1,6 +1,7 @@
 {
   "button.click_me": "Klick mich!",
   "button.next": "Nächste",
+  "button.apply": "Anwenden",
   "button.previous": "Zurück",
   "button.finish": "Fertig",
   "button.print": "Drucken",
@@ -44,8 +45,9 @@
   "account.state.active.description": "Dein Konto ist aktiv und sicher",
   "account.state.inactive.description": "Dein Konto existiert, hat aber noch keinen öffentlichen Schlüssel. Um es richtig abzusichern, solltest Du mindestens eine Transaktion ausführen",
   "account.state.notfound.description": "Dein Konto ist nicht in der Blockchain. Bist Du sicher, dass Du dieses Konto verwenden willst?",
-  "login.title": "Login",
+  "login.title": "Anmelden",
   "login.description": "Wenn du schon ein Burst-Konto hast, kannst Du dieses benutzen und Dich damit einloggen. Ansonsten musst Du Dir ein Konto erstellen.",
-  "dropbox.drop_here": "Ziehe Deine Dateien oder Ordner in diesen Bereich"
-
+  "dropbox.drop_here": "Ziehe Deine Dateien oder Ordner in diesen Bereich",
+  "pools.table.title": "Wähle einen Pool",
+  "pools.table.subtitle": "Ein Pool regelt die Verteilung der Dateien im Netzwerk. Jeder Pool unterscheidet sich ein wenig in seinen Eigenschaften wie Kosten, Anzahl der Knoten, usw. Du musst einen Pool auswählen, um Pinbox nutzen zu können."
 }

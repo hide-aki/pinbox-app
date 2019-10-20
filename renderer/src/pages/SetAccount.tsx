@@ -4,12 +4,15 @@ import {Page} from '../components/Page';
 import {FormattedMessage} from 'react-intl';
 import {AccountSetter} from '../components/accountWizard/set';
 
+import AccountBackgroundImage from '../images/background2.png';
+
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         paper: {
             padding: theme.spacing(3, 3),
             maxWidth: '800px',
+            height: 'fit-content',
         },
     }),
 );
@@ -17,7 +20,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export const SetAccount: React.FC = () => {
     const classes = useStyles();
     return (
-        <Page>
+        <Page backgroundImage={AccountBackgroundImage}>
             <Paper className={classes.paper}>
                 <h1><FormattedMessage id="account.set.account"/></h1>
                 <p><FormattedMessage id="account.set.description"/></p>

@@ -2,7 +2,6 @@ import {DropBox} from '../components/DropBox';
 import React, {useContext} from 'react';
 import {ElectronContext} from '../components/contexts/ElectronContext';
 import {ElectronService} from '../logic/ElectronService';
-import {LinearProgress} from '@material-ui/core';
 import {Page} from '../components/Page';
 
 const sendFilesToElectron = (service: ElectronService) => (files: FileList | null): void => {
