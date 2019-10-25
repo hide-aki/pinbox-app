@@ -8,15 +8,14 @@ import {
     createStyles,
     Button
 } from '@material-ui/core';
-import {useHistory} from 'react-router';
 import {FormattedMessage} from 'react-intl';
+import {useHistory} from 'react-router';
+import {PassphraseGeneratorStep} from './PassphraseGeneratorStep';
+import {AccountInformationStep} from './AccountInformationStep';
 import {CreatePinStep} from '../CreatePinStep';
 import {FinishStep} from '../FinishStep';
-import {SecureKeyService} from '../../../../services/SecureKeyService';
-import {RoutePaths} from '../../../../routing/routes';
-import {EnterPassphraseStep} from './EnterPassphraseStep';
-import {VerifyAccountStep} from './VerifyAccountStep';
-
+import {SecureKeyService} from '../../../../../services/SecureKeyService';
+import {RoutePaths} from '../../../../../routing/routes';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -38,18 +37,18 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 function getSteps() {
-    const pre = (id: string): string => `account.set.${id}`;
+    const pre = (id: string): string => `account.create.${id}`;
     return [
-        pre('enter_passphrase'),
-        pre('verify_account'),
+        pre('generate_passphrase'),
+        pre('show_account_info'),
         pre('create_pin'),
         pre('finish'),
     ];
 }
 
-enum Steps{
-    InsertPassphrase,
-    VerifyAccount,
+enum Steps {
+    GeneratePassphrase,
+    AccountInformation,
     CreatePin,
     Finish,
     Max,
@@ -57,22 +56,22 @@ enum Steps{
 
 interface IStepContentProviderProps {
     step: number,
-    onNextReady: (isReady: boolean) => void,
     passphrase: string,
-    onPinChanged: (pin: string) => void,
+    onNextReady: (isReady: boolean) => void,
     onPassphraseChanged: (passphrase: string) => void,
+    onPinChanged: (pin: string) => void,
 }
 
 const StepContentProvider = (props: IStepContentProviderProps): any => {
-    const {step, passphrase, onNextReady, onPassphraseChanged, onPinChanged} = props;
+    const {step, passphrase, onNextReady, onPinChanged, onPassphraseChanged} = props;
     switch (step) {
-        case Steps.InsertPassphrase:
-            return <EnterPassphraseStep
+        case Steps.GeneratePassphrase:
+            return <PassphraseGeneratorStep
                 onReady={onNextReady}
                 onPassphraseChanged={onPassphraseChanged}
             />;
-        case Steps.VerifyAccount:
-            return <VerifyAccountStep
+        case Steps.AccountInformation:
+            return <AccountInformationStep
                 onReady={onNextReady}
                 passphrase={passphrase}
             />;
@@ -91,7 +90,7 @@ const StepContentProvider = (props: IStepContentProviderProps): any => {
 };
 
 
-export const AccountSetter: React.FC = (props: any) => {
+export const AccountCreator: React.FC = (props: any) => {
     const classes = useStyles();
     const [activeStep, setActiveStep] = React.useState(0);
     const [isNextStepReady, setIsNextStepReady] = React.useState(false);
@@ -109,6 +108,7 @@ export const AccountSetter: React.FC = (props: any) => {
     const handleFinished = () => {
         const secureKeyService = new SecureKeyService();
         secureKeyService.storeKeys(pin, passphrase);
+        setPassphrase('');
         // redirect
         history.push(RoutePaths.Index)
     };
@@ -129,8 +129,8 @@ export const AccountSetter: React.FC = (props: any) => {
         setPin(pin)
     };
 
-    const handlePassphraseChanged = (pin: string) => {
-        setPassphrase(pin)
+    const handlePassphraseChanged = (passphrase: string) => {
+        setPassphrase(passphrase)
     };
 
     return (
@@ -149,8 +149,8 @@ export const AccountSetter: React.FC = (props: any) => {
                     step={activeStep}
                     passphrase={passphrase}
                     onNextReady={handleNextReady}
-                    onPassphraseChanged={handlePassphraseChanged}
                     onPinChanged={handlePinChanged}
+                    onPassphraseChanged={handlePassphraseChanged}
                 />
             </div>
             <div>
@@ -188,4 +188,3 @@ export const AccountSetter: React.FC = (props: any) => {
         </div>
     )
 };
-

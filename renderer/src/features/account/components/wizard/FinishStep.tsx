@@ -1,7 +1,7 @@
 import React from 'react';
 import {makeStyles, Theme} from '@material-ui/core';
 import {FormattedHTMLMessage, useIntl} from 'react-intl';
-import FinishImage from '../../../images/account_finish.png';
+import FinishImage from '../../../../images/account_finish.png';
 
 const useStyles = makeStyles((theme: Theme) => ({
         root: {

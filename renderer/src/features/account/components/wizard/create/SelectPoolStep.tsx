@@ -10,7 +10,7 @@ import {
     Theme
 } from '@material-ui/core';
 import {FormattedHTMLMessage, useIntl} from 'react-intl';
-import {IPoolDescription} from '../../../../typings/IPoolDescription';
+import {IPoolDescription} from '../../../../../typings/IPoolDescription';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({

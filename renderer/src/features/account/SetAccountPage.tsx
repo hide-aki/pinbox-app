@@ -2,7 +2,7 @@ import React from 'react';
 import {createStyles, makeStyles, Paper, Theme} from '@material-ui/core';
 import {Page} from '../../components/Page';
 import {FormattedMessage} from 'react-intl';
-import {AccountSetter} from './wizard/set';
+import {AccountSetter} from './components/wizard/set';
 
 import AccountBackgroundImage from '../../images/background2.png';
 

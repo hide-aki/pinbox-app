@@ -1,6 +1,6 @@
 import {createSlice, Action} from 'redux-starter-kit';
 import {ThunkAction} from 'redux-thunk';
-import {applicationSlice} from '../app/slice';
+import {applicationSlice} from '../../app/slice';
 
 export const poolSlice = createSlice({
     slice: 'account',

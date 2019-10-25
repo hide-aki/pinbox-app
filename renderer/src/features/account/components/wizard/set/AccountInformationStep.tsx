@@ -4,7 +4,7 @@ import PublicTwoTone from '@material-ui/icons/PublicTwoTone';
 import SecurityTwoTone from '@material-ui/icons/SecurityTwoTone';
 import PrintTwoTone from '@material-ui/icons/PrintTwoTone';
 
-import Guilloche from '../../../../images/certificate1280.jpg';
+import Guilloche from '../../../../../images/certificate1280.jpg';
 import {generateMasterKeys, getAccountIdFromPublicKey} from '@burstjs/crypto';
 import {FormattedHTMLMessage, FormattedMessage, useIntl} from 'react-intl';
 import {convertNumericIdToAddress} from '@burstjs/util';

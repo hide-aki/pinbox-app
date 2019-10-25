@@ -2,12 +2,12 @@ import React, {useEffect} from 'react';
 import {HashRouter as Router, Route, Switch} from 'react-router-dom';
 import {RoutePaths} from './routes';
 import {RequiresPool} from './guards/RequiresPool';
-import {Layout} from '../features/app/Layout';
+import {Layout} from '../app/components/Layout';
 import {DropboxPage} from '../features/dropbox/DropboxPage';
 import {NewAccountPage} from '../features/account/NewAccountPage';
 import {SetAccountPage} from '../features/account/SetAccountPage';
 import {RequiresAccount} from './guards/RequiresAccount';
-import {LoginPage} from '../features/app/LoginPage';
+import {LoginPage} from '../app/LoginPage';
 import {PoolsPage} from '../features/pools/PoolsPage';
 import {fetchAvailablePools} from '../features/pools/slice';
 

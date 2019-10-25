@@ -1,11 +1,11 @@
 import React from 'react';
-import {ElectronProvider} from '../../components/contexts/ElectronContext';
-import {ElectronService} from '../../services/ElectronService';
-import {AppRouter} from '../../routing/AppRouter';
 import {Provider as StoreProvider} from 'react-redux';
-import {store} from '../../store';
+import {store} from './store';
+import {AppRouter} from '../routing/AppRouter';
+import {ElectronProvider} from '../components/contexts/ElectronContext';
+import {ElectronService} from '../services/ElectronService';
 
-const App: React.FC = () =>
+export const App: React.FC = () =>
     (
         // @ts-ignore
         <ElectronProvider value={new ElectronService()}>
@@ -16,5 +16,3 @@ const App: React.FC = () =>
             </StoreProvider>
         </ElectronProvider>
     );
-
-export default App;

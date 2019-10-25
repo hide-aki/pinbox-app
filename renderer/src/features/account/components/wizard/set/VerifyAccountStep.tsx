@@ -4,7 +4,7 @@ import DoneTwoTone from '@material-ui/icons/DoneTwoTone';
 import VerifiedTwoTone from '@material-ui/icons/VerifiedUserTwoTone';
 import HelpTwoTone from '@material-ui/icons/HelpTwoTone';
 import {FormattedHTMLMessage, FormattedMessage, useIntl} from 'react-intl';
-import {AccountState, BurstAccountService} from '../../../../services/BurstAccountService';
+import {AccountState, BurstAccountService} from '../../../../../services/BurstAccountService';
 
 const useStyles = makeStyles((theme: Theme) => ({
         root: {

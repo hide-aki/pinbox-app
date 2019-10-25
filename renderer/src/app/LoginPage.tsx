@@ -11,10 +11,10 @@ import {
     Typography
 } from '@material-ui/core';
 
-import {Page} from '../../components/Page';
-import LoginImage from '../../images/login.png'
-import {RoutePaths} from '../../routing/routes';
-import LoginBackgroundImage from '../../images/background2.png';
+import {Page} from '../components/Page';
+import LoginImage from '../images/login.png'
+import {RoutePaths} from '../routing/routes';
+import LoginBackgroundImage from '../images/background2.png';
 
 
 const useStyles = makeStyles({
