@@ -10,7 +10,7 @@
     "node_modules/**/*",
     "out/**/*",
     "package.json",
-    "ipfs.config.json",
+    "ipfs.config.json"
   ],
   "icon": "../renderer/assets/images/png/512x512.png",
   "mac": {
