@@ -12,6 +12,10 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import {Button, Radio, TableFooter} from '@material-ui/core';
 import {FormattedMessage} from 'react-intl';
+import {useDispatch} from 'react-redux';
+import {poolSlice} from './slice';
+import {RoutePaths} from '../../routing/routes';
+import { useHistory } from 'react-router';
 
 interface Data {
     description: string;
@@ -181,6 +185,8 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export function PoolsTable() {
     const classes = useStyles();
+    const dispatch = useDispatch();
+    const history = useHistory();
     const [order, setOrder] = React.useState<Order>('asc');
     const [orderBy, setOrderBy] = React.useState<keyof Data>('name');
     const [selected, setSelected] = React.useState<string>('');
@@ -207,7 +213,8 @@ export function PoolsTable() {
     };
 
     const handleConfirmPool = () => {
-        console.log('handleConfirmPool')
+        dispatch(poolSlice.actions.setPool(selected));
+        history.push(RoutePaths.Index)
     };
 
     const isSelected = (name: string) => selected === name;

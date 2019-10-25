@@ -22,7 +22,7 @@ export const accountSlice = createSlice({
 
 type AppThunk = ThunkAction<void, any, null, Action<string>>
 
-export const fetchBurstAccountInfo = (accountId: string): AppThunk => async dispatch => {
+const fetchBurstAccountInfo = (accountId: string): AppThunk => async dispatch => {
     try {
         const account = await new BurstAccountService().getAccount(accountId);
         dispatch(accountSlice.actions.setAccount(account));
@@ -30,4 +30,8 @@ export const fetchBurstAccountInfo = (accountId: string): AppThunk => async disp
     } catch (err) {
         dispatch(applicationSlice.actions.showErrorMessage(err.toString()))
     }
+};
+
+export const thunks = {
+    fetchBurstAccountInfo
 };

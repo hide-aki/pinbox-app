@@ -9,12 +9,12 @@ import {SetAccountPage} from '../features/account/SetAccountPage';
 import {RequiresAccount} from './guards/RequiresAccount';
 import {LoginPage} from '../app/LoginPage';
 import {PoolsPage} from '../features/pools/PoolsPage';
-import {fetchAvailablePools} from '../features/pools/slice';
+import {thunks} from '../features/pools/slice';
 
 export const AppRouter: React.FC = () => {
 
     useEffect( () => {
-        fetchAvailablePools()
+        thunks.fetchAvailablePools()
     }, []);
 
     return (

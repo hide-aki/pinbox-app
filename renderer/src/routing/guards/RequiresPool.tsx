@@ -5,7 +5,7 @@ import {PersistenceService} from '../../services/PersistenceService';
 
 function hasPoolSet(): boolean {
     let service = new PersistenceService();
-    return !!service.getItem('selectedPool')
+    return !!service.getItem('pool')
 }
 
 export const RequiresPool = (props: RouteProps) =>

@@ -18,7 +18,7 @@ import {EnterPassphraseStep} from './EnterPassphraseStep';
 import {VerifyAccountStep} from './VerifyAccountStep';
 import {useDispatch} from 'react-redux';
 import {BurstAccountService} from '../../../../../services/BurstAccountService';
-import {fetchBurstAccountInfo} from '../../../slice';
+import {thunks} from '../../../slice';
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -115,7 +115,7 @@ export const AccountSetter: React.FC = (props: any) => {
         secureKeyService.storeKeys(pin, passphrase);
         const burstAccountService = new BurstAccountService();
         const {accountId}  = burstAccountService.getAccountIdentifiers(passphrase);
-        dispatch(fetchBurstAccountInfo(accountId));
+        dispatch(thunks.fetchBurstAccountInfo(accountId));
         // redirect
         history.push(RoutePaths.Index)
     };
