@@ -1,11 +1,12 @@
 import {PersistenceService} from './PersistenceService';
 import {generateMasterKeys, encryptAES, decryptAES, hashSHA256, Keys} from '@burstjs/crypto'
+import {IPersistenceService} from '../typings/IPersistenceService';
 
 const ItemKey = 'k';
 
 export class SecureKeyService {
 
-    constructor(private persistenceService: PersistenceService = new PersistenceService()) {
+    constructor(private persistenceService: IPersistenceService = new PersistenceService()) {
     }
 
 

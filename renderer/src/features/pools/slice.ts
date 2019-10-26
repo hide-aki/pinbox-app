@@ -9,7 +9,7 @@ export const poolSlice = createSlice({
     slice: 'account',
     initialState: {
         availablePools: [],
-        currentPool: poolService.getPool()
+        currentPool: poolService.getCurrentPool()
     },
     reducers: {
         setAvailablePools: (state, action) => {
@@ -17,7 +17,7 @@ export const poolSlice = createSlice({
             return state;
         },
         setPool: (state, {payload: pool}) => {
-            poolService.storePool(pool);
+            poolService.storeCurrentPool(pool);
             state.currentPool = pool;
             return state
         }

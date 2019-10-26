@@ -45,6 +45,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const SearchBar: React.FC = () => {
     const classes = useStyles();
+
     return (
         <div className={classes.search}>
             <div className={classes.searchIcon}>

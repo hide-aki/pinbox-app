@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import {App} from './app';
-import * as serviceWorker from './serviceWorker';
 import {IntlProvider} from 'react-intl';
 import {messages} from './translations';
 
@@ -21,3 +20,5 @@ ReactDOM.render(
         <App/>
     </IntlProvider>
     , document.getElementById('root'));
+
+

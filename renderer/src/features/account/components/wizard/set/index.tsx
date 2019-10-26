@@ -18,7 +18,7 @@ import {EnterPassphraseStep} from './EnterPassphraseStep';
 import {VerifyAccountStep} from './VerifyAccountStep';
 import {useDispatch} from 'react-redux';
 import {BurstAccountService} from '../../../../../services/BurstAccountService';
-import {thunks} from '../../../slice';
+import {thunks, accountSlice} from '../../../slice';
 
 
 const useStyles = makeStyles((theme: Theme) =>

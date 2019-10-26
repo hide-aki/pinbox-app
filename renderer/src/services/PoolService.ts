@@ -6,16 +6,16 @@ export class PoolService {
     constructor(private persistenceService: PersistenceService = new PersistenceService()) {
     }
 
-    hasPoolStored(): boolean {
+    hasCurrentPoolStored(): boolean {
         return !!this.persistenceService.getItem(ItemKey);
     }
 
-    storePool(pool: string){
+    storeCurrentPool(pool: string){
         this.persistenceService.storeItem(ItemKey, pool);
     }
 
-    getPool(): string | null {
-        return this.persistenceService.getItem(ItemKey);
+    getCurrentPool(): string {
+        return this.persistenceService.getItem(ItemKey) || ''
     }
 }
 

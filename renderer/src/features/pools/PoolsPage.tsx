@@ -3,6 +3,9 @@ import {PoolsTable} from './PoolsTable';
 import {Page} from '../../components/Page';
 import {makeStyles, Theme} from '@material-ui/core';
 import PoolsBackgroundImage from '../../images/background1.png';
+import {selectAvailablePools} from './selectors';
+import {useSelector} from 'react-redux';
+import {IPoolDescription} from '../../typings/IPoolDescription';
 
 const useStyle = makeStyles((theme: Theme) => ({
     root: {
@@ -12,10 +15,11 @@ const useStyle = makeStyles((theme: Theme) => ({
 
 export const PoolsPage: React.FC = () => {
     const classes = useStyle();
+    const availablePools = useSelector<any, IPoolDescription[]>(selectAvailablePools);
     return (
         <Page backgroundImage={PoolsBackgroundImage}>
             <div className={classes.root}>
-                <PoolsTable/>
+                <PoolsTable pools={availablePools}/>
             </div>
         </Page>
     );

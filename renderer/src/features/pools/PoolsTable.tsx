@@ -12,28 +12,12 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import {Button, Radio, TableFooter} from '@material-ui/core';
 import {FormattedMessage} from 'react-intl';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {poolSlice} from './slice';
 import {RoutePaths} from '../../routing/routes';
 import { useHistory } from 'react-router';
-
-interface Data {
-    description: string;
-    name: string;
-}
-
-function createData(
-    name: string,
-    description: string,
-): Data {
-    return {name, description};
-}
-
-const rows = [
-    createData('Cupcake', 'description 1'),
-    createData('Donut', 'description 2'),
-    createData('Oreo', 'description 3'),
-];
+import {selectCurrentPoolId} from './selectors';
+import {IPoolDescription} from '../../typings/IPoolDescription';
 
 function desc<T>(a: T, b: T, orderBy: keyof T) {
     if (b[orderBy] < a[orderBy]) {
@@ -66,7 +50,7 @@ function getSorting<K extends keyof any>(
 
 interface headCell {
     disablePadding: boolean;
-    id: keyof Data;
+    id: keyof IPoolDescription;
     label: string;
     numeric: boolean;
 }
@@ -79,7 +63,7 @@ const headCells: headCell[] = [
 interface EnhancedTableProps {
     classes: ReturnType<typeof useStyles>;
     numSelected: number;
-    onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Data) => void;
+    onRequestSort: (event: React.MouseEvent<unknown>, property: keyof IPoolDescription) => void;
     order: Order;
     orderBy: string;
     rowCount: number;
@@ -87,7 +71,7 @@ interface EnhancedTableProps {
 
 function EnhancedTableHead(props: EnhancedTableProps) {
     const {classes, order, orderBy, onRequestSort} = props;
-    const createSortHandler = (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
+    const createSortHandler = (property: keyof IPoolDescription) => (event: React.MouseEvent<unknown>) => {
         onRequestSort(event, property);
     };
 
@@ -183,17 +167,24 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-export function PoolsTable() {
+
+interface IProps {
+    pools: IPoolDescription[],
+}
+
+export const PoolsTable: React.FC<IProps> = ({pools}) => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const history = useHistory();
+    const selectedPoolId = useSelector<any, string>(selectCurrentPoolId);
+    const rows = pools;
     const [order, setOrder] = React.useState<Order>('asc');
-    const [orderBy, setOrderBy] = React.useState<keyof Data>('name');
-    const [selected, setSelected] = React.useState<string>('');
+    const [orderBy, setOrderBy] = React.useState<keyof IPoolDescription>('name');
+    const [selected, setSelected] = React.useState<string>(selectedPoolId);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-    const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof Data) => {
+    const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof IPoolDescription) => {
         const isDesc = orderBy === property && order === 'desc';
         setOrder(isDesc ? 'asc' : 'desc');
         setOrderBy(property);
@@ -218,7 +209,7 @@ export function PoolsTable() {
     };
 
     const isSelected = (name: string) => selected === name;
-    const hasSelected = selected.length > 0;
+    const hasSelected = selected.length > 0 && selectedPoolId !== selected;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
     return (
@@ -243,17 +234,17 @@ export function PoolsTable() {
                             {stableSort(rows, getSorting(order, orderBy))
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map((row, index) => {
-                                    const isItemSelected = isSelected(row.name);
+                                    const isItemSelected = isSelected(row.url);
                                     const labelId = `enhanced-table-checkbox-${index}`;
 
                                     return (
                                         <TableRow
                                             hover
-                                            onClick={event => handleClick(event, row.name)}
+                                            onClick={event => handleClick(event, row.url)}
                                             role="checkbox"
                                             aria-checked={isItemSelected}
                                             tabIndex={-1}
-                                            key={row.name}
+                                            key={row.url}
                                             selected={isItemSelected}
                                         >
                                             <TableCell padding="checkbox">
