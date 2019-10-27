@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {HashRouter as Router, Route, Switch} from 'react-router-dom';
 import {RoutePaths} from './routes';
 import {RequiresPool} from './guards/RequiresPool';
@@ -9,14 +9,9 @@ import {SetAccountPage} from '../features/account/SetAccountPage';
 import {RequiresAccount} from './guards/RequiresAccount';
 import {LoginPage} from '../app/LoginPage';
 import {PoolsPage} from '../features/pools/PoolsPage';
-import {thunks} from '../features/pools/slice';
+import {AccountPage} from '../features/account/AccountPage';
 
 export const AppRouter: React.FC = () => {
-
-    useEffect( () => {
-        thunks.fetchAvailablePools()
-    }, []);
-
     return (
         <Router>
             <div>
@@ -27,6 +22,7 @@ export const AppRouter: React.FC = () => {
                     <Route path={RoutePaths.AccountNew} exact component={NewAccountPage}/>
                     <Route path={RoutePaths.AccountSet} exact component={SetAccountPage}/>
                     <RequiresAccount>
+                        <Route path={RoutePaths.Account} exact component={AccountPage}/>
                         <RequiresPool>
                             <Route path={RoutePaths.Index} exact component={DropboxPage}/>
                         </RequiresPool>
