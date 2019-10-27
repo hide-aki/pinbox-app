@@ -1,6 +1,6 @@
 import * as Electron from 'electron';
-import { ElectronWindow } from '../typings/electron.window';
-import { IpcRendererEvent } from 'electron';
+import {ElectronWindow} from '../typings/electron.window';
+import {IpcRendererEvent} from 'electron';
 
 declare let window: ElectronWindow;
 
@@ -13,7 +13,7 @@ export class ElectronService {
     // @ts-ignore
     private _electron: Electron.RendererInterface;
 
-    private get electron(): Electron.RendererInterface  | null{
+    private get electron(): Electron.RendererInterface | null {
         if (!this._electron) {
             if (window && window.require) {
                 this._electron = window.require('electron');
@@ -91,8 +91,8 @@ export class ElectronService {
         return this.electron ? this.electron.shell : null;
     }
 
-    public sendMessage(message: ElectronMessageType){
-        if(!this.ipcRenderer){
+    public sendMessage(message: ElectronMessageType) {
+        if (!this.ipcRenderer) {
             console.info('ipcRenderer not supported');
             return;
         }
@@ -100,13 +100,19 @@ export class ElectronService {
         this.ipcRenderer.send('channel', message);
     }
 
-    public onMessage(messageHandler : (message: ElectronMessageType) => void) : void {
-        if(!this.ipcRenderer){
+    public onMessage(messageHandler: (message: ElectronMessageType) => void): void {
+        if (!this.ipcRenderer) {
             console.info('ipcRenderer not supported');
             return;
         }
         this.ipcRenderer.on('channel', (event: IpcRendererEvent, message: ElectronMessageType) => {
             messageHandler(message)
         })
+    }
+
+    public openExternalLink(url: string): void {
+        if (this.shell) {
+            this.shell.openExternal(url);
+        }
     }
 }

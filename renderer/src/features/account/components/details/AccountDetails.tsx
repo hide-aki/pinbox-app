@@ -20,6 +20,7 @@ import {selectCurrentPool, selectCurrentPoolId} from '../../../pools/selectors';
 import {RoutePaths} from '../../../../routing/routes';
 import { useHistory } from 'react-router';
 import {Link} from 'react-router-dom';
+import {BrowserLink} from '../../../../components/UrlLink';
 
 const useStyles = makeStyles((theme: Theme) => ({
         root: {},
@@ -103,9 +104,9 @@ export const AccountDetails: React.FC<IProps> =
                 <div className={classes.vspacing}/>
                 <LabeledTextField label={t("account.details.pool_current")} size='large'>
                     <div className={classes.pool}>
-                        <a href={currentPool ? currentPool.url : ''} target='_blank'>
+                        <BrowserLink url={currentPool ? currentPool.url : ''}>
                         {currentPool ? currentPool.name : ''}
-                        </a>
+                        </BrowserLink>
                         <Button className={classes.button}
                                 onClick={gotoPools}>{t("account.details.select_pool")}</Button>
                     </div>
