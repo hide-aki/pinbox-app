@@ -21,5 +21,9 @@ export class PersistenceService implements IPersistenceService {
         const serializedObj = this.getItem(key);
         return serializedObj ? JSON.parse(serializedObj) : null;
     }
+
+    clear() {
+        localStorage.clear();
+    }
 }
 

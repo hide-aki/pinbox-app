@@ -20,6 +20,8 @@ export const applicationSlice = createSlice({
         hideMessage: (state, action) => {
             state.message = {type: 'NONE', text: ''}
         },
+        // application/reset will be handled on root reducer level (store.ts)
+        reset: state => state
     }
 });
 

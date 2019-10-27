@@ -15,12 +15,12 @@ import {useIntl} from 'react-intl';
 import {Account} from '@burstjs/core';
 import {LabeledTextField} from './LabeledTextField';
 import {formattingService} from '../../../../services/FormattingService';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {selectCurrentPool, selectCurrentPoolId} from '../../../pools/selectors';
 import {RoutePaths} from '../../../../routing/routes';
-import { useHistory } from 'react-router';
-import {Link} from 'react-router-dom';
+import {useHistory} from 'react-router';
 import {BrowserLink} from '../../../../components/UrlLink';
+import {applicationSlice} from '../../../../app/slice';
 
 const useStyles = makeStyles((theme: Theme) => ({
         root: {},
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme: Theme) => ({
             justifyContent: "space-between",
             alignItems: "center",
         },
-        button: {
+        normalFont: {
             fontFamily: theme.typography.fontFamily,
             fontSize: theme.typography.fontSize,
             fontWeight: 400,
@@ -46,7 +46,8 @@ const useStyles = makeStyles((theme: Theme) => ({
         },
         vspacing: {
             margin: theme.spacing(4, 0)
-        }
+        },
+        reset: {}
     })
 );
 
@@ -59,6 +60,7 @@ export const AccountDetails: React.FC<IProps> =
     ({account}) => {
         const classes = useStyles();
         const history = useHistory();
+        const dispatch = useDispatch();
         const currentPool = useSelector(selectCurrentPool);
         const intl = useIntl();
         const t = (id: string) => intl.formatMessage({id});
@@ -69,7 +71,12 @@ export const AccountDetails: React.FC<IProps> =
 
         const gotoPools = () => {
             history.push(RoutePaths.Pools)
-        }
+        };
+
+        const reset = () => {
+            dispatch(applicationSlice.actions.reset());
+            history.replace(RoutePaths.Login)
+        };
 
         return (
             <div className={classes.root}>
@@ -105,12 +112,21 @@ export const AccountDetails: React.FC<IProps> =
                 <LabeledTextField label={t("account.details.pool_current")} size='large'>
                     <div className={classes.pool}>
                         <BrowserLink url={currentPool ? currentPool.url : ''}>
-                        {currentPool ? currentPool.name : ''}
+                            {currentPool ? currentPool.name : ''}
                         </BrowserLink>
-                        <Button className={classes.button}
+                        <Button className={classes.normalFont}
                                 onClick={gotoPools}>{t("account.details.select_pool")}</Button>
                     </div>
                 </LabeledTextField>
+                <div className={classes.vspacing}/>
+                <LabeledTextField label={t("account.details.danger_zone")} size={'small'}>
+                    <div className={`${classes.normalFont} ${classes.reset}`}>
+                        <p>{t("account.details.reset_explanation")}</p>
+                        <Button variant="contained" color="secondary"
+                                onClick={reset}>{t("account.details.reset")}</Button>
+                    </div>
+                </LabeledTextField>
+
             </div>
         )
     };

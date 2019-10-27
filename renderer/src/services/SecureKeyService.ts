@@ -9,7 +9,6 @@ export class SecureKeyService {
     constructor(private persistenceService: IPersistenceService = new PersistenceService()) {
     }
 
-
     storeKeys(pin: string, passphrase: string) {
 
         if (!(pin && pin.length)) {

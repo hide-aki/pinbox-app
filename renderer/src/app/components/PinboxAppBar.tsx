@@ -45,6 +45,7 @@ export const PinboxAppBar: React.FC = () => {
         history.push(RoutePaths.Index)
     }
 
+    console.log('apppbar', account)
     return (
         <div className={classes.root}>
             <AppBar position="static">
