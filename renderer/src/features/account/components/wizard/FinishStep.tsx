@@ -1,6 +1,6 @@
 import React from 'react';
 import {makeStyles, Theme} from '@material-ui/core';
-import {FormattedHTMLMessage, useIntl} from 'react-intl';
+import {FormattedHTMLMessage} from 'react-intl';
 import FinishImage from '../../../../images/account_finish.png';
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -21,12 +21,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     })
 );
 
-interface IProps {
-    onReady: (isReady: boolean) => void,
-}
-
-export const FinishStep: React.FC<IProps> =
-    ({onReady}) => {
+export const FinishStep: React.FC =
+    () => {
         const classes = useStyles();
         return (
             <div className={classes.root}>

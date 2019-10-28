@@ -10,6 +10,7 @@ import {RequiresAccount} from './guards/RequiresAccount';
 import {LoginPage} from '../app/LoginPage';
 import {PoolsPage} from '../features/pools/PoolsPage';
 import {AccountPage} from '../features/account/AccountPage';
+import {SettingsPage} from '../features/settings/SettingsPage';
 
 export const AppRouter: React.FC = () => {
     return (
@@ -18,11 +19,12 @@ export const AppRouter: React.FC = () => {
                 <Layout/>
                 <Switch>
                     <Route path={RoutePaths.Login} exact component={LoginPage}/>
-                    <Route path={RoutePaths.Pools} exact component={PoolsPage}/>
                     <Route path={RoutePaths.AccountNew} exact component={NewAccountPage}/>
                     <Route path={RoutePaths.AccountSet} exact component={SetAccountPage}/>
+                    <Route path={RoutePaths.Settings} exact component={SettingsPage}/>
                     <RequiresAccount>
                         <Route path={RoutePaths.Account} exact component={AccountPage}/>
+                        <Route path={RoutePaths.Pools} exact component={PoolsPage}/>
                         <RequiresPool>
                             <Route path={RoutePaths.Index} exact component={DropboxPage}/>
                         </RequiresPool>

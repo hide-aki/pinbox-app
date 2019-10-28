@@ -1,14 +1,5 @@
 import React, {useContext} from 'react';
-import {createStyles, makeStyles, Theme} from '@material-ui/core';
 import {ElectronContext} from './contexts/ElectronContext';
-
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        root: {
-            cursor: 'pointer',
-        },
-    }),
-);
 
 interface IProps {
     url: string,

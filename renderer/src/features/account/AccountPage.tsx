@@ -15,6 +15,8 @@ const useStyles = makeStyles((theme: Theme) =>
             padding: theme.spacing(3, 3),
             maxWidth: '800px',
             height: 'fit-content',
+            width: '100%',
+            opacity: 0.9,
         },
     }),
 );

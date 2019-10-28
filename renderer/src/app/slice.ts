@@ -14,7 +14,7 @@ export const applicationSlice = createSlice({
             state.message = {type, text}
         },
         showErrorMessage: (state, action) => {
-            const {type, text} = action.payload;
+            const {text} = action.payload;
             state.message = {type: 'ERROR', text}
         },
         hideMessage: (state, action) => {

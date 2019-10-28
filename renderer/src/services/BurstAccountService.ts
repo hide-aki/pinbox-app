@@ -1,8 +1,6 @@
 import {generateMasterKeys, getAccountIdFromPublicKey} from '@burstjs/crypto';
-import {convertNQTStringToNumber, convertNumericIdToAddress} from '@burstjs/util';
+import {convertNumericIdToAddress} from '@burstjs/util';
 import {Account, Api, ApiSettings, composeApi} from '@burstjs/core';
-import {HttpError} from '@burstjs/http';
-import {useIntl} from 'react-intl';
 
 interface IAccountIdentifierType {
     publicKey: string,

@@ -18,7 +18,7 @@ import {EnterPassphraseStep} from './EnterPassphraseStep';
 import {VerifyAccountStep} from './VerifyAccountStep';
 import {useDispatch} from 'react-redux';
 import {BurstAccountService} from '../../../../../services/BurstAccountService';
-import {thunks, accountSlice} from '../../../slice';
+import {thunks} from '../../../slice';
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -85,9 +85,7 @@ const StepContentProvider = (props: IStepContentProviderProps): any => {
                 onPinChanged={onPinChanged}
             />;
         case Steps.Finish:
-            return <FinishStep
-                onReady={onNextReady}
-            />;
+            return <FinishStep />;
         default:
             return 'Unknown step';
     }
@@ -116,7 +114,6 @@ export const AccountSetter: React.FC = (props: any) => {
         const burstAccountService = new BurstAccountService();
         const {accountId}  = burstAccountService.getAccountIdentifiers(passphrase);
         dispatch(thunks.fetchBurstAccountInfo(accountId));
-        // redirect
         history.push(RoutePaths.Index)
     };
 

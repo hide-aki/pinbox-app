@@ -57,6 +57,12 @@
   "login.description": "If you have a Burst account already you can enter with your existing account. Otherwise, you may create a new one.",
   "login.title": "Login",
   "pools.table.subtitle": "A Pool manages the distribution of files for the decentralized network. Each Pool has slightly different characteristics like pricing, amount of connected nodes, etc. To use Pinbox you need to select exactly one Pool.",
-  "pools.table.title": "Choose a Pool"
+  "pools.table.title": "Choose a Pool",
+  "tooltip.account": "Account Details",
+  "tooltip.settings": "Application Settings",
+  "tooltip.home": "Home",
+  "language.de": "German",
+  "language.en": "English",
+  "language.pt": "Portuguese"
 }
 

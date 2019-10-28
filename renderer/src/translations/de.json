@@ -58,5 +58,11 @@
   "login.description": "Wenn du schon ein Burst-Konto hast, kannst Du dieses benutzen und Dich damit einloggen. Ansonsten musst Du Dir ein Konto erstellen.",
   "login.title": "Anmelden",
   "pools.table.subtitle": "Ein Pool regelt die Verteilung der Dateien im Netzwerk. Jeder Pool unterscheidet sich ein wenig in seinen Eigenschaften wie Kosten, Anzahl der Knoten, usw. Du musst einen Pool auswählen, um Pinbox nutzen zu können.",
-  "pools.table.title": "Wähle einen Pool"
+  "pools.table.title": "Wähle einen Pool",
+  "tooltip.account": "Kontodetails",
+  "tooltip.settings": "Anwendungskonfiguration",
+  "tooltip.home": "Hauptseite",
+  "language.de": "Deutsch",
+  "language.en": "Englisch",
+  "language.pt": "Portugiesisch"
 }

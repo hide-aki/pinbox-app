@@ -81,9 +81,7 @@ const StepContentProvider = (props: IStepContentProviderProps): any => {
                 onPinChanged={onPinChanged}
             />;
         case Steps.Finish:
-            return <FinishStep
-                onReady={onNextReady}
-            />;
+            return <FinishStep />;
         default:
             return 'Unknown step';
     }

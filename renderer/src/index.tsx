@@ -2,11 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import {App} from './app';
-import {IntlProvider} from 'react-intl';
-import {messages} from './translations';
-
-//const language = navigator.language.split(/[-_]/)[0];  // language without region code
-const language = 'de';
+import {ElectronProvider} from './components/contexts/ElectronContext';
+import {ElectronService} from './services/ElectronService';
+import {Provider as StoreProvider} from 'react-redux';
+import {store} from './app/store';
 
 declare global {
     interface Window {
@@ -15,10 +14,11 @@ declare global {
 }
 
 ReactDOM.render(
-// @ts-ignore
-    <IntlProvider key={language} locale={language} messages={messages[language]}>
+    <ElectronProvider value={new ElectronService()}>
+        <StoreProvider store={store}>
         <App/>
-    </IntlProvider>
+        </StoreProvider>
+    </ElectronProvider>
     , document.getElementById('root'));
 
 

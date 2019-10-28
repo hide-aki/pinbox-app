@@ -77,7 +77,7 @@ const getStateViews = (accountState: AccountState): IStateView => {
 };
 
 export const VerifyAccountStep: React.FC<IProps> =
-    ({onReady, passphrase}) => {
+    ({passphrase}) => {
         const accountInfo = burstAccountService.getAccountIdentifiers(passphrase);
         const intl = useIntl();
         const classes = useStyles();
@@ -89,7 +89,7 @@ export const VerifyAccountStep: React.FC<IProps> =
                 setAccountState(state);
             };
             fetchAccountState()
-        }, []);
+        }, [accountInfo.accountId]);
 
         const {labelId, description, icon} = getStateViews(accountState);
 

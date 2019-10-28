@@ -1,5 +1,5 @@
 import React from 'react';
-import {createStyles, lighten, makeStyles, Theme} from '@material-ui/core/styles';
+import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -15,9 +15,40 @@ import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 import {poolSlice} from './slice';
 import {RoutePaths} from '../../routing/routes';
-import { useHistory } from 'react-router';
+import {useHistory} from 'react-router';
 import {selectCurrentPoolId} from './selectors';
 import {IPoolDescription} from '../../typings/IPoolDescription';
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        root: {
+            width: '100%',
+            marginTop: theme.spacing(3),
+        },
+        paper: {
+            width: '100%',
+            marginBottom: theme.spacing(2),
+        },
+        table: {
+            minWidth: 750,
+        },
+        tableWrapper: {
+            overflowX: 'auto',
+        },
+        footer: {},
+        visuallyHidden: {
+            border: 0,
+            clip: 'rect(0 0 0 0)',
+            height: 1,
+            margin: -1,
+            overflow: 'hidden',
+            padding: 0,
+            position: 'absolute',
+            top: 20,
+            width: 1,
+        },
+    }),
+);
 
 function desc<T>(a: T, b: T, orderBy: keyof T) {
     if (b[orderBy] < a[orderBy]) {
@@ -136,38 +167,6 @@ const EnhancedTableToolbar = () => {
     );
 };
 
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        root: {
-            width: '100%',
-            marginTop: theme.spacing(3),
-        },
-        paper: {
-            width: '100%',
-            marginBottom: theme.spacing(2),
-        },
-        table: {
-            minWidth: 750,
-        },
-        tableWrapper: {
-            overflowX: 'auto',
-        },
-        footer: {},
-        visuallyHidden: {
-            border: 0,
-            clip: 'rect(0 0 0 0)',
-            height: 1,
-            margin: -1,
-            overflow: 'hidden',
-            padding: 0,
-            position: 'absolute',
-            top: 20,
-            width: 1,
-        },
-    }),
-);
-
-
 interface IProps {
     pools: IPoolDescription[],
 }
@@ -268,32 +267,32 @@ export const PoolsTable: React.FC<IProps> = ({pools}) => {
                         </TableBody>
                         <TableFooter>
                             <TableRow>
-                                <TableCell padding="checkbox" />
+                                <TableCell padding="checkbox"/>
                                 <TableCell>
-                                <Button
-                                    disabled={!hasSelected}
-                                    variant="contained"
-                                    color="primary"
-                                    onClick={handleConfirmPool}>
-                                    <FormattedMessage id='button.apply'/>
-                                </Button>
+                                    <Button
+                                        disabled={!hasSelected}
+                                        variant="contained"
+                                        color="primary"
+                                        onClick={handleConfirmPool}>
+                                        <FormattedMessage id='button.apply'/>
+                                    </Button>
                                 </TableCell>
                                 <TableCell>
-                                <TablePagination
-                                    rowsPerPageOptions={[5, 10, 25]}
-                                    component="div"
-                                    count={rows.length}
-                                    rowsPerPage={rowsPerPage}
-                                    page={page}
-                                    backIconButtonProps={{
-                                        'aria-label': 'previous page',
-                                    }}
-                                    nextIconButtonProps={{
-                                        'aria-label': 'next page',
-                                    }}
-                                    onChangePage={handleChangePage}
-                                    onChangeRowsPerPage={handleChangeRowsPerPage}
-                                />
+                                    <TablePagination
+                                        rowsPerPageOptions={[5, 10, 25]}
+                                        component="div"
+                                        count={rows.length}
+                                        rowsPerPage={rowsPerPage}
+                                        page={page}
+                                        backIconButtonProps={{
+                                            'aria-label': 'previous page',
+                                        }}
+                                        nextIconButtonProps={{
+                                            'aria-label': 'next page',
+                                        }}
+                                        onChangePage={handleChangePage}
+                                        onChangeRowsPerPage={handleChangeRowsPerPage}
+                                    />
                                 </TableCell>
                             </TableRow>
                         </TableFooter>
