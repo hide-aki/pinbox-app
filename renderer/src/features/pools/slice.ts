@@ -14,12 +14,10 @@ export const poolSlice = createSlice({
     reducers: {
         setAvailablePools: (state, action) => {
             state.availablePools = action.payload;
-            return state;
         },
         setPool: (state, {payload: pool}) => {
             poolService.storeCurrentPool(pool);
             state.currentPool = pool;
-            return state
         }
     }
 });

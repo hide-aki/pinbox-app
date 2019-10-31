@@ -16,6 +16,7 @@
   "account.details.select_pool": "Selecionar outro polo",
   "account.finish.summary": "Congratulations. Your account is set up",
   "account.info.balance": "Saldo",
+  "account.info.title": "Pinbox Account Information",
   "account.info.burst_accountId": "Id de conta da Carteira Burstcoin",
   "account.info.burst_address": "Endereço da Carteira Burstcoin",
   "account.info.burst_publickey": "Chave Pública",

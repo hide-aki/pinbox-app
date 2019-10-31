@@ -55,7 +55,7 @@ export class BurstAccountService {
         }
     }
 
-    public async getAccount(accountId: string): Promise<Account> {
+    public async fetchAccount(accountId: string): Promise<Account> {
         return await this.api.account.getAccount(accountId);
     }
 }

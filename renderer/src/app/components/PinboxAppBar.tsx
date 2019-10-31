@@ -10,7 +10,7 @@ import {SearchBar} from './SearchBar';
 import {useSelector} from 'react-redux';
 import {selectCurrentAccount} from '../../features/account/selectors';
 import {RoutePaths} from '../../routing/routes';
-import {useHistory} from 'react-router';
+import {useHistory, useLocation} from 'react-router';
 import {Link} from 'react-router-dom';
 import {formattingService} from '../../services/FormattingService';
 import {useIntl} from 'react-intl';
@@ -41,10 +41,17 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const PinboxAppBar: React.FC = () => {
     const history = useHistory();
+    const {pathname} = useLocation();
     const classes = useStyles();
     const account = useSelector(selectCurrentAccount);
     const intl = useIntl();
     const t = (id: string): string => intl.formatMessage({id});
+
+    function isAccountVisible(){
+        return pathname !== RoutePaths.Login &&
+            pathname !== RoutePaths.AccountSet &&
+            pathname !== RoutePaths.AccountNew
+    }
 
     function gotoHome() {
         history.push(RoutePaths.Index)
@@ -66,13 +73,13 @@ export const PinboxAppBar: React.FC = () => {
                     </Tooltip>
                     <SearchBar/>
                     <div className={classes.grow}/>
-                    {account &&
-                    <Tooltip title={t("tooltip.account")}>
-                      <Link className={classes.account} to={RoutePaths.Account}>
-                        <h4>{`${formattingService.formatBurstBalance(account)} BURST`}</h4>
-                        <AccountIcon/>
-                      </Link>
-                    </Tooltip>
+                    {isAccountVisible() &&
+                        <Tooltip title={t("tooltip.account")}>
+                          <Link className={classes.account} to={RoutePaths.Account}>
+                            <h4>{`${formattingService.formatBurstBalance(account)} BURST`}</h4>
+                            <AccountIcon/>
+                          </Link>
+                        </Tooltip>
                     }
                     <Tooltip title={t("tooltip.settings")}>
                         <IconButton className={classes.menuButton} color="inherit" aria-label="settings"

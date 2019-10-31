@@ -1,6 +1,8 @@
 import {EnhancedStore, AnyAction} from 'redux-starter-kit';
-import {thunks} from '../features/pools/slice'
+import * as pools from '../features/pools/slice'
+import * as account from '../features/account/slice'
 
 export async function onAppStart(store: EnhancedStore<any, AnyAction>) {
-    store.dispatch(thunks.fetchAvailablePools())
+    store.dispatch(pools.thunks.fetchAvailablePools());
+    store.dispatch(account.thunks.fetchBurstAccountInfo());
 }

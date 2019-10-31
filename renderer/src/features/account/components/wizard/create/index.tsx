@@ -16,6 +16,9 @@ import {CreatePinStep} from '../CreatePinStep';
 import {FinishStep} from '../FinishStep';
 import {SecureKeyService} from '../../../../../services/SecureKeyService';
 import {RoutePaths} from '../../../../../routing/routes';
+import {BurstAccountService} from '../../../../../services/BurstAccountService';
+import {thunks} from '../../../slice';
+import {useDispatch} from 'react-redux';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -90,6 +93,7 @@ const StepContentProvider = (props: IStepContentProviderProps): any => {
 
 export const AccountCreator: React.FC = (props: any) => {
     const classes = useStyles();
+    const dispatch = useDispatch();
     const [activeStep, setActiveStep] = React.useState(0);
     const [isNextStepReady, setIsNextStepReady] = React.useState(false);
     const [pin, setPin] = React.useState('');
@@ -106,6 +110,9 @@ export const AccountCreator: React.FC = (props: any) => {
     const handleFinished = () => {
         const secureKeyService = new SecureKeyService();
         secureKeyService.storeKeys(pin, passphrase);
+        const burstAccountService = new BurstAccountService();
+        const {accountId}  = burstAccountService.getAccountIdentifiers(passphrase);
+        dispatch(thunks.fetchBurstAccountInfo(accountId));
         setPassphrase('');
         // redirect
         history.push(RoutePaths.Index)

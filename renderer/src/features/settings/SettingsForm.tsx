@@ -8,6 +8,7 @@ import {useIntl} from 'react-intl';
 import {applicationSlice} from '../../app/slice';
 import {RoutePaths} from '../../routing/routes';
 import {useHistory} from 'react-router';
+import {poolSlice, thunks as poolThunks} from '../pools/slice';
 
 const {actions} = settingsSlice;
 
@@ -72,6 +73,7 @@ export const SettingsForm: React.FC = () => {
 
     const reset = () => {
         dispatch(applicationSlice.actions.reset());
+        dispatch(poolThunks.fetchAvailablePools());
         history.replace(RoutePaths.Login)
     };
 

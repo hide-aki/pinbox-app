@@ -26,7 +26,7 @@ export const AppRouter: React.FC = () => {
                         <Route path={RoutePaths.Account} exact component={AccountPage}/>
                         <Route path={RoutePaths.Pools} exact component={PoolsPage}/>
                         <RequiresPool>
-                            <Route path={RoutePaths.Index} exact component={DropboxPage}/>
+                            <Route path={RoutePaths.Index} component={DropboxPage}/>
                         </RequiresPool>
                     </RequiresAccount>
                 </Switch>

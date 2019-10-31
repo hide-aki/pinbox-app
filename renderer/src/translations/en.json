@@ -16,6 +16,7 @@
   "account.details.select_pool": "Select another pool",
   "account.finish.summary": "Congratulations. Your account is set up.",
   "account.info.balance": "Balance",
+  "account.info.title": "Pinbox Account Information",
   "account.info.burst_accountId": "Burstcoin Wallet Account Id",
   "account.info.burst_address": "Burstcoin Wallet Address",
   "account.info.burst_publickey": "Public Key",
