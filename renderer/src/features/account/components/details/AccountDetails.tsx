@@ -60,7 +60,6 @@ export const AccountDetails: React.FC<IProps> =
     ({account}) => {
         const classes = useStyles();
         const history = useHistory();
-        const dispatch = useDispatch();
         const currentPool = useSelector(selectCurrentPool);
         const intl = useIntl();
         const t = (id: string) => intl.formatMessage({id});
@@ -71,11 +70,6 @@ export const AccountDetails: React.FC<IProps> =
 
         const gotoPools = () => {
             history.push(RoutePaths.Pools)
-        };
-
-        const reset = () => {
-            dispatch(applicationSlice.actions.reset());
-            history.replace(RoutePaths.Login)
         };
 
         return (
@@ -118,15 +112,6 @@ export const AccountDetails: React.FC<IProps> =
                                 onClick={gotoPools}>{t("account.details.select_pool")}</Button>
                     </div>
                 </LabeledTextField>
-                <div className={classes.vspacing}/>
-                <LabeledTextField label={t("account.details.danger_zone")} size={'small'}>
-                    <div className={`${classes.normalFont} ${classes.reset}`}>
-                        <p>{t("account.details.reset_explanation")}</p>
-                        <Button variant="contained" color="secondary"
-                                onClick={reset}>{t("account.details.reset")}</Button>
-                    </div>
-                </LabeledTextField>
-
             </div>
         )
     };

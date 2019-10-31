@@ -3,6 +3,7 @@ import {Page} from '../../components/Page';
 import {createStyles, makeStyles, Paper, Theme} from '@material-ui/core';
 import SettingsBackgroundImage from '../../images/background3.png';
 import {SettingsForm} from './SettingsForm';
+import {FormattedMessage} from 'react-intl';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -20,7 +21,9 @@ export const SettingsPage: React.FC = () => {
     return (
         <Page backgroundImage={SettingsBackgroundImage}>
             <Paper className={classes.paper}>
-                <h1>Settings</h1>
+                <h1>
+                    <FormattedMessage id="settings.title" />
+                </h1>
                 <SettingsForm />
             </Paper>
         </Page>

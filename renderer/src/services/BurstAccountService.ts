@@ -1,6 +1,8 @@
 import {generateMasterKeys, getAccountIdFromPublicKey} from '@burstjs/crypto';
 import {convertNumericIdToAddress} from '@burstjs/util';
 import {Account, Api, ApiSettings, composeApi} from '@burstjs/core';
+import {SettingsService} from './SettingsService';
+import {defaultPeer} from '../app/burstPeers';
 
 interface IAccountIdentifierType {
     publicKey: string,
@@ -15,15 +17,14 @@ export enum AccountState {
     NOT_FOUND
 }
 
-// FIXME: must be configurable
-const DefaultApi = composeApi(new ApiSettings(
-    "http://testnet.getburst.net:6876",
-    "/burst")
-);
-
 export class BurstAccountService {
 
-    constructor(private api: Api = DefaultApi) {
+    private api: Api;
+
+    constructor() {
+        const settings = new SettingsService().getSettings();
+        const peer = settings ? settings.peer : defaultPeer;
+        this.api = composeApi(new ApiSettings(peer, '/burst'))
     }
 
     public getAccountIdentifiers(passphrase: string): IAccountIdentifierType {

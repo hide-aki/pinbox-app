@@ -14,9 +14,6 @@
   "account.details.expansion_hint": "Mehr Details",
   "account.details.pool_current": "Aktueller Pinbox Pool",
   "account.details.select_pool": "Anderen Pool auswählen",
-  "account.details.danger_zone" : "Gefahrenzone",
-  "account.details.reset" : "Zurücksetzen",
-  "account.details.reset_explanation" : "Mit dem Zurücksetzen von Pinbox werden alle deine lokalen Daten, wie z.B. Kontodaten gelöscht. Deine gepinnten Dateien bleiben erhalten und können jederzeit wieder hergestellt werden",
   "account.finish.summary": "Glückwunsch. Dein Konto ist eingerichtet.",
   "account.info.balance": "Saldo",
   "account.info.burst_accountId": "Burstcoin Wallet Kontonummer",
@@ -64,5 +61,12 @@
   "tooltip.home": "Hauptseite",
   "language.de": "Deutsch",
   "language.en": "Englisch",
-  "language.pt": "Portugiesisch"
+  "language.pt": "Portugiesisch",
+  "settings.danger_zone" : "Gefahrenzone",
+  "settings.reset" : "Zurücksetzen",
+  "settings.reset_explanation" : "Mit dem Zurücksetzen von Pinbox werden alle deine lokalen Daten, wie z.B. Kontodaten gelöscht. Deine gepinnten Dateien bleiben erhalten und können jederzeit wieder hergestellt werden",
+  "settings.label.language": "Sprache",
+  "settings.label.peer": "Burst Peer",
+  "settings.title" : "Anwendungskonfiguration"
+
 }
