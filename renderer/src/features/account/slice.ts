@@ -1,4 +1,4 @@
-import {Action, createSlice} from 'redux-starter-kit';
+import {Action, createSlice} from '@reduxjs/toolkit';
 import {ThunkAction} from 'redux-thunk';
 import {applicationSlice} from '../../app/slice';
 import {PersistenceService} from '../../services/PersistenceService';
@@ -11,7 +11,7 @@ const ACC_KEY = 'acc';
 const persistenceService = new PersistenceService();
 
 export const accountSlice = createSlice({
-    slice: 'account',
+    name: 'account',
     initialState: {
         account: {}
     },

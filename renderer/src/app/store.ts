@@ -1,4 +1,4 @@
-import {configureStore, getDefaultMiddleware, combineReducers} from 'redux-starter-kit';
+import {configureStore, getDefaultMiddleware, combineReducers} from '@reduxjs/toolkit';
 import {accountSlice} from '../features/account/slice'
 import {poolSlice} from '../features/pools/slice';
 import {settingsSlice} from '../features/settings/slice';

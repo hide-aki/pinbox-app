@@ -1,4 +1,4 @@
-import {createSlice} from 'redux-starter-kit';
+import {createSlice} from '@reduxjs/toolkit';
 import {defaultPeer} from '../../app/burstPeers';
 import {settingsService} from '../../services/SettingsService';
 
@@ -6,7 +6,7 @@ const detectedLanguage = navigator.language.split(/[-_]/)[0];
 const settings = settingsService.getSettings();
 
 export const settingsSlice = createSlice({
-    slice: 'settings',
+    name: 'settings',
     initialState: {
         language: settings ? settings.language : detectedLanguage,
         peer: settings ? settings.peer : defaultPeer

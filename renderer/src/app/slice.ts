@@ -1,7 +1,7 @@
-import {createSlice} from 'redux-starter-kit';
+import {createSlice} from '@reduxjs/toolkit';
 
 export const applicationSlice = createSlice({
-    slice: 'application',
+    name: 'application',
     initialState: {
         message: {
             type: 'NONE',

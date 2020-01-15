@@ -1,4 +1,4 @@
-import {createSlice, Action} from 'redux-starter-kit';
+import {createSlice, Action} from '@reduxjs/toolkit';
 import {ThunkAction} from 'redux-thunk';
 import {applicationSlice} from '../../app/slice';
 import {PoolService} from '../../services/PoolService';
@@ -6,7 +6,7 @@ import {PoolService} from '../../services/PoolService';
 const poolService = new PoolService();
 
 export const poolSlice = createSlice({
-    slice: 'account',
+    name: 'account',
     initialState: {
         availablePools: [],
         currentPool: poolService.getCurrentPool()

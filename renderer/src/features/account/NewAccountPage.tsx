@@ -19,7 +19,7 @@ export const NewAccountPage: React.FC = () => {
     const classes = useStyles();
     return (
         <Page backgroundImage={AccountBackgroundImage}>
-            <Paper className={classes.paper}>
+            <Paper className={classes.paper} >
                 <h1><FormattedMessage id="account.create.new_account"/></h1>
                 <p><FormattedMessage id="account.create.description"/></p>
                 <AccountCreator/>

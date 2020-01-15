@@ -3,7 +3,8 @@ const availableDevPeers : string[] = [
     "http://testnet.getburst.net:6876"
 ];
 const availableProductionPeers : string[] = [
-    "https://wallet.burst-alliance.org:8125"
+    "https://wallet.burst-alliance.org:8125",
+    "https://wallet.burstcoin.ro"
 ];
 
 export const availablePeers = process.env.NODE_ENV === 'production' ? availableProductionPeers : availableDevPeers;

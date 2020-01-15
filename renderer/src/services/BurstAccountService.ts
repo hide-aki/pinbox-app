@@ -24,7 +24,7 @@ export class BurstAccountService {
     constructor() {
         const settings = new SettingsService().getSettings();
         const peer = settings ? settings.peer : defaultPeer;
-        this.api = composeApi(new ApiSettings(peer, '/burst'))
+        this.api = composeApi(new ApiSettings(peer))
     }
 
     public getAccountIdentifiers(passphrase: string): IAccountIdentifierType {
