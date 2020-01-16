@@ -39,7 +39,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var fileCrypt_1 = require("../fileDropHandler/fileCrypt");
 var fs = require("fs");
 var path = require("path");
-var randomString_1 = require("../util/randomString");
+var randomString_1 = require("../../util/randomString");
 var fsp = fs.promises;
 var FileStructureRecord = /** @class */ (function () {
     function FileStructureRecord(originalFilePath, ipfsHash) {

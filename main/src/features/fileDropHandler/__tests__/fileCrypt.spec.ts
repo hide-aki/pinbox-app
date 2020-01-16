@@ -10,7 +10,6 @@ const resetFiles = (filePath:string) => {
 
 describe('fileCrypt', () => {
 
-
     it('should read encrypt and decrypt correctly', async () => {
         const secret = 'MySecret';
 

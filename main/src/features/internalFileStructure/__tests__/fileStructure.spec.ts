@@ -32,10 +32,10 @@ describe('FileStructure', () => {
     });
 
     it('should save Internal File Structure', async () => {
-        let metaInfo = new FileStructure('account123');
-        metaInfo.addFileRecord(new FileStructureRecord('originalFilePath', 'ipfsHash'));
-        metaInfo.addFileRecord(new FileStructureRecord('originalFilePath_1', 'ipfsHash_1'));
-        await metaInfo.save(TestFilePath);
+        let fileStructure = new FileStructure('account123');
+        fileStructure.addFileRecord(new FileStructureRecord('originalFilePath', 'ipfsHash'));
+        fileStructure.addFileRecord(new FileStructureRecord('originalFilePath_1', 'ipfsHash_1'));
+        await fileStructure.save(TestFilePath);
 
         expect(fs.existsSync(TestFilePath)).toBeFalsy();
         expect(fs.existsSync(TestFilePath + '.encode')).toBeTruthy();

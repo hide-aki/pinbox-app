@@ -1,5 +1,5 @@
 import {ElectronMessageType} from './electron';
-import {handleFileDrop} from './fileDropHandler';
+import {handleFileDrop} from './features/fileDropHandler';
 
 const MessageName = {
     Test: 'Test',

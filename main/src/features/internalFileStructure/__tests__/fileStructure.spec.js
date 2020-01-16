@@ -71,14 +71,14 @@ describe('FileStructure', function () {
         });
     }); });
     it('should save Internal File Structure', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var metaInfo;
+        var fileStructure;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    metaInfo = new FileStructure_1.FileStructure('account123');
-                    metaInfo.addFileRecord(new FileStructure_1.FileStructureRecord('originalFilePath', 'ipfsHash'));
-                    metaInfo.addFileRecord(new FileStructure_1.FileStructureRecord('originalFilePath_1', 'ipfsHash_1'));
-                    return [4 /*yield*/, metaInfo.save(TestFilePath)];
+                    fileStructure = new FileStructure_1.FileStructure('account123');
+                    fileStructure.addFileRecord(new FileStructure_1.FileStructureRecord('originalFilePath', 'ipfsHash'));
+                    fileStructure.addFileRecord(new FileStructure_1.FileStructureRecord('originalFilePath_1', 'ipfsHash_1'));
+                    return [4 /*yield*/, fileStructure.save(TestFilePath)];
                 case 1:
                     _a.sent();
                     expect(fs.existsSync(TestFilePath)).toBeFalsy();

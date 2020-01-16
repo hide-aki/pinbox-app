@@ -1,7 +1,7 @@
 import {encryptFileTo, FileCryptArgs} from '../fileDropHandler/fileCrypt';
 import * as fs from 'fs';
 import * as path from 'path';
-import {randomString} from '../util/randomString';
+import {randomString} from '../../util/randomString';
 import {logger} from '../logger';
 
 const fsp = fs.promises;

@@ -1,10 +1,10 @@
 import {BrowserWindow, app, ipcMain} from 'electron' ;
 import * as path from 'path'
 import {handleMessage} from './handleMessage';
-import {createIpfsNode} from './ipfs/createIpfsNode';
-import {logger} from './logger';
+import {createIpfsNode} from './features/ipfs/createIpfsNode';
+import {logger} from './features/logger';
 import {IpcChannelName} from './constants';
-import {initializeFileStructure} from './ifs';
+import {initializeFileStructure} from './features/internalFileStructure';
 
 let mainWindow: BrowserWindow;
 
