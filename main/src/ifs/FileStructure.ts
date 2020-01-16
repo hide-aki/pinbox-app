@@ -36,7 +36,7 @@ export class FileStructure {
         this._isDirty = true
     }
 
-    private toJSON(): object {
+    public toJSON(): object {
         return {
             accountId: this._accountId,
             created: this._created,
@@ -69,6 +69,7 @@ export class FileStructure {
                 isCompressed: true
             };
             await encryptFileTo(args);
+            await fsp.unlink(filename);
         }
         catch(e) {
             // TODO

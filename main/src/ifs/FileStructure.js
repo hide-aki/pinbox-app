@@ -93,7 +93,7 @@ var FileStructure = /** @class */ (function () {
                         }
                         _a.label = 1;
                     case 1:
-                        _a.trys.push([1, 4, , 5]);
+                        _a.trys.push([1, 5, , 6]);
                         this._updated = Date.now();
                         filename = filepath ? filepath : path.join(__dirname, '../../', "{ifs." + this._accountId + ".json");
                         return [4 /*yield*/, fsp.writeFile(filename, JSON.stringify(this.toJSON()))];
@@ -108,11 +108,14 @@ var FileStructure = /** @class */ (function () {
                         return [4 /*yield*/, fileCrypt_1.encryptFileTo(args)];
                     case 3:
                         _a.sent();
-                        return [3 /*break*/, 5];
+                        return [4 /*yield*/, fsp.unlink(filename)];
                     case 4:
+                        _a.sent();
+                        return [3 /*break*/, 6];
+                    case 5:
                         e_1 = _a.sent();
-                        return [3 /*break*/, 5];
-                    case 5: return [2 /*return*/];
+                        return [3 /*break*/, 6];
+                    case 6: return [2 /*return*/];
                 }
             });
         });
