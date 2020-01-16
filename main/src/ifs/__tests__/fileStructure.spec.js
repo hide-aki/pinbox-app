@@ -36,21 +36,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var MetaInfo_1 = require("../MetaInfo");
-describe('MetaInfo', function () {
+var FileStructure_1 = require("../FileStructure");
+describe('FileStructure', function () {
     it('creates and saves MetaInfo File', function () { return __awaiter(void 0, void 0, void 0, function () {
         var metaInfo;
         return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    metaInfo = new MetaInfo_1.MetaInfo('account123');
-                    metaInfo.addFileRecord(new MetaInfo_1.MetaInfoFileRecord('originalFilePath', 'ipfsHash'));
-                    metaInfo.addFileRecord(new MetaInfo_1.MetaInfoFileRecord('originalFilePath_1', 'ipfsHash_1'));
-                    return [4 /*yield*/, metaInfo.publish()];
-                case 1:
-                    _a.sent();
-                    return [2 /*return*/];
-            }
+            metaInfo = new FileStructure_1.FileStructure('account123');
+            metaInfo.addFileRecord(new FileStructure_1.FileStructureRecord('originalFilePath', 'ipfsHash'));
+            metaInfo.addFileRecord(new FileStructure_1.FileStructureRecord('originalFilePath_1', 'ipfsHash_1'));
+            return [2 /*return*/];
         });
     }); });
 });

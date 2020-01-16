@@ -2,17 +2,23 @@ import {encryptFileTo, FileCryptArgs} from '../fileDropHandler/fileCrypt';
 import * as fs from 'fs';
 import * as path from 'path';
 import {withIpfs} from '../ipfs/withIpfs';
+import {randomString} from '../util/randomString';
 
 const fsp = fs.promises;
 
-export class MetaInfoFileRecord {
+export class FileStructureRecord {
+    public nonce: string;
+    public created: number;
+
     constructor(public originalFilePath: string,
                 public ipfsHash: string,
     ) {
+        this.created = Date.now();
+        this.nonce = randomString();
     }
 }
 
-export class MetaInfo {
+export class FileStructure {
     private _created = Date.now();
     private _updated = Date.now();
     private _fileRecords: any = {};
@@ -21,7 +27,7 @@ export class MetaInfo {
     public constructor(private _accountId: string) {
     }
 
-    public addFileRecord(fileRecord: MetaInfoFileRecord) {
+    public addFileRecord(fileRecord: FileStructureRecord) {
         const {ipfsHash} = fileRecord;
         if (this._fileRecords[ipfsHash]) {
             throw new Error(`[${ipfsHash}] was already added`)
@@ -39,8 +45,8 @@ export class MetaInfo {
         }
     }
 
-    private static fromJSON(json: any): MetaInfo {
-        let metaInfo = new MetaInfo(json.accountId);
+    private static fromJSON(json: any): FileStructure {
+        let metaInfo = new FileStructure(json.accountId);
         metaInfo._created = json.created;
         metaInfo._updated = json.updated;
         metaInfo._fileRecords = json.fileRecords;
@@ -77,7 +83,7 @@ export class MetaInfo {
         return Promise.resolve();
     }
 
-    public static async read(): Promise<MetaInfo> {
+    public static async read(): Promise<FileStructure> {
         // TODO:
         // read IPNS Hash from Burst
         // --> if not found -> create
@@ -85,7 +91,7 @@ export class MetaInfo {
         // get IPFS File
         // Decrypt (with burst privateKey)
         // Read from decrypted file
-        let metaInfo = new MetaInfo('');
+        let metaInfo = new FileStructure('');
 
         // set properties
 

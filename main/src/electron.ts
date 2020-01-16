@@ -4,7 +4,7 @@ import {handleMessage} from './handleMessage';
 import {createIpfsNode} from './ipfs/createIpfsNode';
 import {logger} from './logger';
 import {IpcChannelName} from './constants';
-import {initializeMetaInfo} from './metaInfo';
+import {initializeFileStructure} from './ifs';
 
 let mainWindow: BrowserWindow;
 
@@ -32,7 +32,7 @@ function initializeApp() {
         });
 
         // TODO: this can only be done, when logged in
-        initializeMetaInfo()
+        initializeFileStructure()
     });
 }
 

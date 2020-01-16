@@ -40,24 +40,27 @@ var fileCrypt_1 = require("../fileDropHandler/fileCrypt");
 var fs = require("fs");
 var path = require("path");
 var withIpfs_1 = require("../ipfs/withIpfs");
+var randomString_1 = require("../util/randomString");
 var fsp = fs.promises;
-var MetaInfoFileRecord = /** @class */ (function () {
-    function MetaInfoFileRecord(originalFilePath, ipfsHash) {
+var FileStructureRecord = /** @class */ (function () {
+    function FileStructureRecord(originalFilePath, ipfsHash) {
         this.originalFilePath = originalFilePath;
         this.ipfsHash = ipfsHash;
+        this.created = Date.now();
+        this.nonce = randomString_1.randomString();
     }
-    return MetaInfoFileRecord;
+    return FileStructureRecord;
 }());
-exports.MetaInfoFileRecord = MetaInfoFileRecord;
-var MetaInfo = /** @class */ (function () {
-    function MetaInfo(_accountId) {
+exports.FileStructureRecord = FileStructureRecord;
+var FileStructure = /** @class */ (function () {
+    function FileStructure(_accountId) {
         this._accountId = _accountId;
         this._created = Date.now();
         this._updated = Date.now();
         this._fileRecords = {};
         this._isDirty = true;
     }
-    MetaInfo.prototype.addFileRecord = function (fileRecord) {
+    FileStructure.prototype.addFileRecord = function (fileRecord) {
         var ipfsHash = fileRecord.ipfsHash;
         if (this._fileRecords[ipfsHash]) {
             throw new Error("[" + ipfsHash + "] was already added");
@@ -65,7 +68,7 @@ var MetaInfo = /** @class */ (function () {
         this._fileRecords[ipfsHash] = fileRecord;
         this._isDirty = true;
     };
-    MetaInfo.prototype.toJSON = function () {
+    FileStructure.prototype.toJSON = function () {
         return {
             accountId: this._accountId,
             created: this._created,
@@ -73,14 +76,14 @@ var MetaInfo = /** @class */ (function () {
             fileRecords: this._fileRecords,
         };
     };
-    MetaInfo.fromJSON = function (json) {
-        var metaInfo = new MetaInfo(json.accountId);
+    FileStructure.fromJSON = function (json) {
+        var metaInfo = new FileStructure(json.accountId);
         metaInfo._created = json.created;
         metaInfo._updated = json.updated;
         metaInfo._fileRecords = json.fileRecords;
         return metaInfo;
     };
-    MetaInfo.prototype.publish = function () {
+    FileStructure.prototype.publish = function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
@@ -123,17 +126,17 @@ var MetaInfo = /** @class */ (function () {
             });
         });
     };
-    MetaInfo.read = function () {
+    FileStructure.read = function () {
         return __awaiter(this, void 0, void 0, function () {
             var metaInfo;
             return __generator(this, function (_a) {
-                metaInfo = new MetaInfo('');
+                metaInfo = new FileStructure('');
                 // set properties
                 metaInfo._isDirty = false;
                 return [2 /*return*/, Promise.resolve(metaInfo)];
             });
         });
     };
-    return MetaInfo;
+    return FileStructure;
 }());
-exports.MetaInfo = MetaInfo;
+exports.FileStructure = FileStructure;
