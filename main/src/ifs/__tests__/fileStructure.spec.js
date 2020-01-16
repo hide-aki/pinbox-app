@@ -37,14 +37,25 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var FileStructure_1 = require("../FileStructure");
+var path = require("path");
+var fs = require("fs");
+var TestFilePath = path.join(__dirname, 'ifs.test.json');
 describe('FileStructure', function () {
-    it('creates and saves MetaInfo File', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('creates and saves Internal File Structure', function () { return __awaiter(void 0, void 0, void 0, function () {
         var metaInfo;
         return __generator(this, function (_a) {
-            metaInfo = new FileStructure_1.FileStructure('account123');
-            metaInfo.addFileRecord(new FileStructure_1.FileStructureRecord('originalFilePath', 'ipfsHash'));
-            metaInfo.addFileRecord(new FileStructure_1.FileStructureRecord('originalFilePath_1', 'ipfsHash_1'));
-            return [2 /*return*/];
+            switch (_a.label) {
+                case 0:
+                    metaInfo = new FileStructure_1.FileStructure('account123');
+                    metaInfo.addFileRecord(new FileStructure_1.FileStructureRecord('originalFilePath', 'ipfsHash'));
+                    metaInfo.addFileRecord(new FileStructure_1.FileStructureRecord('originalFilePath_1', 'ipfsHash_1'));
+                    return [4 /*yield*/, metaInfo.save(TestFilePath)];
+                case 1:
+                    _a.sent();
+                    expect(fs.existsSync(TestFilePath)).toBeTruthy();
+                    expect(fs.existsSync(TestFilePath + '.encode')).toBeTruthy();
+                    return [2 /*return*/];
+            }
         });
     }); });
 });

@@ -39,7 +39,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var fileCrypt_1 = require("../fileDropHandler/fileCrypt");
 var fs = require("fs");
 var path = require("path");
-var withIpfs_1 = require("../ipfs/withIpfs");
 var randomString_1 = require("../util/randomString");
 var fsp = fs.promises;
 var FileStructureRecord = /** @class */ (function () {
@@ -72,68 +71,60 @@ var FileStructure = /** @class */ (function () {
         return {
             accountId: this._accountId,
             created: this._created,
-            update: this._updated,
+            updated: this._updated,
             fileRecords: this._fileRecords,
         };
     };
     FileStructure.fromJSON = function (json) {
-        var metaInfo = new FileStructure(json.accountId);
-        metaInfo._created = json.created;
-        metaInfo._updated = json.updated;
-        metaInfo._fileRecords = json.fileRecords;
-        return metaInfo;
+        var fileStructure = new FileStructure(json.accountId);
+        fileStructure._created = json.created;
+        fileStructure._updated = json.updated;
+        fileStructure._fileRecords = json.fileRecords;
+        return fileStructure;
     };
-    FileStructure.prototype.publish = function () {
+    FileStructure.prototype.save = function (filepath) {
         return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
+            var filename, args, e_1;
             return __generator(this, function (_a) {
-                if (!this._isDirty) {
-                    return [2 /*return*/, Promise.resolve()];
-                }
-                withIpfs_1.withIpfs(function (ipfs) { return __awaiter(_this, void 0, void 0, function () {
-                    var filename, args, result, e_1;
-                    return __generator(this, function (_a) {
-                        switch (_a.label) {
-                            case 0:
-                                _a.trys.push([0, 4, , 5]);
-                                this._updated = Date.now();
-                                filename = path.join(__dirname, '../../', "{pinbox.meta." + this._accountId + ".json");
-                                args = {
-                                    secret: 'MySecretT',
-                                    inputFilePath: filename,
-                                    outputFilePath: filename + ".encode",
-                                    isCompressed: true
-                                };
-                                return [4 /*yield*/, fsp.writeFile(filename, JSON.stringify(this.toJSON()))];
-                            case 1:
-                                _a.sent();
-                                return [4 /*yield*/, fileCrypt_1.encryptFileTo(args)];
-                            case 2:
-                                _a.sent();
-                                return [4 /*yield*/, ipfs.addFromFs(args.outputFilePath)];
-                            case 3:
-                                result = _a.sent();
-                                console.log('TODO: publish...', result.id);
-                                return [3 /*break*/, 5];
-                            case 4:
-                                e_1 = _a.sent();
-                                return [3 /*break*/, 5];
-                            case 5: return [2 /*return*/];
+                switch (_a.label) {
+                    case 0:
+                        if (!this._isDirty) {
+                            return [2 /*return*/, Promise.resolve()];
                         }
-                    });
-                }); });
-                return [2 /*return*/, Promise.resolve()];
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 4, , 5]);
+                        this._updated = Date.now();
+                        filename = filepath ? filepath : path.join(__dirname, '../../', "{ifs." + this._accountId + ".json");
+                        return [4 /*yield*/, fsp.writeFile(filename, JSON.stringify(this.toJSON()))];
+                    case 2:
+                        _a.sent();
+                        args = {
+                            secret: 'MySecretT',
+                            inputFilePath: filename,
+                            outputFilePath: filename + ".encode",
+                            isCompressed: true
+                        };
+                        return [4 /*yield*/, fileCrypt_1.encryptFileTo(args)];
+                    case 3:
+                        _a.sent();
+                        return [3 /*break*/, 5];
+                    case 4:
+                        e_1 = _a.sent();
+                        return [3 /*break*/, 5];
+                    case 5: return [2 /*return*/];
+                }
             });
         });
     };
-    FileStructure.read = function () {
+    FileStructure.read = function (filePath) {
         return __awaiter(this, void 0, void 0, function () {
-            var metaInfo;
+            var fileStructure;
             return __generator(this, function (_a) {
-                metaInfo = new FileStructure('');
+                fileStructure = new FileStructure('');
                 // set properties
-                metaInfo._isDirty = false;
-                return [2 /*return*/, Promise.resolve(metaInfo)];
+                fileStructure._isDirty = false;
+                return [2 /*return*/, Promise.resolve(fileStructure)];
             });
         });
     };

@@ -1,8 +1,8 @@
 import {encryptFileTo, FileCryptArgs} from '../fileDropHandler/fileCrypt';
 import * as fs from 'fs';
 import * as path from 'path';
-import {withIpfs} from '../ipfs/withIpfs';
 import {randomString} from '../util/randomString';
+import {logger} from '../logger';
 
 const fsp = fs.promises;
 
@@ -40,62 +40,50 @@ export class FileStructure {
         return {
             accountId: this._accountId,
             created: this._created,
-            update: this._updated,
+            updated: this._updated,
             fileRecords: this._fileRecords,
         }
     }
 
     private static fromJSON(json: any): FileStructure {
-        let metaInfo = new FileStructure(json.accountId);
-        metaInfo._created = json.created;
-        metaInfo._updated = json.updated;
-        metaInfo._fileRecords = json.fileRecords;
-        return metaInfo
+        let fileStructure = new FileStructure(json.accountId);
+        fileStructure._created = json.created;
+        fileStructure._updated = json.updated;
+        fileStructure._fileRecords = json.fileRecords;
+        return fileStructure
     }
 
-    public async publish(): Promise<void> {
+    public async save(filepath? :string ): Promise<void> {
         if (!this._isDirty) {
             return Promise.resolve();
         }
-        withIpfs(async ipfs => {
-            try {
-                this._updated = Date.now();
-                const filename = path.join(__dirname, '../../', `{pinbox.meta.${this._accountId}.json`);
-                const args: FileCryptArgs = {
-                    secret: 'MySecretT',
-                    inputFilePath: filename,
-                    outputFilePath: `${filename}.encode`,
-                    isCompressed: true
-                };
-                await fsp.writeFile(filename, JSON.stringify(this.toJSON()));
-                await encryptFileTo(args);
-                // add file to ipfs
-                const result = await ipfs.addFromFs(args.outputFilePath);
-                console.log('TODO: publish...', result.id);
-                // ipfs.name.publish()
-                // publish file
 
-            } catch (e) {
-
-            }
-        });
-
-        return Promise.resolve();
+        try {
+            this._updated = Date.now();
+            const filename = filepath ? filepath : path.join(__dirname, '../../', `{ifs.${this._accountId}.json`);
+            await fsp.writeFile(filename, JSON.stringify(this.toJSON()));
+            const args: FileCryptArgs = {
+                secret: 'MySecretT', // TODO: will be the private key of account
+                inputFilePath: filename,
+                outputFilePath: `${filename}.encode`,
+                isCompressed: true
+            };
+            await encryptFileTo(args);
+        }
+        catch(e) {
+            // TODO
+        }
     }
 
-    public static async read(): Promise<FileStructure> {
+    public static async read(filePath: string): Promise<FileStructure> {
         // TODO:
-        // read IPNS Hash from Burst
-        // --> if not found -> create
-        // resolver IPNS to IPFS
-        // get IPFS File
         // Decrypt (with burst privateKey)
         // Read from decrypted file
-        let metaInfo = new FileStructure('');
+        let fileStructure = new FileStructure('');
 
         // set properties
 
-        metaInfo._isDirty = false;
-        return Promise.resolve(metaInfo);
+        fileStructure._isDirty = false;
+        return Promise.resolve(fileStructure);
     }
 }
