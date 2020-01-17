@@ -2,16 +2,17 @@ import {FileStructure, FileStructureRecord} from '../FileStructure';
 import * as path from 'path';
 import * as fs from 'fs';
 
-const TestFilePath = path.join(__dirname, 'ifs.test.json');
+const TestFilePathJson = path.join(__dirname, 'ifs.test.json');
+const TestFilePathEncrypted = path.join(__dirname, 'ifs.test.x');
 
 describe('FileStructure', () => {
     it('should creates Internal File Structure', async () => {
-        let fileStructure = new FileStructure('account123');
+        let fileStructure = new FileStructure('privateKey', 'publicKey');
         fileStructure.addFileRecord(new FileStructureRecord('originalFilePath', 'ipfsHash'));
         fileStructure.addFileRecord(new FileStructureRecord('originalFilePath_1', 'ipfsHash_1'));
         const fsjson = fileStructure.toJSON();
         expect(fsjson).toEqual({
-            "accountId": "account123",
+            "publicKey": "publicKey",
             "created": expect.any(Number),
             "updated": expect.any(Number),
             "fileRecords": {
@@ -32,13 +33,12 @@ describe('FileStructure', () => {
     });
 
     it('should save Internal File Structure', async () => {
-        let fileStructure = new FileStructure('account123');
+        let fileStructure = new FileStructure('privateKey', 'publicKey');
         fileStructure.addFileRecord(new FileStructureRecord('originalFilePath', 'ipfsHash'));
         fileStructure.addFileRecord(new FileStructureRecord('originalFilePath_1', 'ipfsHash_1'));
-        await fileStructure.save(TestFilePath);
-
-        expect(fs.existsSync(TestFilePath)).toBeFalsy();
-        expect(fs.existsSync(TestFilePath + '.encode')).toBeTruthy();
+        await fileStructure.save(TestFilePathJson);
+        expect(fs.existsSync(TestFilePathEncrypted)).toBeTruthy();
+        expect(fs.existsSync(TestFilePathJson)).toBeFalsy();
 
     });
 });

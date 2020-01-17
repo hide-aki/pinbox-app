@@ -40,6 +40,7 @@ var fileCrypt_1 = require("../messageHandler/fileDropHandler/fileCrypt");
 var fs = require("fs");
 var path = require("path");
 var randomString_1 = require("../../util/randomString");
+var hashSecret_1 = require("../cryptography/hashSecret");
 var fsp = fs.promises;
 var FileStructureRecord = /** @class */ (function () {
     function FileStructureRecord(originalFilePath, ipfsHash) {
@@ -52,8 +53,9 @@ var FileStructureRecord = /** @class */ (function () {
 }());
 exports.FileStructureRecord = FileStructureRecord;
 var FileStructure = /** @class */ (function () {
-    function FileStructure(_accountId) {
-        this._accountId = _accountId;
+    function FileStructure(_privateKey, _publicKey) {
+        this._privateKey = _privateKey;
+        this._publicKey = _publicKey;
         this._created = Date.now();
         this._updated = Date.now();
         this._fileRecords = {};
@@ -69,22 +71,23 @@ var FileStructure = /** @class */ (function () {
     };
     FileStructure.prototype.toJSON = function () {
         return {
-            accountId: this._accountId,
+            publicKey: this._publicKey,
             created: this._created,
             updated: this._updated,
             fileRecords: this._fileRecords,
         };
     };
     FileStructure.fromJSON = function (json) {
-        var fileStructure = new FileStructure(json.accountId);
-        fileStructure._created = json.created;
-        fileStructure._updated = json.updated;
-        fileStructure._fileRecords = json.fileRecords;
+        // TODO:
+        var fileStructure = new FileStructure('', '');
+        // fileStructure._created = json.created;
+        // fileStructure._updated = json.updated;
+        // fileStructure._fileRecords = json.fileRecords;
         return fileStructure;
     };
     FileStructure.prototype.save = function (filepath) {
         return __awaiter(this, void 0, void 0, function () {
-            var filename, args, e_1;
+            var filename, secret, args, e_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -93,29 +96,32 @@ var FileStructure = /** @class */ (function () {
                         }
                         _a.label = 1;
                     case 1:
-                        _a.trys.push([1, 5, , 6]);
+                        _a.trys.push([1, 6, , 7]);
                         this._updated = Date.now();
-                        filename = filepath ? filepath : path.join(__dirname, '../../', "{ifs." + this._accountId + ".json");
+                        filename = filepath ? filepath : path.join(__dirname, '../../', "{ifs." + this._publicKey + ".json");
                         return [4 /*yield*/, fsp.writeFile(filename, JSON.stringify(this.toJSON()))];
                     case 2:
                         _a.sent();
+                        return [4 /*yield*/, hashSecret_1.hashSecret(this._privateKey)];
+                    case 3:
+                        secret = _a.sent();
                         args = {
-                            secret: 'MySecretT',
+                            secret: secret.hash,
                             inputFilePath: filename,
-                            outputFilePath: filename + ".encode",
+                            outputFilePath: filename.replace('json', 'x'),
                             isCompressed: true
                         };
                         return [4 /*yield*/, fileCrypt_1.encryptFileTo(args)];
-                    case 3:
-                        _a.sent();
-                        return [4 /*yield*/, fsp.unlink(filename)];
                     case 4:
                         _a.sent();
-                        return [3 /*break*/, 6];
+                        return [4 /*yield*/, fsp.unlink(filename)];
                     case 5:
+                        _a.sent();
+                        return [3 /*break*/, 7];
+                    case 6:
                         e_1 = _a.sent();
-                        return [3 /*break*/, 6];
-                    case 6: return [2 /*return*/];
+                        return [3 /*break*/, 7];
+                    case 7: return [2 /*return*/];
                 }
             });
         });
@@ -124,7 +130,7 @@ var FileStructure = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var fileStructure;
             return __generator(this, function (_a) {
-                fileStructure = new FileStructure('');
+                fileStructure = new FileStructure('', '');
                 // set properties
                 fileStructure._isDirty = false;
                 return [2 /*return*/, Promise.resolve(fileStructure)];

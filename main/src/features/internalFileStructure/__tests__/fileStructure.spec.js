@@ -39,17 +39,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var FileStructure_1 = require("../FileStructure");
 var path = require("path");
 var fs = require("fs");
-var TestFilePath = path.join(__dirname, 'ifs.test.json');
+var TestFilePathJson = path.join(__dirname, 'ifs.test.json');
+var TestFilePathEncrypted = path.join(__dirname, 'ifs.test.x');
 describe('FileStructure', function () {
     it('should creates Internal File Structure', function () { return __awaiter(void 0, void 0, void 0, function () {
         var fileStructure, fsjson;
         return __generator(this, function (_a) {
-            fileStructure = new FileStructure_1.FileStructure('account123');
+            fileStructure = new FileStructure_1.FileStructure('privateKey', 'publicKey');
             fileStructure.addFileRecord(new FileStructure_1.FileStructureRecord('originalFilePath', 'ipfsHash'));
             fileStructure.addFileRecord(new FileStructure_1.FileStructureRecord('originalFilePath_1', 'ipfsHash_1'));
             fsjson = fileStructure.toJSON();
             expect(fsjson).toEqual({
-                "accountId": "account123",
+                "publicKey": "publicKey",
                 "created": expect.any(Number),
                 "updated": expect.any(Number),
                 "fileRecords": {
@@ -75,14 +76,14 @@ describe('FileStructure', function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    fileStructure = new FileStructure_1.FileStructure('account123');
+                    fileStructure = new FileStructure_1.FileStructure('privateKey', 'publicKey');
                     fileStructure.addFileRecord(new FileStructure_1.FileStructureRecord('originalFilePath', 'ipfsHash'));
                     fileStructure.addFileRecord(new FileStructure_1.FileStructureRecord('originalFilePath_1', 'ipfsHash_1'));
-                    return [4 /*yield*/, fileStructure.save(TestFilePath)];
+                    return [4 /*yield*/, fileStructure.save(TestFilePathJson)];
                 case 1:
                     _a.sent();
-                    expect(fs.existsSync(TestFilePath)).toBeFalsy();
-                    expect(fs.existsSync(TestFilePath + '.encode')).toBeTruthy();
+                    expect(fs.existsSync(TestFilePathEncrypted)).toBeTruthy();
+                    expect(fs.existsSync(TestFilePathJson)).toBeFalsy();
                     return [2 /*return*/];
             }
         });

@@ -39,7 +39,7 @@ export class FileStructure {
 
     public toJSON(): object {
         return {
-            accountId: '',
+            publicKey: this._publicKey,
             created: this._created,
             updated: this._updated,
             fileRecords: this._fileRecords,
@@ -68,7 +68,7 @@ export class FileStructure {
             const args: FileCryptArgs = {
                 secret: secret.hash,
                 inputFilePath: filename,
-                outputFilePath: `${filename}.encode`,
+                outputFilePath: filename.replace('json', 'x'),
                 isCompressed: true
             };
             await encryptFileTo(args);
