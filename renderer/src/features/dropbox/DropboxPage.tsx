@@ -2,6 +2,7 @@ import {DropBox} from './DropBox';
 import React, {useContext} from 'react';
 import {ElectronContext} from '../../components/contexts/ElectronContext';
 import {ElectronService} from '../../services/ElectronService';
+import {SecureKeyService} from '../../services/SecureKeyService';
 import {Page} from '../../components/Page';
 
 const sendFilesToElectron = (service: ElectronService) => (files: FileList | null): void => {
@@ -20,9 +21,11 @@ const sendFilesToElectron = (service: ElectronService) => (files: FileList | nul
     })
 };
 
+
+
 export const DropboxPage: React.FC = () => {
     const electronService = useContext(ElectronContext);
-    electronService.onMessage(console.log);
+
     return (
         <Page>
             <DropBox onDrop={sendFilesToElectron(electronService)}/>

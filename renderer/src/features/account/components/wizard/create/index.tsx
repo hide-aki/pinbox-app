@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {
     StepLabel,
     Stepper,
@@ -19,6 +19,7 @@ import {RoutePaths} from '../../../../../routing/routes';
 import {BurstAccountService} from '../../../../../services/BurstAccountService';
 import {thunks} from '../../../slice';
 import {useDispatch} from 'react-redux';
+import {ElectronContext} from '../../../../../components/contexts/ElectronContext';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -94,6 +95,7 @@ const StepContentProvider = (props: IStepContentProviderProps): any => {
 export const AccountCreator: React.FC = (props: any) => {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const electronService = useContext(ElectronContext);
     const [activeStep, setActiveStep] = React.useState(0);
     const [isNextStepReady, setIsNextStepReady] = React.useState(false);
     const [pin, setPin] = React.useState('');
@@ -110,11 +112,15 @@ export const AccountCreator: React.FC = (props: any) => {
     const handleFinished = () => {
         const secureKeyService = new SecureKeyService();
         secureKeyService.storeKeys(pin, passphrase);
+        console.log('handleFinished', passphrase);
+        electronService.sendMessage({
+            messageName: 'NewAccount',
+            payload: passphrase
+        });
         const burstAccountService = new BurstAccountService();
         const {accountId}  = burstAccountService.getAccountIdentifiers(passphrase);
         dispatch(thunks.fetchBurstAccountInfo(accountId));
         setPassphrase('');
-        // redirect
         history.push(RoutePaths.Index)
     };
 

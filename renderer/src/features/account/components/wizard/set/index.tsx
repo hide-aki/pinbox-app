@@ -1,13 +1,5 @@
-import React from 'react';
-import {
-    StepLabel,
-    Stepper,
-    Step,
-    makeStyles,
-    Theme,
-    createStyles,
-    Button
-} from '@material-ui/core';
+import React, {useContext} from 'react';
+import {Button, createStyles, makeStyles, Step, StepLabel, Stepper, Theme} from '@material-ui/core';
 import {useHistory} from 'react-router';
 import {FormattedMessage} from 'react-intl';
 import {CreatePinStep} from '../CreatePinStep';
@@ -19,6 +11,7 @@ import {VerifyAccountStep} from './VerifyAccountStep';
 import {useDispatch} from 'react-redux';
 import {BurstAccountService} from '../../../../../services/BurstAccountService';
 import {thunks} from '../../../slice';
+import {ElectronContext} from '../../../../../components/contexts/ElectronContext';
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -50,7 +43,7 @@ function getSteps() {
     ];
 }
 
-enum Steps{
+enum Steps {
     InsertPassphrase,
     VerifyAccount,
     CreatePin,
@@ -85,7 +78,7 @@ const StepContentProvider = (props: IStepContentProviderProps): any => {
                 onPinChanged={onPinChanged}
             />;
         case Steps.Finish:
-            return <FinishStep />;
+            return <FinishStep/>;
         default:
             return 'Unknown step';
     }
@@ -95,6 +88,7 @@ const StepContentProvider = (props: IStepContentProviderProps): any => {
 export const AccountSetter: React.FC = (props: any) => {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const electronService = useContext(ElectronContext);
     const [activeStep, setActiveStep] = React.useState(0);
     const [isNextStepReady, setIsNextStepReady] = React.useState(false);
     const [pin, setPin] = React.useState('');
@@ -111,8 +105,12 @@ export const AccountSetter: React.FC = (props: any) => {
     const handleFinished = () => {
         const secureKeyService = new SecureKeyService();
         secureKeyService.storeKeys(pin, passphrase);
+        electronService.sendMessage({
+            messageName: 'NewAccount',
+            payload: passphrase
+        });
         const burstAccountService = new BurstAccountService();
-        const {accountId}  = burstAccountService.getAccountIdentifiers(passphrase);
+        const {accountId} = burstAccountService.getAccountIdentifiers(passphrase);
         dispatch(thunks.fetchBurstAccountInfo(accountId));
         history.push(RoutePaths.Index)
     };

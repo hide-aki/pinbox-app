@@ -36,45 +36,45 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var fileCrypt_1 = require("./fileCrypt");
-var withIpfs_1 = require("../ipfs/withIpfs");
-var logger_1 = require("../logger");
-var fs = require("fs");
-var randomString_1 = require("./randomString");
-var path_1 = require("path");
-exports.__handleFile = function (file) {
-    withIpfs_1.withIpfs(function (ipfs) { return __awaiter(void 0, void 0, void 0, function () {
-        var args, result, e_1;
+var argon2_1 = require("argon2");
+var Argon2Delimiter = '$';
+function extractArgon2Parts(argon2Hash) {
+    var parts = argon2Hash.split(Argon2Delimiter);
+    var getValue = function (assignment) { return +assignment.split('=')[1]; };
+    // $argon2id$v=19$m=4096,t=3,p=1$AQIDBAUGBwg$4pyIOZpE6LBnNQxJOUgOUcJNMYhziSgKw8YaowA6Nd4
+    var type = parts[1];
+    var v = getValue(parts[2]);
+    var params = parts[3].split(',');
+    var m = getValue(params[0]);
+    var t = getValue(params[1]);
+    var p = getValue(params[2]);
+    var salt = parts[4];
+    var hash = parts[5];
+    return {
+        raw: argon2Hash,
+        hash: hash,
+        salt: salt,
+        type: type,
+        v: v,
+        m: m,
+        t: t,
+        p: p,
+    };
+}
+function hashSecret(secret, buffer) {
+    return __awaiter(this, void 0, void 0, function () {
+        var hash;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0:
-                    args = {
-                        secret: 'MySecretT',
-                        inputFilePath: file,
-                        outputFilePath: path_1.join(path_1.dirname(file), randomString_1.randomString())
-                    };
-                    _a.label = 1;
+                case 0: return [4 /*yield*/, argon2_1.hash(secret, {
+                        salt: buffer || undefined,
+                        type: argon2_1.argon2id,
+                    })];
                 case 1:
-                    _a.trys.push([1, 4, , 5]);
-                    return [4 /*yield*/, fileCrypt_1.encryptFileTo(args)];
-                case 2:
-                    _a.sent();
-                    logger_1.logger.debug('Adding file', args.inputFilePath);
-                    return [4 /*yield*/, ipfs.addFromFs(args.outputFilePath)];
-                case 3:
-                    result = _a.sent();
-                    logger_1.logger.debug("Added file: " + args.outputFilePath + ", Ipfs: " + JSON.stringify(result));
-                    fs.unlinkSync(args.outputFilePath);
-                    return [3 /*break*/, 5];
-                case 4:
-                    e_1 = _a.sent();
-                    logger_1.logger.error(e_1);
-                    return [3 /*break*/, 5];
-                case 5: return [2 /*return*/];
+                    hash = _a.sent();
+                    return [2 /*return*/, extractArgon2Parts(hash)];
             }
         });
-    }); });
-};
-exports.handleFileDrop = function (files) {
-    files.forEach(exports.__handleFile);
-};
+    });
+}
+exports.hashSecret = hashSecret;

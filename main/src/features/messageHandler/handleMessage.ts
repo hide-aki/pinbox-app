@@ -1,9 +1,11 @@
-import {ElectronMessageType} from './electron';
-import {handleFileDrop} from './features/fileDropHandler';
+import {ElectronMessageType} from '../../electron';
+import {handleFileDrop} from './fileDropHandler';
+import {handleNewAccount} from './newAccountHandler';
 
 const MessageName = {
     Test: 'Test',
-    FileDrop: 'FileDrop'
+    FileDrop: 'FileDrop',
+    NewAccount: 'NewAccount',
 };
 
 export const handleMessage = (
@@ -15,6 +17,9 @@ export const handleMessage = (
     switch (messageName) {
         case MessageName.FileDrop:
             handleFileDrop(payload);
+            break;
+        case MessageName.NewAccount:
+            handleNewAccount(payload);
             break;
         case MessageName.Test:
         default:

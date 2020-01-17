@@ -1,8 +1,9 @@
-import {encryptFileTo, FileCryptArgs} from '../fileDropHandler/fileCrypt';
+import {encryptFileTo, FileCryptArgs} from '../messageHandler/fileDropHandler/fileCrypt';
 import * as fs from 'fs';
 import * as path from 'path';
 import {randomString} from '../../util/randomString';
 import {logger} from '../logger';
+import {hashSecret} from '../cryptography/hashSecret';
 
 const fsp = fs.promises;
 
@@ -24,7 +25,7 @@ export class FileStructure {
     private _fileRecords: any = {};
     private _isDirty = true;
 
-    public constructor(private _accountId: string) {
+    public constructor(private _privateKey: string, private _publicKey : string) {
     }
 
     public addFileRecord(fileRecord: FileStructureRecord) {
@@ -38,7 +39,7 @@ export class FileStructure {
 
     public toJSON(): object {
         return {
-            accountId: this._accountId,
+            accountId: '',
             created: this._created,
             updated: this._updated,
             fileRecords: this._fileRecords,
@@ -46,10 +47,11 @@ export class FileStructure {
     }
 
     private static fromJSON(json: any): FileStructure {
-        let fileStructure = new FileStructure(json.accountId);
-        fileStructure._created = json.created;
-        fileStructure._updated = json.updated;
-        fileStructure._fileRecords = json.fileRecords;
+        // TODO:
+        let fileStructure = new FileStructure('', '');
+        // fileStructure._created = json.created;
+        // fileStructure._updated = json.updated;
+        // fileStructure._fileRecords = json.fileRecords;
         return fileStructure
     }
 
@@ -60,10 +62,11 @@ export class FileStructure {
 
         try {
             this._updated = Date.now();
-            const filename = filepath ? filepath : path.join(__dirname, '../../', `{ifs.${this._accountId}.json`);
+            const filename = filepath ? filepath : path.join(__dirname, '../../', `{ifs.${this._publicKey}.json`);
             await fsp.writeFile(filename, JSON.stringify(this.toJSON()));
+            const secret = await hashSecret(this._privateKey);
             const args: FileCryptArgs = {
-                secret: 'MySecretT', // TODO: will be the private key of account
+                secret: secret.hash,
                 inputFilePath: filename,
                 outputFilePath: `${filename}.encode`,
                 isCompressed: true
@@ -80,7 +83,7 @@ export class FileStructure {
         // TODO:
         // Decrypt (with burst privateKey)
         // Read from decrypted file
-        let fileStructure = new FileStructure('');
+        let fileStructure = new FileStructure('', '');
 
         // set properties
 

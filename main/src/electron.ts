@@ -1,6 +1,6 @@
 import {BrowserWindow, app, ipcMain} from 'electron' ;
 import * as path from 'path'
-import {handleMessage} from './handleMessage';
+import {handleMessage} from './features/messageHandler/handleMessage';
 import {createIpfsNode} from './features/ipfs/createIpfsNode';
 import {logger} from './features/logger';
 import {IpcChannelName} from './constants';
@@ -30,9 +30,6 @@ function initializeApp() {
                 ipfsId: ident.id,
             }
         });
-
-        // TODO: this can only be done, when logged in
-        initializeFileStructure()
     });
 }
 
@@ -42,7 +39,6 @@ function createWindow() {
         height: 800,
         webPreferences: {
             nodeIntegration: true,
-            webSecurity: false
         }
     });
 
@@ -54,7 +50,7 @@ function createWindow() {
         ? "http://localhost:3000"
         : `file://${path.join(__dirname, "../build/index.html")}`;
 
-    logger.info('Using url:', url);
+    logger.info(`Using url: ${url}`);
 
     mainWindow.loadURL(url);
     mainWindow.on("closed", () => (mainWindow.destroy()));

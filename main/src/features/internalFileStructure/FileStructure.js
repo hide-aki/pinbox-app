@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var fileCrypt_1 = require("../fileDropHandler/fileCrypt");
+var fileCrypt_1 = require("../messageHandler/fileDropHandler/fileCrypt");
 var fs = require("fs");
 var path = require("path");
 var randomString_1 = require("../../util/randomString");
