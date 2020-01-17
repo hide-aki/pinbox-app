@@ -1,6 +1,6 @@
-import {logger} from '../../logger';
+import {logger} from '../../../logger';
 import {generateMasterKeys} from '@burstjs/crypto';
-import {initializeFileStructure} from '../../internalFileStructure';
+import {initializeFileStructure} from '../../../internalFileStructure';
 
 export const handleNewAccount = (
     passphrase : string

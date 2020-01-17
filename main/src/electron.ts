@@ -1,39 +1,36 @@
 import {BrowserWindow, app, ipcMain} from 'electron' ;
 import * as path from 'path'
-import {handleMessage} from './features/messageHandler/handleMessage';
+import {handleMessage} from './features/ipcMessaging/incoming';
 import {createIpfsNode} from './features/ipfs/createIpfsNode';
 import {logger} from './features/logger';
 import {IpcChannelName} from './constants';
-import {initializeFileStructure} from './features/internalFileStructure';
+import {IpcMessage} from './typings/IpcMessage';
+import {MessageSendService} from './features/ipcMessaging/outgoing';
+import {IpfsReadyMessage} from './features/ipcMessaging/outgoing/providers';
 
 let mainWindow: BrowserWindow;
+let messageSendService: MessageSendService;
 
 const isDev = process.env.NODE_ENV === 'dev';
-
-export interface ElectronMessageType {
-    messageName: string;
-    payload: any;
-}
 
 // @ts-ignore
 global.ipfs = null;
 
 function initializeApp() {
+    messageSendService = new MessageSendService(mainWindow.webContents);
+
+    messageSendService.sendSuccessMessage("App started");
+
     createIpfsNode(async ipfsNode => {
         const ident = await ipfsNode.id();
         logger.info(`Successfully initialized IPFS node - ID: ${ident.id}`);
         // @ts-ignore
         global.ipfs = ipfsNode;
-        mainWindow.webContents.send(IpcChannelName, {
-            messageName: 'IpfsReady',
-            payload: {
-                ipfsId: ident.id,
-            }
-        });
+        messageSendService.send(IpfsReadyMessage(ident))
     });
 }
 
-function createWindow() {
+async function createWindow() {
     mainWindow = new BrowserWindow({
         width: 900,
         height: 800,
@@ -47,23 +44,24 @@ function createWindow() {
     }
 
     const url = isDev
-        ? "http://localhost:3000"
+        ? 'http://localhost:3000'
         : `file://${path.join(__dirname, "../build/index.html")}`;
 
     logger.info(`Using url: ${url}`);
 
-    mainWindow.loadURL(url);
     mainWindow.on("closed", () => (mainWindow.destroy()));
-    mainWindow.maximize();
-    mainWindow.show();
 
-    ipcMain.on(IpcChannelName, (event, msg: ElectronMessageType) => {
+    ipcMain.on(IpcChannelName, (event, msg: IpcMessage) => {
         handleMessage(msg)
     });
+
+    await mainWindow.loadURL(url);
+    mainWindow.maximize();
+    mainWindow.show();
 }
 
 app.on("ready", async () => {
-    createWindow();
+    await createWindow();
     initializeApp();
 });
 app.on("window-all-closed", () => {

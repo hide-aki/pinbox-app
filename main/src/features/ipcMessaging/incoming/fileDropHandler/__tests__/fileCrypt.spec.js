@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var fileCrypt_1 = require("../fileCrypt");
+var fileCrypt_1 = require("../../../../cryptography/fileCrypt");
 var path_1 = require("path");
 var fs_1 = require("fs");
 var resetFiles = function (filePath) {

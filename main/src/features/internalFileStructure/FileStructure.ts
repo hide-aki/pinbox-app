@@ -1,8 +1,7 @@
-import {encryptFileTo, FileCryptArgs} from '../messageHandler/fileDropHandler/fileCrypt';
+import {encryptFileTo, FileCryptArgs} from '../cryptography/fileCrypt';
 import * as fs from 'fs';
 import * as path from 'path';
 import {randomString} from '../../util/randomString';
-import {logger} from '../logger';
 import {hashSecret} from '../cryptography/hashSecret';
 
 const fsp = fs.promises;
@@ -25,7 +24,7 @@ export class FileStructure {
     private _fileRecords: any = {};
     private _isDirty = true;
 
-    public constructor(private _privateKey: string, private _publicKey : string) {
+    public constructor(private _privateKey: string, private _publicKey: string) {
     }
 
     public addFileRecord(fileRecord: FileStructureRecord) {
@@ -55,7 +54,7 @@ export class FileStructure {
         return fileStructure
     }
 
-    public async save(filepath? :string ): Promise<void> {
+    public async save(filepath?: string): Promise<void> {
         if (!this._isDirty) {
             return Promise.resolve();
         }
@@ -73,8 +72,7 @@ export class FileStructure {
             };
             await encryptFileTo(args);
             await fsp.unlink(filename);
-        }
-        catch(e) {
+        } catch (e) {
             // TODO
         }
     }

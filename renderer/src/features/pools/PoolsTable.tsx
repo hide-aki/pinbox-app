@@ -204,7 +204,7 @@ export const PoolsTable: React.FC<IProps> = ({pools}) => {
 
     const handleConfirmPool = () => {
         dispatch(poolSlice.actions.setPool(selected));
-        history.push(RoutePaths.Index)
+        history.replace(RoutePaths.Index)
     };
 
     const isSelected = (name: string) => selected === name;

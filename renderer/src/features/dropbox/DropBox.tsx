@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, {useContext, useState} from 'react';
 import {makeStyles} from '@material-ui/core';
 import FileDrop from 'react-file-drop';
 import DropzoneImage from '../../images/dropzone.png';
 import {FormattedMessage} from 'react-intl';
+import {ElectronContext} from '../../components/contexts/ElectronContext';
 
 const useStyles = makeStyles({
     root: {
@@ -40,7 +41,10 @@ interface DropBoxProps{
 export const DropBox: React.FunctionComponent<DropBoxProps> = ({onDrop}) => {
     const classes = useStyles();
 
-    const [draggedOver, setDraggedOver] = useState(false)
+    const electronService = useContext(ElectronContext);
+    electronService.onMessage( console.log );
+
+    const [draggedOver, setDraggedOver] = useState(false);
 
     const handleDragOver = () => {
         setDraggedOver(true)

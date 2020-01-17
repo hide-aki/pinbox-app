@@ -36,9 +36,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var fileCrypt_1 = require("./fileCrypt");
-var withIpfs_1 = require("../../ipfs/withIpfs");
-var logger_1 = require("../../logger");
+var fileCrypt_1 = require("../../../cryptography/fileCrypt");
+var withIpfs_1 = require("../../../ipfs/withIpfs");
+var logger_1 = require("../../../logger");
 var fs = require("fs");
 var randomString_1 = require("./randomString");
 var path_1 = require("path");

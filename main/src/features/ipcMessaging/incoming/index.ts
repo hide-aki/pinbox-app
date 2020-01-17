@@ -1,27 +1,27 @@
-import {ElectronMessageType} from '../../electron';
 import {handleFileDrop} from './fileDropHandler';
 import {handleNewAccount} from './newAccountHandler';
+import {IpcMessage} from '../../../typings/IpcMessage';
 
-const MessageName = {
+const MessageNames = {
     Test: 'Test',
     FileDrop: 'FileDrop',
     NewAccount: 'NewAccount',
 };
 
 export const handleMessage = (
-    message: ElectronMessageType
+    message: IpcMessage
 ): void => {
 
     const {messageName, payload} = message;
 
     switch (messageName) {
-        case MessageName.FileDrop:
+        case MessageNames.FileDrop:
             handleFileDrop(payload);
             break;
-        case MessageName.NewAccount:
+        case MessageNames.NewAccount:
             handleNewAccount(payload);
             break;
-        case MessageName.Test:
+        case MessageNames.Test:
         default:
             console.log('Test Test', payload)
     }

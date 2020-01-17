@@ -1,8 +1,8 @@
-import {encryptFileTo, FileCryptArgs} from './fileCrypt';
-import {withIpfs} from '../../ipfs/withIpfs';
-import {logger} from '../../logger';
+import {encryptFileTo, FileCryptArgs} from '../../../cryptography/fileCrypt';
+import {withIpfs} from '../../../ipfs/withIpfs';
+import {logger} from '../../../logger';
 import * as fs from 'fs';
-import {randomString} from '../../../util/randomString';
+import {randomString} from '../../../../util/randomString';
 import {join, dirname} from 'path';
 import {fileWalk} from './fileWalk';
 
