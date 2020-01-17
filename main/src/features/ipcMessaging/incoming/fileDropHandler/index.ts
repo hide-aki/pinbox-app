@@ -5,6 +5,7 @@ import * as fs from 'fs';
 import {randomString} from '../../../../util/randomString';
 import {join, dirname} from 'path';
 import {fileWalk} from './fileWalk';
+import {handleException} from '../../../exceptions';
 
 const handleFile = (file: string): void => {
     withIpfs(async (ipfs: any) => {
@@ -20,7 +21,7 @@ const handleFile = (file: string): void => {
             logger.debug(`Added file: ${args.outputFilePath}, Ipfs: ${JSON.stringify(result)}`);
             fs.unlinkSync(args.outputFilePath);
         } catch (e) {
-            logger.error(e);
+            handleException(e)
         }
     })
 };

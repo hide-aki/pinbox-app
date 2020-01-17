@@ -3,6 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import {randomString} from '../../util/randomString';
 import {hashSecret} from '../cryptography/hashSecret';
+import {handleException} from '../exceptions';
 
 const fsp = fs.promises;
 
@@ -73,7 +74,7 @@ export class FileStructure {
             await encryptFileTo(args);
             await fsp.unlink(filename);
         } catch (e) {
-            // TODO
+            handleException(e)
         }
     }
 

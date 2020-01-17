@@ -14,7 +14,7 @@
     "release:win32": "npm run pack -- -w",
     "release:macos": "npm run pack -- -m",
     "start": "npm run compile && cross-env NODE_ENV=dev electron ./out/electron.js",
-    "test": "jest"
+    "test": "npm run compile && jest"
   },
   "author": "ohager",
   "devDependencies": {
