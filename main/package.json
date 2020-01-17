@@ -5,7 +5,8 @@
   "scripts": {
     "build:electron": "electron-builder -p 'never' --config ../main/electron-builder.json",
     "build:react": "bash scripts/build-react.sh",
-    "compile": "rimraf -rf ./out && tsc",
+    "compile": "rimraf -rf ./out && npm run copyfiles && tsc",
+    "copyfiles" : "copyfiles -u 1 src/**/__tests__/**/*.txt out/",
     "pack": "rimraf -rf ./release-builds && npm run build:react && npm run compile && electron-builder -p 'never' --config electron-builder.json",
     "postinstall": "electron-builder install-app-deps",
     "publish": "electron-builder -p 'always' -wml",
@@ -20,7 +21,6 @@
   "devDependencies": {
     "@types/electron": "^1.6.10",
     "@types/jest": "^24.9.0",
-    "@types/winston": "^2.4.4",
     "cross-env": "^6.0.3",
     "electron": "^7.1.9",
     "electron-builder": "^22.2.0",

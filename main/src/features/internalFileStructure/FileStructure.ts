@@ -1,11 +1,13 @@
-import {encryptFileTo, FileCryptArgs} from '../cryptography/fileCrypt';
 import * as fs from 'fs';
 import * as path from 'path';
+import {encryptFileTo, FileCryptArgs} from '../cryptography/fileCrypt';
 import {randomString} from '../../util/randomString';
 import {hashSecret} from '../cryptography/hashSecret';
 import {handleException} from '../exceptions';
+import {promisify} from 'util';
 
-const fsp = fs.promises;
+const unlink = promisify(fs.unlink);
+const writeFile = promisify(fs.writeFile);
 
 export class FileStructureRecord {
     public nonce: string;
@@ -63,7 +65,7 @@ export class FileStructure {
         try {
             this._updated = Date.now();
             const filename = filepath ? filepath : path.join(__dirname, '../../', `{ifs.${this._publicKey}.json`);
-            await fsp.writeFile(filename, JSON.stringify(this.toJSON()));
+            await writeFile(filename, JSON.stringify(this.toJSON()));
             const secret = await hashSecret(this._privateKey);
             const args: FileCryptArgs = {
                 secret: secret.hash,
@@ -72,7 +74,7 @@ export class FileStructure {
                 isCompressed: true
             };
             await encryptFileTo(args);
-            await fsp.unlink(filename);
+            await unlink(filename);
         } catch (e) {
             handleException(e)
         }
