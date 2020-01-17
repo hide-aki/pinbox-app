@@ -1,7 +1,7 @@
 {
   "name": "electron-react-ts-starter",
   "description": "This is a boilerplate starter for an electron project that uses react with typescript and has some fixes applied for common bugs.",
-  "version": "0.1.0",
+  "version": "0.0.1-alpha.1",
   "private": true,
   "author": "ohager",
   "repository": {

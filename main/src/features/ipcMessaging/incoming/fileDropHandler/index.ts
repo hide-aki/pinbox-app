@@ -10,6 +10,7 @@ import {handleException} from '../../../exceptions';
 const handleFile = (file: string): void => {
     withIpfs(async (ipfs: any) => {
         const args: FileCryptArgs = {
+            // TODO: use derived secret
             secret: 'MySecretT',
             inputFilePath: file,
             outputFilePath: join(dirname(file), randomString())

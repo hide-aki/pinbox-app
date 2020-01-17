@@ -1,23 +1,30 @@
 {
   "name": "pinbox-app",
-  "version": "1.0.0",
-  "main": "./out/electron.js",
-  "scripts": {
-    "build:electron": "electron-builder -p 'never' --config ../main/electron-builder.json",
-    "build:react": "bash scripts/build-react.sh",
-    "compile": "rimraf -rf ./out && npm run copyfiles && tsc",
-    "copyfiles" : "copyfiles -u 1 src/**/__tests__/**/*.txt out/",
-    "pack": "rimraf -rf ./release-builds && npm run build:react && npm run compile && electron-builder -p 'never' --config electron-builder.json",
-    "postinstall": "electron-builder install-app-deps",
-    "publish": "electron-builder -p 'always' -wml",
-    "release:all": "npm run pack -- -wml",
-    "release:linux": "npm run pack -- -l",
-    "release:win32": "npm run pack -- -w",
-    "release:macos": "npm run pack -- -m",
-    "start": "npm run compile && cross-env NODE_ENV=dev electron ./out/electron.js",
-    "test": "npm run compile && jest"
+  "version": "0.0.1-alpha.1",
+  "description": "A dropbox like application built upon a true decentralized infrastructure using Burst blockchain and IPFS",
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/ohager/pinbox-app"
   },
   "author": "ohager",
+  "main": "./out/electron.js",
+  "scripts": {
+    "build": "rimraf -rf ./out && npm run copyfiles && tsc",
+    "build:electron": "electron-builder -p 'never' --config ../main/electron-builder.json",
+    "build:react": "bash scripts/build-react.sh",
+    "build:release:all": "npm run pack -- -wml",
+    "build:release:linux": "npm run pack -- -l",
+    "build:release:macos": "npm run pack -- -m",
+    "build:release:win32": "npm run pack -- -w",
+    "copyfiles": "copyfiles -u 1 src/**/__tests__/**/*.txt out/",
+    "pack": "rimraf -rf ./release-builds && npm run build:react && npm run build && electron-builder -p 'never' --config electron-builder.json",
+    "postinstall": "electron-builder install-app-deps",
+    "publish": "bump --commit --tag --push ./package.json ./package-lock.json ../renderer/package-lock.json ../renderer/package.json",
+    "publish:alpha": "bump prerelease --commit --tag --push --preid alpha",
+    "publish:electron": "electron-builder -p 'always' -wml",
+    "start": "npm run build && cross-env NODE_ENV=dev electron ./out/electron.js",
+    "test": "npm run build && jest"
+  },
   "devDependencies": {
     "@types/electron": "^1.6.10",
     "@types/jest": "^24.9.0",
@@ -29,6 +36,7 @@
     "rimraf": "^3.0.0",
     "ts-jest": "^24.3.0",
     "typescript": "^3.7.4",
+    "version-bump-prompt": "^5.0.7",
     "wait-on": "^3.3.0"
   },
   "dependencies": {
