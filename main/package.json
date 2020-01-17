@@ -1,6 +1,6 @@
 {
   "name": "pinbox-app",
-  "version": "0.0.1-alpha.3",
+  "version": "0.0.1-alpha.4",
   "description": "A dropbox like application built upon a true decentralized infrastructure using Burst blockchain and IPFS",
   "repository": {
     "type": "github",
