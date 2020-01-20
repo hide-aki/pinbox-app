@@ -18,11 +18,11 @@
     "build:release:win32": "npm run pack -- -w",
     "compile": "rimraf -rf ./out && npm run copyfiles && tsc",
     "copyfiles": "copyfiles -u 1 src/**/__tests__/**/*.txt out/",
-    "pack": "rimraf -rf ./release-builds && npm run build:react && npm run build && electron-builder -p 'never' --config electron-builder.json",
+    "pack": "rimraf -rf ./release-builds && npm run build && electron-builder -p 'never' --config electron-builder.json",
     "postinstall": "electron-builder install-app-deps",
     "publish": "bump --commit --tag \"v\" --push ./package.json ./package-lock.json ../renderer/package-lock.json ../renderer/package.json",
     "publish:alpha": "bump prerelease --commit --tag \"v\" --push --preid alpha",
-    "publish:electron": "electron-builder -p 'always' -wml",
+    "publish:electron": "electron-builder -p 'always' -wml --config electron-builder.json",
     "start": "npm run build && cross-env NODE_ENV=dev electron ./out/electron.js",
     "test": "npm run build && jest"
   },
