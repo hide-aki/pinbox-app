@@ -10,6 +10,6 @@ function hasAccountSet(): boolean {
 
 export const RequiresAccount = (props: RouteProps) =>
     <React.Fragment>
-        { hasAccountSet() ? props.children : <Redirect to={RoutePaths.Login} /> }
-    </React.Fragment>;
+        {hasAccountSet() ? props.children : <Redirect to={RoutePaths.Login}/>}
+    </React.Fragment>
 

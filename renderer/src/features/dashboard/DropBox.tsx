@@ -10,8 +10,6 @@ const useStyles = makeStyles({
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        width: "100vw",
-        height: "100vh",
         maxHeight: "600px",
         background: "#f5f5f5",
         borderRadius: 4,

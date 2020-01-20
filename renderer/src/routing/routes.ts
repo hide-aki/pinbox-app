@@ -1,5 +1,6 @@
 export const RoutePaths = {
     Index: '/',
+    Dashboard: '/dashboard',
     Login: '/login',
     Pools: '/pools',
     Account: '/account',
@@ -10,6 +11,7 @@ export const RoutePaths = {
 
 export const RouteProviders = {
     Index: () => RoutePaths.Index,
+    Dasboard: () => RoutePaths.Dashboard,
     Login: () => RoutePaths.Login,
     Pools: () => RoutePaths.Pools,
     Account: () => RoutePaths.Account,

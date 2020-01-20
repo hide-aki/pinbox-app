@@ -14,7 +14,7 @@ import {Button, Radio, TableFooter} from '@material-ui/core';
 import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 import {poolSlice} from './slice';
-import {RoutePaths} from '../../routing/routes';
+import {RoutePaths, RouteProviders} from '../../routing/routes';
 import {useHistory} from 'react-router';
 import {selectCurrentPoolId} from './selectors';
 import {IPoolDescription} from '../../typings/IPoolDescription';
@@ -204,7 +204,7 @@ export const PoolsTable: React.FC<IProps> = ({pools}) => {
 
     const handleConfirmPool = () => {
         dispatch(poolSlice.actions.setPool(selected));
-        history.replace(RoutePaths.Index)
+        history.replace(RouteProviders.Dasboard())
     };
 
     const isSelected = (name: string) => selected === name;

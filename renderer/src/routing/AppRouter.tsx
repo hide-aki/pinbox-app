@@ -3,7 +3,7 @@ import {HashRouter as Router, Route, Switch} from 'react-router-dom';
 import {RoutePaths} from './routes';
 import {RequiresPool} from './guards/RequiresPool';
 import {Layout} from '../app/components/Layout';
-import {DropboxPage} from '../features/dropbox/DropboxPage';
+import {DashboardPage} from '../features/dashboard/DashboardPage';
 import {NewAccountPage} from '../features/account/NewAccountPage';
 import {SetAccountPage} from '../features/account/SetAccountPage';
 import {RequiresAccount} from './guards/RequiresAccount';
@@ -23,10 +23,11 @@ export const AppRouter: React.FC = () => {
                     <Route path={RoutePaths.AccountSet} exact component={SetAccountPage}/>
                     <Route path={RoutePaths.Settings} exact component={SettingsPage}/>
                     <RequiresAccount>
-                        <Route path={RoutePaths.Account} exact component={AccountPage}/>
-                        <Route path={RoutePaths.Pools} exact component={PoolsPage}/>
+                        <Route path={RoutePaths.Account} component={AccountPage}/>
+                        <Route path={RoutePaths.Pools} component={PoolsPage}/>
                         <RequiresPool>
-                            <Route path={RoutePaths.Index} component={DropboxPage}/>
+                            <Route path={RoutePaths.Index} exact component={DashboardPage}/>
+                            <Route path={RoutePaths.Dashboard} exact component={DashboardPage}/>
                         </RequiresPool>
                     </RequiresAccount>
                 </Switch>

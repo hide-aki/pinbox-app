@@ -2,6 +2,7 @@ import {createSlice, Action} from '@reduxjs/toolkit';
 import {ThunkAction} from 'redux-thunk';
 import {applicationSlice} from '../../app/slice';
 import {PoolService} from '../../services/PoolService';
+import {RoutePaths} from '../../routing/routes';
 
 const poolService = new PoolService();
 
