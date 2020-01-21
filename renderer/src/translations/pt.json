@@ -49,6 +49,7 @@
   "button.previous": "Anterior",
   "button.print": "Imprimir",
   "button.set_account": "Usar Conta Existente",
+  "dashboard.filetree.title" : "Seus arquivos",
   "dropbox.drop_here": "Drag and drop your files or folders in this area",
   "input.enter_passphrase": "Digitar Frase Secreta",
   "input.enter_pin": "Digitar PIN",
@@ -68,4 +69,5 @@
   "settings.label.language": "Idioma",
   "settings.label.peer": "Par de Burst",
   "settings.title" : "Configuração do Aplicativo"
+
 }

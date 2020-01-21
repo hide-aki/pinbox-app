@@ -49,6 +49,7 @@
   "button.previous": "Zurück",
   "button.print": "Drucken",
   "button.set_account": "Benutze Bestehendes Konto",
+  "dashboard.filetree.title" : "Deine Dateien",
   "dropbox.drop_here": "Ziehe Deine Dateien oder Ordner in diesen Bereich",
   "input.enter_passphrase": "Passphrase eingeben",
   "input.enter_pin": "PIN eingeben",
@@ -68,5 +69,4 @@
   "settings.label.language": "Sprache",
   "settings.label.peer": "Burst Peer",
   "settings.title" : "Anwendungskonfiguration"
-
 }

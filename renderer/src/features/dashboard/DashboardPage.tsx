@@ -3,8 +3,9 @@ import React, {useContext} from 'react';
 import {ElectronContext} from '../../components/contexts/ElectronContext';
 import {ElectronService} from '../../services/ElectronService';
 import {Page} from '../../components/Page';
-import {Grid, Paper} from '@material-ui/core';
+import {Grid, Paper, Typography} from '@material-ui/core';
 import {FileTree} from './FileTree';
+import {FormattedMessage, useIntl} from 'react-intl';
 
 const sendFilesToElectron = (service: ElectronService) => (files: FileList | null): void => {
     if (files === null) return;
@@ -50,7 +51,6 @@ const mockedFileTreeStruct = {
 
 export const DashboardPage: React.FC = () => {
     const electronService = useContext(ElectronContext);
-
     return (
         <Page>
             <Grid
@@ -65,11 +65,11 @@ export const DashboardPage: React.FC = () => {
                         <FileTree tree={mockedFileTreeStruct}/>
                     </Paper>
                 </Grid>
-                <Grid item xs={12} md={6}>
-                    <Paper>
-                        <DropBox onDrop={sendFilesToElectron(electronService)}/>
-                    </Paper>
-                </Grid>
+                {/*<Grid item xs={12} md={6}>*/}
+                {/*    <Paper>*/}
+                {/*        <DropBox onDrop={sendFilesToElectron(electronService)}/>*/}
+                {/*    </Paper>*/}
+                {/*</Grid>*/}
             </Grid>
         </Page>
     )
