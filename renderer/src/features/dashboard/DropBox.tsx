@@ -60,7 +60,7 @@ export const DropBox: React.FunctionComponent<DropBoxProps> = ({onDrop}) => {
     };
 
     return (
-        <FileDrop className={`${classes.root}`}
+        <FileDrop className={classes.root}
                   onDrop={handleDrop}
                   onDragOver={handleDragOver}
                   onDragLeave={handleDragLeave}
