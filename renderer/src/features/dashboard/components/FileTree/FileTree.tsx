@@ -3,8 +3,9 @@ import {makeStyles, Typography} from '@material-ui/core';
 import TreeView from '@material-ui/lab/TreeView';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import {StyledTreeItem} from './StyledTreeItem';
 import {FormattedMessage} from 'react-intl';
+import {FileTreeAction} from './typings/fileTreeAction';
+import {FileTreeItem} from './FileTreeItem';
 
 const useStyles = makeStyles(theme => ({
         root: {
@@ -19,33 +20,14 @@ const useStyles = makeStyles(theme => ({
             overflowY: 'auto',
             overflowX: 'hidden',
             maxHeight: "400px",
+            padding: theme.spacing(1),
         }
     })
 );
 
-interface FileItemProps {
-    label: string,
-    isFile?: boolean,
-    node: any
-}
-
-function FileItem({label, node}: FileItemProps) {
-    const isFile = node.ipfsHash !== undefined;
-
-    const nestedFileItems = isFile
-        ? null
-        : Object.keys(node).map((k: string): JSX.Element => {
-            const childFileItem = node[k];
-            return <FileItem key={k} node={childFileItem} label={k}/>
-        });
-
-    return <StyledTreeItem nodeId={label} labelText={label} isFile={isFile} labelInfo={node.ipfsHash}>{
-        nestedFileItems
-    }</StyledTreeItem>
-}
-
 interface FileTreeProps {
     tree: any
+    onAction: (action: FileTreeAction) => void
 }
 
 export const FileTree = (props: FileTreeProps) => {
@@ -64,7 +46,7 @@ export const FileTree = (props: FileTreeProps) => {
                     defaultCollapseIcon={<ExpandMoreIcon color="primary"/>}
                     defaultExpandIcon={<ChevronRightIcon color="primary"/>}
                 >
-                    {Object.keys(rootNode).map(k => <FileItem key={k} label={k} node={rootNode[k]}/>)}
+                    {Object.keys(rootNode).map(k => <FileTreeItem key={k} label={k} node={rootNode[k]} onAction={props.onAction}/>)}
                 </TreeView>
             </div>
         </div>

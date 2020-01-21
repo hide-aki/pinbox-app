@@ -4,8 +4,8 @@ import {ElectronContext} from '../../components/contexts/ElectronContext';
 import {ElectronService} from '../../services/ElectronService';
 import {Page} from '../../components/Page';
 import {Grid, Paper, Typography} from '@material-ui/core';
-import {FileTree} from './FileTree';
-import {FormattedMessage, useIntl} from 'react-intl';
+import {FileTree} from './components/FileTree';
+import {voidFn} from '../../utils/voidFn';
 
 const sendFilesToElectron = (service: ElectronService) => (files: FileList | null): void => {
     if (files === null) return;
@@ -60,9 +60,9 @@ export const DashboardPage: React.FC = () => {
                 alignItems='center'
                 spacing={2}
             >
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12} md={8}>
                     <Paper>
-                        <FileTree tree={mockedFileTreeStruct}/>
+                        <FileTree tree={mockedFileTreeStruct} onAction={voidFn}/>
                     </Paper>
                 </Grid>
                 {/*<Grid item xs={12} md={6}>*/}
