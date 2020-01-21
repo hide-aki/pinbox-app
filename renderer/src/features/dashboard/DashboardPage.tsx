@@ -3,7 +3,7 @@ import React, {useContext} from 'react';
 import {ElectronContext} from '../../components/contexts/ElectronContext';
 import {ElectronService} from '../../services/ElectronService';
 import {Page} from '../../components/Page';
-import {Grid} from '@material-ui/core';
+import {Grid, Paper} from '@material-ui/core';
 import {FileTree} from './FileTree';
 
 const sendFilesToElectron = (service: ElectronService) => (files: FileList | null): void => {
@@ -60,11 +60,15 @@ export const DashboardPage: React.FC = () => {
                 alignItems='center'
                 spacing={2}
             >
-                <Grid item>
-                    <FileTree tree={mockedFileTreeStruct}/>
+                <Grid item xs={12} md={6}>
+                    <Paper>
+                        <FileTree tree={mockedFileTreeStruct}/>
+                    </Paper>
                 </Grid>
-                <Grid item>
-                    <DropBox onDrop={sendFilesToElectron(electronService)}/>
+                <Grid item xs={12} md={6}>
+                    <Paper>
+                        <DropBox onDrop={sendFilesToElectron(electronService)}/>
+                    </Paper>
                 </Grid>
             </Grid>
         </Page>

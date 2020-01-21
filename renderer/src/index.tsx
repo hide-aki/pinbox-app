@@ -6,6 +6,8 @@ import {ElectronProvider} from './components/contexts/ElectronContext';
 import {ElectronService} from './services/ElectronService';
 import {Provider as StoreProvider} from 'react-redux';
 import {store} from './app/store';
+import { ThemeProvider } from '@material-ui/core/styles';
+import {theme} from './theming/theme';
 
 declare global {
     interface Window {
@@ -16,7 +18,9 @@ declare global {
 ReactDOM.render(
     <ElectronProvider value={new ElectronService()}>
         <StoreProvider store={store}>
-        <App/>
+            <ThemeProvider theme={theme}>
+                <App/>
+            </ThemeProvider>
         </StoreProvider>
     </ElectronProvider>
     , document.getElementById('root'));
