@@ -4,6 +4,7 @@ import FileDrop from 'react-file-drop';
 import DropzoneImage from '../../../../images/dropzone.png';
 import {FormattedMessage} from 'react-intl';
 import {ElectronContext} from '../../../../components/contexts/ElectronContext';
+import {OnDropFn} from './typings/onDropFn';
 
 const useStyles = makeStyles({
     root: {
@@ -32,7 +33,6 @@ const useStyles = makeStyles({
     }
 });
 
-type OnDropFn = ((files: FileList| null, event: React.DragEvent<HTMLDivElement>) => any) | undefined
 interface DropBoxProps{
     onDrop: OnDropFn
 }
@@ -53,11 +53,9 @@ export const DropZone: React.FunctionComponent<DropBoxProps> = ({onDrop}) => {
         setDraggedOver(false)
     };
 
-    const handleDrop = (files: FileList| null, event: React.DragEvent<HTMLDivElement>) => {
+    const handleDrop = (files: FileList| null) => {
         handleDragLeave();
-        if(onDrop){
-            onDrop(files, event);
-        }
+        onDrop(files, null);
     };
 
     return (

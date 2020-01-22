@@ -3,6 +3,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import {TreeItem} from '@material-ui/lab';
 import {ItemFile} from './ItemFile';
 import {ItemFolder} from './ItemFolder';
+import {OnDropFn} from '../typings/onDropFn';
 
 const useTreeItemStyles = makeStyles(theme => ({
     root: {
@@ -19,7 +20,8 @@ interface StyledTreeItemProps {
     nodeId: string;
     labelText: string;
     labelInfo?: string;
-    actions?: JSX.Element;
+    actions: JSX.Element;
+    onDrop: OnDropFn;
     isFile: boolean;
     color?: string;
     bgColor?: string;
@@ -27,14 +29,14 @@ interface StyledTreeItemProps {
 
 export const StyledTreeItem: React.FC<StyledTreeItemProps> = (props): JSX.Element => {
     const classes = useTreeItemStyles();
-    const {nodeId, labelText, isFile, labelInfo, color, bgColor, actions, ...other} = props;
+    const {nodeId, labelText, isFile, labelInfo, color, bgColor, actions, onDrop, ...other} = props;
 
     const Item = isFile ? ItemFile : ItemFolder;
 
     return <TreeItem
         className={classes.root}
         nodeId={nodeId}
-        label={<Item nodeId={nodeId} labelText={labelText} actions={actions}/>}
+        label={<Item nodeId={nodeId} labelText={labelText} actions={actions} onDrop={onDrop}/>}
         {...other}
     />;
 }

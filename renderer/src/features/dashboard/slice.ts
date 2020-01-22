@@ -7,8 +7,16 @@ export const dashboardSlice = createSlice({
     },
     reducers: {
         addFile: (state, action) => {
+            const {
+                payload: {
+                    files, nodePath
+                }
+            } = action;
 
-            console.log('addFile', action);
+            const pathTokens = nodePath.split('/');
+            pathTokens.forEach( () => {
+
+            })
             // 1. update the local structure
             // 2. send data to main thread
             // A. need a listener that updates the state

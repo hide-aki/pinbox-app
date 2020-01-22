@@ -15,9 +15,10 @@
     "@burstjs/util": "^0.4.3",
     "@material-ui/core": "^4.8.3",
     "@material-ui/icons": "^4.5.1",
-    "@material-ui/lab": "^4.0.0-alpha.39",
+    "@material-ui/lab": "^4.0.0-alpha.40",
     "@reduxjs/toolkit": "^1.2.1",
     "electron-is-dev": "^1.1.0",
+    "lodash": "^4.17.15",
     "qrcode.react": "^1.0.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
@@ -52,7 +53,6 @@
     ]
   },
   "devDependencies": {
-    "@types/electron": "^1.6.10",
     "@types/jest": "^24.9.0",
     "@types/node": "13.1.7",
     "@types/react": "16.9.17",

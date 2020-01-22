@@ -1,4 +1,4 @@
 import {ThunkAction} from 'redux-thunk';
-import {Action} from '@reduxjs/toolkit';
+import {Action, AnyAction} from '@reduxjs/toolkit';
 
-export type Thunk = ThunkAction<void, any, null, Action<string>>
+export type Thunk = ThunkAction<void, any, null, AnyAction>

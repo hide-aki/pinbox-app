@@ -1,10 +1,15 @@
 import React, {useContext} from 'react';
-import {Grid, Paper, Typography} from '@material-ui/core';
+import {Grid, Paper} from '@material-ui/core';
 import {FileTree} from './components/FileTree';
 import {ElectronContext} from '../../components/contexts/ElectronContext';
 import {ElectronService} from '../../services/ElectronService';
 import {Page} from '../../components/Page';
-import {voidFn} from '../../utils/voidFn';
+import {dashboardSlice} from './slice'
+import {FileTreeAction} from './components/FileTree/typings/fileTreeAction';
+import {jsonToNavigableJson} from './components/FileTree/helper/jsonToNavigableJson';
+import {useDispatch} from 'react-redux';
+
+const {actions} = dashboardSlice;
 
 const sendFilesToElectron = (service: ElectronService) => (files: FileList | null): void => {
     if (files === null) return;
@@ -22,7 +27,7 @@ const sendFilesToElectron = (service: ElectronService) => (files: FileList | nul
     })
 };
 
-const mockedFileTreeStruct = {
+const mockedFileTreeStruct = jsonToNavigableJson({
     root: {
         'some path': {
             'deeperPath': {
@@ -45,11 +50,23 @@ const mockedFileTreeStruct = {
             }
         }
     }
-};
-
+});
 
 export const DashboardPage: React.FC = () => {
     const electronService = useContext(ElectronContext);
+    const dispatch = useDispatch();
+
+    const handleDrop = (files: FileList | null, nodePath: string | null): any => {
+        dispatch(actions.addFile({
+            files,
+            nodePath
+        }));
+    };
+
+    const handleAction = (action: FileTreeAction): void => {
+        console.log('handleAction', action)
+    };
+
     return (
         <Page>
             <Grid
@@ -61,7 +78,11 @@ export const DashboardPage: React.FC = () => {
             >
                 <Grid item xs={12}>
                     <Paper>
-                        <FileTree tree={mockedFileTreeStruct} onAction={voidFn}/>
+                        <FileTree
+                            tree={mockedFileTreeStruct}
+                            onAction={handleAction}
+                            onDrop={handleDrop}
+                        />
                     </Paper>
                 </Grid>
             </Grid>

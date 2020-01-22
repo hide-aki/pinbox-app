@@ -1,5 +1,6 @@
 import {fileTreeWalker} from './fileTreeWalker';
-import {shouldIgnoreParentNode} from './shoudlIgnoreParentNode';
+
+const ignoreParentNode = (node: any) : boolean =>  node && node.__parent;
 
 /**
  * Converts a JSON object into a navigable JSON, i.e. adds props like `_parent` for navigation
@@ -9,9 +10,10 @@ import {shouldIgnoreParentNode} from './shoudlIgnoreParentNode';
 export const jsonToNavigableJson = (tree: object): object => {
     fileTreeWalker(tree,
         (node, parent) => {
-            if(node) node._parent = parent
+            // @ts-ignore
+            if(node && node !== tree.root) node.__parent = parent
         },
-        shouldIgnoreParentNode
+        ignoreParentNode
     );
     return tree;
 };

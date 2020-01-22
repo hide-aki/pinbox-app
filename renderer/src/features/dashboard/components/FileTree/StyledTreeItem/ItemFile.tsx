@@ -51,15 +51,12 @@ const useTreeItemStyles = makeStyles(theme => ({
 interface StyledTreeItemProps {
     nodeId: string;
     labelText: string;
-    labelInfo?: string;
     actions?: JSX.Element;
-    color?: string;
-    bgColor?: string;
 }
 
 export const ItemFile: React.FC<StyledTreeItemProps> = (props): JSX.Element => {
     const classes = useTreeItemStyles();
-    const {nodeId, labelText, labelInfo, color, bgColor, actions: Actions = null, ...other} = props;
+    const {nodeId, labelText, actions: Actions = null, ...other} = props;
 
     return (
         <div className={classes.labelRoot}>

@@ -13,10 +13,12 @@ interface StyledTreeItemActionsProps {
     onAction: (action: FileTreeAction) => void
 }
 
-export const ItemActions: React.FC<StyledTreeItemActionsProps> = (props): JSX.Element => {
+export const ItemActions: React.FC<StyledTreeItemActionsProps> = (props): JSX.Element | null => {
     const classes = useActionStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const {actions, onAction} = props;
+
+    if(!actions.length) return null;
 
     const closeActions = (event: any) => {
         setAnchorEl(null);
@@ -29,7 +31,7 @@ export const ItemActions: React.FC<StyledTreeItemActionsProps> = (props): JSX.El
     };
 
     const handleAction = (action: FileTreeAction) => (event: any) => {
-        props.onAction(action);
+        onAction(action);
         closeActions(event)
     };
 

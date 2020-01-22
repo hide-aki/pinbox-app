@@ -4,6 +4,7 @@ import {Fade, Typography} from '@material-ui/core';
 import FolderTwoTone from '@material-ui/icons/FolderTwoTone';
 import NoteAddTwoTone from '@material-ui/icons/NoteAddTwoTone';
 import FileDrop from 'react-file-drop';
+import {OnDropFn} from '../typings/onDropFn';
 
 // @ts-ignore
 const useTreeItemStyles = makeStyles(theme => ({
@@ -38,16 +39,14 @@ const useTreeItemStyles = makeStyles(theme => ({
 interface StyledTreeItemProps {
     nodeId: string;
     labelText: string;
-    labelInfo?: string;
+    onDrop: OnDropFn;
     actions?: JSX.Element;
-    color?: string;
-    bgColor?: string;
 }
 
 export const ItemFolder: React.FC<StyledTreeItemProps> = (props): JSX.Element => {
     const classes = useTreeItemStyles();
     const [draggedOver, setDraggedOver] = useState(false);
-    const {nodeId, labelText, labelInfo, color, bgColor, actions: Actions = null, ...other} = props;
+    const {nodeId, labelText, onDrop, actions: Actions = null, ...other} = props;
 
     const handleDragOver = () => {
         setDraggedOver(true)
@@ -57,12 +56,9 @@ export const ItemFolder: React.FC<StyledTreeItemProps> = (props): JSX.Element =>
         setDraggedOver(false)
     };
 
-    const handleDrop = (files: FileList | null, event: React.DragEvent<HTMLDivElement>) => {
+    const handleDrop = (files: FileList | null) => {
         handleDragLeave();
-        console.log('handleDrop', files, event)
-        // if(onDrop){
-        //     onDrop(files, event);
-        // }
+        onDrop(files, nodeId);
     };
 
     return (

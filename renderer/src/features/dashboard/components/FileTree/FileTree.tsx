@@ -4,9 +4,10 @@ import TreeView from '@material-ui/lab/TreeView';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import {FormattedMessage} from 'react-intl';
-import {FileTreeAction} from './typings/fileTreeAction';
 import {FileTreeItem} from './FileTreeItem';
 import {DropZone} from './DropZone';
+import {OnDropFn} from './typings/onDropFn';
+import {OnActionFn} from './typings/onActionFn';
 
 const useStyles = makeStyles(theme => ({
         root: {
@@ -28,20 +29,16 @@ const useStyles = makeStyles(theme => ({
 
 interface FileTreeProps {
     tree: any
-    onAction: (action: FileTreeAction) => void
+    onAction: OnActionFn
+    onDrop: OnDropFn
 }
 
 export const FileTree = (props: FileTreeProps) => {
     const classes = useStyles();
-    const rootNode = props.tree.root;
-    // const rootNode = {};
+    const {onAction, onDrop, tree} = props;
+    const rootNode = tree.root;
     const fileTreeItems = Object.keys(rootNode);
-
     const hasFiles = fileTreeItems.length > 0;
-
-    const handleDrop = (files: FileList|null, event: React.DragEvent<HTMLDivElement>): any  => {
-        console.log(files, event)
-    };
 
     return (
         <div className={classes.root}>
@@ -59,8 +56,14 @@ export const FileTree = (props: FileTreeProps) => {
                         fileTreeItems.length
                             ? fileTreeItems.map(k =>
                                 // @ts-ignore
-                                <FileTreeItem key={k} label={k} node={rootNode[k]} onAction={props.onAction}/>)
-                            : <DropZone onDrop={handleDrop}/>
+                                <FileTreeItem
+                                    key={k}
+                                    label={k}
+                                    node={rootNode[k]}
+                                    onAction={onAction}
+                                    onDrop={onDrop}/>
+                            )
+                            : <DropZone onDrop={onDrop}/>
                     }
                 </TreeView>
             </div>
