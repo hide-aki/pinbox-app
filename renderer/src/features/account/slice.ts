@@ -5,6 +5,7 @@ import {PersistenceService} from '../../services/PersistenceService';
 import {AccountState, BurstAccountService} from '../../services/BurstAccountService';
 import {Account} from '@burstjs/core';
 import {convertNumericIdToAddress} from '@burstjs/util';
+import {Thunk} from '../../typings/Thunk';
 
 const ACC_KEY = 'acc';
 
@@ -24,9 +25,7 @@ export const accountSlice = createSlice({
     }
 });
 
-type AppThunk = ThunkAction<void, any, null, Action<string>>
-
-const fetchBurstAccountInfo = (accountIdent: string = ''): AppThunk => async dispatch => {
+const fetchBurstAccountInfo = (accountIdent: string = ''): Thunk => async dispatch => {
     try {
         let accountId = accountIdent;
         if(!accountId.length){

@@ -1,8 +1,7 @@
 import {createSlice, Action} from '@reduxjs/toolkit';
-import {ThunkAction} from 'redux-thunk';
 import {applicationSlice} from '../../app/slice';
 import {PoolService} from '../../services/PoolService';
-import {RoutePaths} from '../../routing/routes';
+import {Thunk} from '../../typings/Thunk';
 
 const poolService = new PoolService();
 
@@ -23,7 +22,6 @@ export const poolSlice = createSlice({
     }
 });
 
-type AppThunk = ThunkAction<void, any, null, Action<string>>
 
 const mockedPools = [
     {
@@ -42,7 +40,7 @@ function mockPools() {
     return Promise.resolve(mockedPools);
 }
 
-const fetchAvailablePools = (): AppThunk => async dispatch => {
+const fetchAvailablePools = (): Thunk => async dispatch => {
     try {
         const pools = await mockPools();
         dispatch(poolSlice.actions.setAvailablePools(pools))
