@@ -33,8 +33,8 @@ interface FileTreeProps {
 
 export const FileTree = (props: FileTreeProps) => {
     const classes = useStyles();
-    // const rootNode = props.tree.root;
-    const rootNode = {};
+    const rootNode = props.tree.root;
+    // const rootNode = {};
     const fileTreeItems = Object.keys(rootNode);
 
     const hasFiles = fileTreeItems.length > 0;

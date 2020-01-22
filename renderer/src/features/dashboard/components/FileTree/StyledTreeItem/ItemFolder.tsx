@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import {Typography} from '@material-ui/core';
+import {Fade, Typography} from '@material-ui/core';
 import FolderTwoTone from '@material-ui/icons/FolderTwoTone';
+import NoteAddTwoTone from '@material-ui/icons/NoteAddTwoTone';
 import FileDrop from 'react-file-drop';
 
 // @ts-ignore
@@ -19,6 +20,10 @@ const useTreeItemStyles = makeStyles(theme => ({
     },
     folderIcon: {
         marginRight: theme.spacing(1),
+    },
+    dropIcon: {
+        marginRight: theme.spacing(1),
+        color: theme.palette.primary.contrastText,
     },
     labelText: {
         flexGrow: 1,
@@ -66,7 +71,13 @@ export const ItemFolder: React.FC<StyledTreeItemProps> = (props): JSX.Element =>
                   onDragOver={handleDragOver}
                   onDragLeave={handleDragLeave}
         >
-            <FolderTwoTone className={classes.folderIcon} color="primary"/>
+            {
+                draggedOver
+                    ? <Fade in={draggedOver} style={{ transitionDelay: draggedOver ? '0.1s' : '0ms' }}>
+                        <NoteAddTwoTone className={classes.dropIcon}/>
+                    </Fade>
+                    : <FolderTwoTone className={classes.folderIcon} color="primary"/>
+            }
             <Typography variant="body2" className={classes.labelText}>
                 {labelText}
             </Typography>
