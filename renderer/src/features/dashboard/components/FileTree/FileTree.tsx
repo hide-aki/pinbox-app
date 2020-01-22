@@ -36,7 +36,8 @@ interface FileTreeProps {
 export const FileTree = (props: FileTreeProps) => {
     const classes = useStyles();
     const {onAction, onDrop, tree} = props;
-    const rootNode = tree.root;
+    // const rootNode = tree.root;
+    const rootNode = {};
     const fileTreeItems = Object.keys(rootNode);
     const hasFiles = fileTreeItems.length > 0;
 
@@ -55,10 +56,10 @@ export const FileTree = (props: FileTreeProps) => {
                     {
                         fileTreeItems.length
                             ? fileTreeItems.map(k =>
-                                // @ts-ignore
                                 <FileTreeItem
                                     key={k}
                                     label={k}
+                                    // @ts-ignore
                                     node={rootNode[k]}
                                     onAction={onAction}
                                     onDrop={onDrop}/>
