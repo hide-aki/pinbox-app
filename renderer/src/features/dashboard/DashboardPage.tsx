@@ -1,10 +1,9 @@
-import {DropBox} from './DropBox';
 import React, {useContext} from 'react';
+import {Grid, Paper, Typography} from '@material-ui/core';
+import {FileTree} from './components/FileTree';
 import {ElectronContext} from '../../components/contexts/ElectronContext';
 import {ElectronService} from '../../services/ElectronService';
 import {Page} from '../../components/Page';
-import {Grid, Paper, Typography} from '@material-ui/core';
-import {FileTree} from './components/FileTree';
 import {voidFn} from '../../utils/voidFn';
 
 const sendFilesToElectron = (service: ElectronService) => (files: FileList | null): void => {
@@ -60,16 +59,11 @@ export const DashboardPage: React.FC = () => {
                 alignItems='center'
                 spacing={2}
             >
-                <Grid item xs={12} md={8}>
+                <Grid item xs={12}>
                     <Paper>
                         <FileTree tree={mockedFileTreeStruct} onAction={voidFn}/>
                     </Paper>
                 </Grid>
-                {/*<Grid item xs={12} md={6}>*/}
-                {/*    <Paper>*/}
-                {/*        <DropBox onDrop={sendFilesToElectron(electronService)}/>*/}
-                {/*    </Paper>*/}
-                {/*</Grid>*/}
             </Grid>
         </Page>
     )

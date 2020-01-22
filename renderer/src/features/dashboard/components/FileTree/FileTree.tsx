@@ -6,6 +6,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import {FormattedMessage} from 'react-intl';
 import {FileTreeAction} from './typings/fileTreeAction';
 import {FileTreeItem} from './FileTreeItem';
+import {DropZone} from './DropZone';
 
 const useStyles = makeStyles(theme => ({
         root: {
@@ -19,7 +20,7 @@ const useStyles = makeStyles(theme => ({
         treeView: {
             overflowY: 'auto',
             overflowX: 'hidden',
-            maxHeight: "400px",
+            // maxHeight: "400px",
             padding: theme.spacing(1),
         }
     })
@@ -32,13 +33,21 @@ interface FileTreeProps {
 
 export const FileTree = (props: FileTreeProps) => {
     const classes = useStyles();
-    // @ts-ignore
-    const rootNode = props.tree.root;
+    // const rootNode = props.tree.root;
+    const rootNode = {};
+    const fileTreeItems = Object.keys(rootNode);
+
+    const hasFiles = fileTreeItems.length > 0;
+
+    const handleDrop = (files: FileList|null, event: React.DragEvent<HTMLDivElement>): any  => {
+        console.log(files, event)
+    };
+
     return (
         <div className={classes.root}>
             <div className={classes.title}>
                 <Typography variant="h4">
-                    <FormattedMessage id="dashboard.filetree.title"/>
+                    <FormattedMessage id={`dashboard.filetree.${hasFiles ? 'title' : 'nofiles'}`}/>
                 </Typography>
             </div>
             <div className={classes.treeView}>
@@ -46,7 +55,13 @@ export const FileTree = (props: FileTreeProps) => {
                     defaultCollapseIcon={<ExpandMoreIcon color="primary"/>}
                     defaultExpandIcon={<ChevronRightIcon color="primary"/>}
                 >
-                    {Object.keys(rootNode).map(k => <FileTreeItem key={k} label={k} node={rootNode[k]} onAction={props.onAction}/>)}
+                    {
+                        fileTreeItems.length
+                            ? fileTreeItems.map(k =>
+                                // @ts-ignore
+                                <FileTreeItem key={k} label={k} node={rootNode[k]} onAction={props.onAction}/>)
+                            : <DropZone onDrop={handleDrop}/>
+                    }
                 </TreeView>
             </div>
         </div>

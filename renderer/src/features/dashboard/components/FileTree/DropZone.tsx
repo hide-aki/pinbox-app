@@ -1,9 +1,9 @@
 import React, {useContext, useState} from 'react';
 import {makeStyles} from '@material-ui/core';
 import FileDrop from 'react-file-drop';
-import DropzoneImage from '../../images/dropzone.png';
+import DropzoneImage from '../../../../images/dropzone.png';
 import {FormattedMessage} from 'react-intl';
-import {ElectronContext} from '../../components/contexts/ElectronContext';
+import {ElectronContext} from '../../../../components/contexts/ElectronContext';
 
 const useStyles = makeStyles({
     root: {
@@ -11,7 +11,7 @@ const useStyles = makeStyles({
         justifyContent: "center",
         alignItems: "center",
         maxHeight: "600px",
-        background: "#f5f5f5",
+        background: "white",
         borderRadius: 4,
     },
     draggedOver : {
@@ -20,7 +20,8 @@ const useStyles = makeStyles({
         transition: "filter 0.5s, transform 0.5s",
     },
     image: {
-        maxHeight: 400,
+        width: '100%',
+        height: 'auto',
         transform: 'scale(1.0)',
         filter: "saturate(0.8)",
         transition: "filter 0.75s, transform 0.75s",
@@ -36,7 +37,7 @@ interface DropBoxProps{
     onDrop: OnDropFn
 }
 
-export const DropBox: React.FunctionComponent<DropBoxProps> = ({onDrop}) => {
+export const DropZone: React.FunctionComponent<DropBoxProps> = ({onDrop}) => {
     const classes = useStyles();
 
     const electronService = useContext(ElectronContext);
