@@ -4,6 +4,7 @@
  * This file is merely for keeping track of the global objects
  *
  */
+import Store from 'electron-store';
 import {MessageSendService} from './features/ipcMessaging/outgoing';
 import {FileStructure} from './features/internalFileStructure/FileStructure';
 
@@ -32,7 +33,7 @@ export const internalFileStructureInstance = (): FileStructure => {
     return global.internalFileStructure
 };
 
-export const appStoreInstance = (): FileStructure => {
+export const appStoreInstance = (): Store => {
 // @ts-ignore
     return global.appStore
 };

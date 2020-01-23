@@ -6,15 +6,19 @@ import {dirname, join} from 'path';
 import {fileWalk} from './fileWalk';
 import {handleException} from '../../../exceptions';
 import {MessageSendService} from '../../outgoing';
-import {IfsUpdatedMessage} from '../../outgoing/providers';
-import {internalFileStructureInstance} from '../../../../globals';
+import {IfsChangedMessage} from '../../outgoing/providers';
+import {appStoreInstance, internalFileStructureInstance} from '../../../../globals';
 
 const updateIFS = async (data: any): Promise<string> => {
-    const ifs = internalFileStructureInstance();
+    // const ifs = internalFileStructureInstance();
+
+    let appStore = appStoreInstance();
+
+    let ifs = appStore.get('ifs');
 
     // TODO: implement me!
 
-    return Promise.resolve(ifs.filePath)
+    return Promise.resolve(appStore.path)
 };
 
 const updateIPFS = async (file: string): Promise<string> => withIpfs(async (ipfs: any): Promise<string> => {
@@ -48,7 +52,7 @@ const handleFile = (ifsNodePath: string) => async (file: string): Promise<void> 
 
     // @ts-ignore
     const messageService: MessageSendService = global.messageSendService;
-    messageService.send(IfsUpdatedMessage(ifsFilePath))
+    messageService.send(IfsChangedMessage(ifsFilePath))
 
 };
 

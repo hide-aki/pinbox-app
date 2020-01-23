@@ -41,10 +41,6 @@ interface DropBoxProps{
 
 export const DropZone: React.FunctionComponent<DropBoxProps> = ({onDrop}) => {
     const classes = useStyles();
-
-    const electronService = useContext(ElectronContext);
-    electronService.onMessage( console.log );
-
     const [draggedOver, setDraggedOver] = useState(false);
 
     const handleDragOver = () => {

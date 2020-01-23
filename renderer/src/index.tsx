@@ -8,6 +8,7 @@ import {Provider as StoreProvider} from 'react-redux';
 import {store} from './app/store';
 import {ThemeProvider} from '@material-ui/core/styles';
 import {theme} from './theming/theme';
+import {handleMessage} from './features/ipcMessaging/incoming';
 
 declare global {
     interface Window {
@@ -15,8 +16,11 @@ declare global {
     }
 }
 
+const electronService = new ElectronService();
+electronService.onMessage(handleMessage);
+
 ReactDOM.render(
-    <ElectronProvider value={new ElectronService()}>
+    <ElectronProvider value={electronService}>
         <StoreProvider store={store}>
             <ThemeProvider theme={theme}>
                 <App/>

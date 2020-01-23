@@ -9,6 +9,8 @@ interface ElectronMessageType {
     payload: any;
 }
 
+let onMessageCount = 0;
+
 export class ElectronService {
     // @ts-ignore
     private _electron: Electron.RendererInterface;
@@ -101,10 +103,14 @@ export class ElectronService {
     }
 
     public onMessage(messageHandler: (message: ElectronMessageType) => void): void {
+        if(++onMessageCount > 1){
+            console.warn('ElectronService.onMessage invoked multiple times', onMessageCount)
+        }
         if (!this.ipcRenderer) {
             console.info('ipcRenderer not supported');
             return;
         }
+
         this.ipcRenderer.on('channel', (event: IpcRendererEvent, message: ElectronMessageType) => {
             messageHandler(message)
         })

@@ -2,7 +2,7 @@ import {IpcMessage} from '../../../typings/IpcMessage';
 
 const MessageNames = {
     IpfsReady: 'IpfsReady',
-    IfsUpdated: 'IfsUpdated'
+    IfsChanged: 'IfsChanged'
 };
 
 export const IpfsReadyMessage = (ident: any) => () : IpcMessage => ({
@@ -12,8 +12,8 @@ export const IpfsReadyMessage = (ident: any) => () : IpcMessage => ({
     }
 });
 
-export const IfsUpdatedMessage = (ifsFilepath: string) => () : IpcMessage => ({
-    messageName: MessageNames.IpfsReady,
+export const IfsChangedMessage = (ifsFilepath: string) => () : IpcMessage => ({
+    messageName: MessageNames.IfsChanged,
     payload: {
         ifsFilename: ifsFilepath,
     }

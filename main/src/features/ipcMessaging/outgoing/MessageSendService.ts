@@ -13,6 +13,7 @@ export class MessageSendService {
     constructor(private webContents : Electron.WebContents, private channel: string = IpcChannelName) {}
 
     public send(message : IpcMessage | IpcMessageProvider): void {
+        console.log('sending...')
         // @ts-ignore
         this.webContents.send(this.channel, message.messageName ? message : message())
     }
