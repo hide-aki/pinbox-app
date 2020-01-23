@@ -1,6 +1,7 @@
 import Store from 'electron-store';
 import {isDevelopment} from '../../util/isDevelopment';
 import * as path from 'path';
+import {appStoreInstance} from '../../globals';
 
 const schema = {
     ifs: {
@@ -15,11 +16,14 @@ const schema = {
     }
 };
 
-// TODO consider accountId
-export function initializeAppStore() : Store {
+export function createAppStore() : Store {
+    let store = appStoreInstance();
+    if(store){
+        return store;
+    }
     const cwd = isDevelopment() ? path.join(__dirname, '../../../') : undefined;
     // @ts-ignore
-    const store = new Store({
+    store = new Store({
         schema,
         cwd,
         name: 'pinbox.store'

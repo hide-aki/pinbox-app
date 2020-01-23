@@ -1,5 +1,5 @@
 import {IpcChannelName} from '../../../constants';
-import {IpcMessage} from '../../../typings/IpcMessage';
+import {IpcMessage} from '../../../common/typings/IpcMessage';
 import {IpcMessageProvider} from '../../../typings/IpcMessageProvider';
 
 const MessageNames = {
@@ -10,29 +10,29 @@ const MessageNames = {
 
 export class MessageSendService {
 
-    constructor(private webContents : Electron.WebContents, private channel: string = IpcChannelName) {}
+    constructor(private webContents: Electron.WebContents, private channel: string = IpcChannelName) {
+    }
 
-    public send(message : IpcMessage | IpcMessageProvider): void {
-        console.log('sending...')
+    public send(message: IpcMessage<any> | IpcMessageProvider<any>): void {
         // @ts-ignore
         this.webContents.send(this.channel, message.messageName ? message : message())
     }
 
-    public sendSuccessMessage(messageText: string){
+    public sendSuccessMessage(messageText: string) {
         this.send({
             messageName: MessageNames.Success,
             payload: messageText
         })
     }
 
-    public sendErrorMessage(e: Error){
+    public sendErrorMessage(e: Error) {
         this.send({
             messageName: MessageNames.Error,
             payload: e
         })
     }
 
-    public sendInfoMessage(messageText: string){
+    public sendInfoMessage(messageText: string) {
         this.send({
             messageName: MessageNames.Information,
             payload: messageText

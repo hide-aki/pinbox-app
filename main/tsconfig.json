@@ -26,6 +26,8 @@
     "jsx": "preserve"
   },
   "include": [
+    "./src/common/**/*.ts",
+    "./src/**/*.js",
     "./src/**/*.ts",
     "./src/**/*.json",
     "./src/**/__tests__/**/*.txt"

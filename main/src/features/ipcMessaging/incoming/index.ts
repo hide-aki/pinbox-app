@@ -1,6 +1,6 @@
 import {handleFileDrop} from './fileDropHandler';
 import {handleNewAccount} from './newAccountHandler';
-import {IpcMessage} from '../../../typings/IpcMessage';
+import {IpcMessage} from '../../../common/typings/IpcMessage';
 
 const MessageNames = {
     Test: 'Test',
@@ -9,7 +9,7 @@ const MessageNames = {
 };
 
 export const handleMessage = (
-    message: IpcMessage
+    message: IpcMessage<any>
 ): void => {
 
     const {messageName, payload} = message;

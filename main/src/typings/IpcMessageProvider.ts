@@ -1,3 +1,3 @@
-import {IpcMessage} from './IpcMessage';
+import {IpcMessage} from '../common/typings/IpcMessage';
 
-export type IpcMessageProvider = () => IpcMessage;
+export type IpcMessageProvider<T> = () => IpcMessage<T>;

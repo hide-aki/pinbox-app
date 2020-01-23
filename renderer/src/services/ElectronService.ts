@@ -1,6 +1,5 @@
 import * as Electron from 'electron';
 import {ElectronWindow} from '../typings/electron.window';
-import {IpcRendererEvent} from 'electron';
 
 declare let window: ElectronWindow;
 
@@ -111,7 +110,7 @@ export class ElectronService {
             return;
         }
 
-        this.ipcRenderer.on('channel', (event: IpcRendererEvent, message: ElectronMessageType) => {
+        this.ipcRenderer.on('channel', (event: Electron.IpcRendererEvent, message: ElectronMessageType) => {
             messageHandler(message)
         })
     }

@@ -1,3 +1,7 @@
-export const handleIfsChanged = (payload:any) => {
-    console.log('handleIfsChanged', payload)
+export interface IfsChangedType {
+    ifsFilepath: string
+}
+
+export const handleIfsChanged = async (payload:IfsChangedType) => {
+    console.log('handleIfsChanged', window.rendererApi.loadIfs())
 };

@@ -1,6 +1,6 @@
-import {IpcMessage} from '../../../typings/IpcMessage';
 import {handleIfsChanged} from './ifsChangedHandler';
 import {handleIpfsReady} from './ipfsReadyHandler';
+import {IpcMessage} from '../../../../../main/src/common/typings/IpcMessage';
 
 /**
  * These messages must be compatible with outgoing message names
@@ -12,7 +12,7 @@ const MessageNames = {
 };
 
 export const handleMessage = (
-    message: IpcMessage
+    message: IpcMessage<any>
 ): void => {
 
     const {messageName, payload} = message;

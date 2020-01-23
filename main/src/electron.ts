@@ -1,24 +1,22 @@
 import './globals'
-import {app, BrowserWindow, ipcMain} from 'electron';
+import {app, ipcMain, BrowserWindow} from 'electron';
 import * as path from 'path'
 import {handleMessage} from './features/ipcMessaging/incoming';
 import {createIpfsNode} from './features/ipfs/createIpfsNode';
 import {logger} from './features/logger';
 import {IpcChannelName} from './constants';
-import {IpcMessage} from './typings/IpcMessage';
+import {IpcMessage} from './common/typings/IpcMessage';
 import {initializeMessageService} from './features/ipcMessaging/outgoing';
 import {IpfsReadyMessage} from './features/ipcMessaging/outgoing/providers';
 import {isDevelopment} from './util/isDevelopment';
-import {initializeAppStore} from './features/store';
+import {createAppStore} from './features/store';
 
 let mainWindow: BrowserWindow;
 const isDev = isDevelopment();
 
 function initializeApp() {
-
     const messageSendService = initializeMessageService(mainWindow.webContents);
-    initializeAppStore();
-
+    createAppStore();
     createIpfsNode(async ipfsNode => {
         const ident = await ipfsNode.id();
         logger.info(`Successfully initialized IPFS node - ID: ${ident.id}`);
@@ -34,6 +32,8 @@ async function createWindow() {
         height: 800,
         webPreferences: {
             nodeIntegration: true,
+            // must be .js as it gets compiled to it!
+            preload: path.join(app.getAppPath(), '/preload.js')
         }
     });
 
@@ -49,7 +49,7 @@ async function createWindow() {
 
     mainWindow.on("closed", () => (mainWindow.destroy()));
 
-    ipcMain.on(IpcChannelName, (event, msg: IpcMessage) => {
+    ipcMain.on(IpcChannelName, (event, msg: IpcMessage<any>) => {
         handleMessage(msg)
     });
 

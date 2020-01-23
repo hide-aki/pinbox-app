@@ -1,3 +1,7 @@
-export const handleIpfsReady = (payload:any) => {
+interface IpfsReadyType {
+    ipfsId: string
+}
+
+export const handleIpfsReady = (payload:IpfsReadyType) => {
     console.log('handleIpfsReady', payload)
 };
