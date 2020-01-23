@@ -4,8 +4,12 @@ function assertUniqueFilenames(node: object, fileNames: string[]): void {
             throw new Error(`Duplicate Filename: ${fileName}`)
     })
 }
+interface FileProxy {
+    fileName: string
+    isDirectory: boolean
+}
 
-export function addFileNamesToTree(tree: object, nodePath: string, fileNames: string[]): object {
+export function addFileNamesToTree(tree: object, nodePath: string, files: FileProxy[]): object {
     const parts = nodePath.split('/');
     // @ts-ignore
     let n = tree.root ? tree.root : tree;
@@ -15,9 +19,10 @@ export function addFileNamesToTree(tree: object, nodePath: string, fileNames: st
         n = n[part]
     }
 
-    assertUniqueFilenames(n, fileNames);
+    // assertUniqueFilenames(n, files.map());
 
-    fileNames.forEach(fileName => {
+    files.forEach(fileName => {
+        // @ts-ignore
         n[fileName] = {ipfsHash: ''}
     });
 

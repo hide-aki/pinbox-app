@@ -1,4 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
+import {addFileNamesToTree} from './components/FileTree/helper/addFileNamesToTree';
 
 export const dashboardSlice = createSlice({
     name: 'dashboard',
@@ -12,11 +13,14 @@ export const dashboardSlice = createSlice({
                     files, nodePath
                 }
             } = action;
+            if(!nodePath){
+                addFileNamesToTree(state.ifs, '', files)
+            }
 
-            const pathTokens = nodePath.split('/');
-            pathTokens.forEach( () => {
-
-            })
+            // const pathTokens = nodePath.split('/');
+            // pathTokens.forEach( () => {
+            //
+            // })
             // 1. update the local structure
             // 2. send data to main thread
             // A. need a listener that updates the state

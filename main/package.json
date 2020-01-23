@@ -24,6 +24,7 @@
     "publish:alpha": "bump prerelease --commit --tag \"v\" --push --preid alpha",
     "publish:electron": "electron-builder -p 'always' -wml --config electron-builder.json",
     "start": "npm run build && cross-env NODE_ENV=dev electron ./out/electron.js",
+    "start:fast": "npm run compile && cross-env NODE_ENV=dev electron ./out/electron.js",
     "test": "npm run build && jest"
   },
   "devDependencies": {
@@ -45,6 +46,7 @@
   "dependencies": {
     "@burstjs/core": "^0.5.0-beta.3",
     "argon2": "^0.25.1",
+    "electron-store": "^5.1.0",
     "ipfs": "^0.40.0",
     "winston": "^3.2.1"
   }

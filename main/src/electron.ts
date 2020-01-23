@@ -1,25 +1,23 @@
-import {BrowserWindow, app, ipcMain} from 'electron' ;
+import './globals'
+import {app, BrowserWindow, ipcMain} from 'electron';
 import * as path from 'path'
 import {handleMessage} from './features/ipcMessaging/incoming';
 import {createIpfsNode} from './features/ipfs/createIpfsNode';
 import {logger} from './features/logger';
 import {IpcChannelName} from './constants';
 import {IpcMessage} from './typings/IpcMessage';
-import {MessageSendService} from './features/ipcMessaging/outgoing';
+import {initializeMessageService} from './features/ipcMessaging/outgoing';
 import {IpfsReadyMessage} from './features/ipcMessaging/outgoing/providers';
+import {isDevelopment} from './util/isDevelopment';
+import {initializeAppStore} from './features/store';
 
 let mainWindow: BrowserWindow;
-let messageSendService: MessageSendService;
-
-const isDev = process.env.NODE_ENV === 'dev';
-
-// @ts-ignore
-global.ipfs = null;
+const isDev = isDevelopment();
 
 function initializeApp() {
-    messageSendService = new MessageSendService(mainWindow.webContents);
 
-    messageSendService.sendSuccessMessage("App started");
+    const messageSendService = initializeMessageService(mainWindow.webContents);
+    initializeAppStore();
 
     createIpfsNode(async ipfsNode => {
         const ident = await ipfsNode.id();
@@ -39,7 +37,7 @@ async function createWindow() {
         }
     });
 
-    if(isDev){
+    if (isDev) {
         mainWindow.webContents.openDevTools();
     }
 

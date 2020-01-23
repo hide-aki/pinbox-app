@@ -89,3 +89,5 @@ main/ipfs
 *.txt.dec
 *.txt.enc
 *.txt.x
+.gitignore
+config.json

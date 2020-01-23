@@ -58,7 +58,7 @@ export const DropZone: React.FunctionComponent<DropBoxProps> = ({onDrop}) => {
     const handleDrop = (files: FileList| null, e:React.DragEvent) => {
         handleDragLeave();
         const extendedFiles = extendFileListInformation(files, e);
-        onDrop(extendedFiles, null);
+        onDrop(extendedFiles, '');
     };
 
     return (

@@ -60,7 +60,7 @@ export const ItemFolder: React.FC<StyledTreeItemProps> = (props): JSX.Element =>
     const handleDrop = (files: FileList | null, e: React.DragEvent) => {
         handleDragLeave();
         const extendedFiles = extendFileListInformation(files, e);
-        onDrop(files, nodeId);
+        onDrop(extendedFiles, nodeId);
     };
 
     return (

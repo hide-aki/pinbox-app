@@ -1,1 +1,1 @@
-export type OnDropFn = ((files: FileList | null, nodePath: string | null) => any)
+export type OnDropFn = ((files: FileList | null, nodePath: string ) => any)

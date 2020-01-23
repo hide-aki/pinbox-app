@@ -11,7 +11,7 @@ import {useDispatch} from 'react-redux';
 
 const {actions} = dashboardSlice;
 
-const sendFilesToElectron = (service: ElectronService) => (files: FileList | null): void => {
+const sendFilesToElectron = (service: ElectronService) => (files: FileList | null, nodePath:string): void => {
     if (files === null) return;
 
     let filePaths = new Array<string>();
@@ -23,7 +23,10 @@ const sendFilesToElectron = (service: ElectronService) => (files: FileList | nul
     }
     service.sendMessage({
         messageName: 'FileDrop',
-        payload: filePaths
+        payload: {
+            filePaths,
+            nodePath,
+        }
     })
 };
 
@@ -56,11 +59,8 @@ export const DashboardPage: React.FC = () => {
     const electronService = useContext(ElectronContext);
     const dispatch = useDispatch();
 
-    const handleDrop = (files: FileList | null, nodePath: string | null): any => {
-        dispatch(actions.addFile({
-            files,
-            nodePath
-        }));
+    const handleDrop = (files: FileList | null, nodePath: string): any => {
+        sendFilesToElectron(electronService)(files, nodePath)
     };
 
     const handleAction = (action: FileTreeAction): void => {
