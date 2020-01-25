@@ -6,9 +6,7 @@ import {ElectronService} from '../../services/ElectronService';
 import {Page} from '../../components/Page';
 import {dashboardSlice} from './slice'
 import {FileTreeAction} from './components/FileTree/typings/fileTreeAction';
-import {jsonToNavigableJson} from './components/FileTree/helper/jsonToNavigableJson';
-import {useDispatch, useSelector} from 'react-redux';
-import {selectCurrentAccount} from '../account/selectors';
+import {useSelector} from 'react-redux';
 import {selectIfs} from './selectors';
 
 const {actions} = dashboardSlice;
@@ -31,31 +29,6 @@ const sendFilesToElectron = (service: ElectronService) => (files: FileList | nul
         }
     })
 };
-
-const mockedFileTreeStruct = jsonToNavigableJson({
-    root: {
-        'some path': {
-            'deeperPath': {
-                'file1.txt': {
-                    ipfsHash: 'ipfsHash_1',
-                }
-            }
-        },
-        'other path': {
-            'file2.txt': {
-                ipfsHash: 'ipfsHash_2',
-            },
-            'file3.txt': {
-                ipfsHash: 'ipfsHash_3',
-            },
-            'next path': {
-                'file4.txt': {
-                    ipfsHash: 'ipfsHash_4',
-                },
-            }
-        }
-    }
-});
 
 export const DashboardPage: React.FC = () => {
     const electronService = useContext(ElectronContext);

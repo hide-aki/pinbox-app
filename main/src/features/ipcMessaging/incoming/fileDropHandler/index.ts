@@ -42,15 +42,19 @@ const updateIPFS = async (file: string): Promise<string> => withIpfs(async (ipfs
     }
 });
 
+const mountInternalFilePath = (ifsNodePath:string, file: string, depth: number) : string => {
+    const fileName = path.basename(file);
+    let dirPath = path.dirname(file);
+    const dirPathParts = dirPath.split('/');
+    dirPath = dirPathParts.slice(dirPathParts.length - depth).join('/');
+    return path.join(ifsNodePath, dirPath, fileName);
+};
+
 const handleFile = (ifsNodePath: string) => (file: string, depth: number): void => {
     // const ipfsHash = await updateIPFS(file);
     const ipfsHash = 'MockedHash';
-    const fileName = path.basename(file);
-    let dirPath = path.dirname(file);
-    // FIXME: here we flatten the path...but we need to consider recursion here!
-    dirPath = dirPath.substr(dirPath.lastIndexOf('/') + 1);
-    const fullNodePath = path.join(ifsNodePath, dirPath, fileName);
-    const ifsFilePath = updateIFS(new FileRecord(fullNodePath, ipfsHash));
+    const nodePath = mountInternalFilePath(ifsNodePath, file, depth)
+    const ifsFilePath = updateIFS(new FileRecord(nodePath, ipfsHash));
      messageSendServiceInstance().send(IfsChangedMessage(ifsFilePath));
 };
 

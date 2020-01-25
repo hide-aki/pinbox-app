@@ -5,7 +5,6 @@ import FolderTwoTone from '@material-ui/icons/FolderTwoTone';
 import NoteAddTwoTone from '@material-ui/icons/NoteAddTwoTone';
 import FileDrop from 'react-file-drop';
 import {OnDropFn} from '../typings/onDropFn';
-import {extendFileListInformation} from '../helper/extendFileListInformation';
 
 // @ts-ignore
 const useTreeItemStyles = makeStyles(theme => ({
@@ -59,8 +58,7 @@ export const ItemFolder: React.FC<StyledTreeItemProps> = (props): JSX.Element =>
 
     const handleDrop = (files: FileList | null, e: React.DragEvent) => {
         handleDragLeave();
-        const extendedFiles = extendFileListInformation(files, e);
-        onDrop(extendedFiles, nodeId);
+        onDrop(files, nodeId);
     };
 
     return (

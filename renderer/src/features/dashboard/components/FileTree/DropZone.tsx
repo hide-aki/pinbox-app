@@ -3,10 +3,7 @@ import {makeStyles} from '@material-ui/core';
 import FileDrop from 'react-file-drop';
 import DropzoneImage from '../../../../images/dropzone.png';
 import {FormattedMessage} from 'react-intl';
-import {ElectronContext} from '../../../../components/contexts/ElectronContext';
 import {OnDropFn} from './typings/onDropFn';
-import {getFileEntry} from './helper/getFileEntry';
-import {extendFileListInformation} from './helper/extendFileListInformation';
 
 const useStyles = makeStyles({
     root: {
@@ -53,8 +50,7 @@ export const DropZone: React.FunctionComponent<DropBoxProps> = ({onDrop}) => {
 
     const handleDrop = (files: FileList| null, e:React.DragEvent) => {
         handleDragLeave();
-        const extendedFiles = extendFileListInformation(files, e);
-        onDrop(extendedFiles, '');
+        onDrop(files, '');
     };
 
     return (

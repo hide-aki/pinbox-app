@@ -4,7 +4,6 @@ import {FileTreeAction} from './typings/fileTreeAction';
 import {voidFn} from '../../../../utils/voidFn';
 import {ItemActions} from './StyledTreeItem/ItemActions';
 import {OnDropFn} from './typings/onDropFn';
-import {getNodePath} from './helper/getNodePath';
 
 interface FileItemProps {
     label: string,
@@ -14,8 +13,6 @@ interface FileItemProps {
     onAction?: (action: FileTreeAction) => void
     onDrop: OnDropFn
 }
-
-const ignorePrivateProperty = (propName: string): boolean => !propName.startsWith('__');
 
 export function FileTreeItem({label, node, nodeId, onDrop, onAction = voidFn}: FileItemProps) {
     const isFile = node.ipfsHash !== undefined;

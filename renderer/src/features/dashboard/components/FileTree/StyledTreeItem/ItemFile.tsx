@@ -12,14 +12,6 @@ const useTreeItemStyles = makeStyles(theme => ({
             borderRadius: '2px'
         },
     },
-    content: {
-        color: theme.palette.text.secondary,
-        paddingRight: theme.spacing(1),
-        fontWeight: theme.typography.fontWeightMedium,
-        '$expanded > &': {
-            fontWeight: theme.typography.fontWeightRegular,
-        },
-    },
     labelRoot: {
         display: 'flex',
         alignItems: 'center',
