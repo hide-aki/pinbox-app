@@ -1,4 +1,6 @@
 import React from 'react';
+import {useIntl} from 'react-intl';
+import {Tooltip} from '@material-ui/core';
 import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -13,8 +15,8 @@ import {RoutePaths} from '../../routing/routes';
 import {useHistory, useLocation} from 'react-router';
 import {Link} from 'react-router-dom';
 import {formattingService} from '../../services/FormattingService';
-import {useIntl} from 'react-intl';
-import {Tooltip} from '@material-ui/core';
+import {IpfsIcon} from './IpfsIcon';
+import {selectIsIpfsReady} from '../selectors';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -44,10 +46,11 @@ export const PinboxAppBar: React.FC = () => {
     const {pathname} = useLocation();
     const classes = useStyles();
     const account = useSelector(selectCurrentAccount);
+    const isIpfsReady = useSelector(selectIsIpfsReady);
     const intl = useIntl();
     const t = (id: string): string => intl.formatMessage({id});
 
-    function isAccountVisible(){
+    function isAccountVisible() {
         return pathname !== RoutePaths.Login &&
             pathname !== RoutePaths.AccountSet &&
             pathname !== RoutePaths.AccountNew
@@ -71,15 +74,18 @@ export const PinboxAppBar: React.FC = () => {
                             <HomeIcon/>
                         </IconButton>
                     </Tooltip>
+                    <Tooltip title={t((isIpfsReady ? "tooltip.ipfsUp" : "tooltip.ipfsDown"))}>
+                        <IpfsIcon isUp={isIpfsReady}/>
+                    </Tooltip>
                     <SearchBar/>
                     <div className={classes.grow}/>
                     {isAccountVisible() &&
-                        <Tooltip title={t("tooltip.account")}>
-                          <Link className={classes.account} to={RoutePaths.Account}>
-                            <h4>{`${formattingService.formatBurstBalance(account)} BURST`}</h4>
-                            <AccountIcon/>
-                          </Link>
-                        </Tooltip>
+                    <Tooltip title={t("tooltip.account")}>
+                      <Link className={classes.account} to={RoutePaths.Account}>
+                        <h4>{`${formattingService.formatBurstBalance(account)} BURST`}</h4>
+                        <AccountIcon/>
+                      </Link>
+                    </Tooltip>
                     }
                     <Tooltip title={t("tooltip.settings")}>
                         <IconButton className={classes.menuButton} color="inherit" aria-label="settings"

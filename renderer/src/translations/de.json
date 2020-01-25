@@ -61,6 +61,8 @@
   "tooltip.account": "Kontodetails",
   "tooltip.settings": "Anwendungskonfiguration",
   "tooltip.home": "Hauptseite",
+  "tooltip.ipfsUp": "IPFS läuft",
+  "tooltip.ipfsDown": "IPFS ist noch nicht bereit",
   "language.de": "Deutsch",
   "language.en": "Englisch",
   "language.pt": "Portugiesisch",

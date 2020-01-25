@@ -6,9 +6,14 @@ export const applicationSlice = createSlice({
         message: {
             type: 'NONE',
             text: ''
-        }
+        },
+        isIpfsReady: false
     },
     reducers: {
+        updateIpfsStatus: (state,action) =>{
+            state.isIpfsReady = action.payload;
+            return state;
+        },
         showMessage: (state, action) => {
             const {type, text} = action.payload;
             state.message = {type, text}
