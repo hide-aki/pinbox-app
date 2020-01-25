@@ -4,6 +4,7 @@ import {FileTreeAction} from './typings/fileTreeAction';
 import {voidFn} from '../../../../utils/voidFn';
 import {ItemActions} from './StyledTreeItem/ItemActions';
 import {OnDropFn} from './typings/onDropFn';
+import {caseInsensitiveSortFn} from '../../../../utils/caseInsensitiveSortFn';
 
 interface FileItemProps {
     label: string,
@@ -20,6 +21,7 @@ export function FileTreeItem({label, node, nodeId, onDrop, onAction = voidFn}: F
     const nestedFileItems = isFile
         ? null
         : Object.keys(node)
+            .sort(caseInsensitiveSortFn)
             .map((k: string): JSX.Element => {
             const childFileItem = node[k];
             return <FileTreeItem

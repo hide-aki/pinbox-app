@@ -18,6 +18,7 @@ const useTreeItemStyles = makeStyles(theme => ({
         padding: theme.spacing(0.5, 0),
     },
     fileIcon: {
+        color: theme.palette.grey[700],
         marginLeft: theme.spacing(3),
     },
     labelText: {
@@ -41,7 +42,7 @@ export const ItemFile: React.FC<StyledTreeItemProps> = (props): JSX.Element => {
 
     return (
         <div className={classes.labelRoot}>
-            <InsertDriveFileTwoTone className={classes.fileIcon} color="primary"/>
+            <InsertDriveFileTwoTone className={classes.fileIcon}/>
             <Typography variant="body2" className={classes.labelText}>
                 {labelText}
             </Typography>

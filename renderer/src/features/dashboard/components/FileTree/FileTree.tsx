@@ -8,6 +8,7 @@ import {FileTreeItem} from './FileTreeItem';
 import {DropZone} from './DropZone';
 import {OnDropFn} from './typings/onDropFn';
 import {OnActionFn} from './typings/onActionFn';
+import {caseInsensitiveSortFn} from '../../../../utils/caseInsensitiveSortFn';
 
 const useStyles = makeStyles(theme => ({
         root: {
@@ -39,7 +40,7 @@ interface FileTreeProps {
 export const FileTree = (props: FileTreeProps) => {
     const classes = useStyles();
     const {onAction, onDrop, tree} = props;
-    const fileTreeItems = Object.keys(tree.root);
+    const fileTreeItems = Object.keys(tree.root).sort(caseInsensitiveSortFn);
     const hasFiles = fileTreeItems.length > 0;
 
     return (
