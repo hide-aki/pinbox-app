@@ -50,6 +50,7 @@
     "electron-store": "^5.1.0",
     "ipfs": "^0.40.0",
     "lodash": "^4.17.15",
+    "opossum": "^4.2.4",
     "winston": "^3.2.1"
   }
 }
