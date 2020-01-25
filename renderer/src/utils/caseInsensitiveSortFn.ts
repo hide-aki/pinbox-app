@@ -1,1 +1,7 @@
-export const caseInsensitiveSortFn = (a:string, b:string) => a.toLowerCase().localeCompare(b.toLowerCase());
+
+// TODO: put lang code here!
+const collator = new Intl.Collator('en-US', {
+    sensitivity: 'accent'
+});
+
+export const caseInsensitiveSortFn = collator.compare;
