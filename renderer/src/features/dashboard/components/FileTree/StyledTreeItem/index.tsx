@@ -23,13 +23,11 @@ interface StyledTreeItemProps {
     actions: JSX.Element;
     onDrop: OnDropFn;
     isFile: boolean;
-    color?: string;
-    bgColor?: string;
 }
 
 export const StyledTreeItem: React.FC<StyledTreeItemProps> = (props): JSX.Element => {
     const classes = useTreeItemStyles();
-    const {nodeId, labelText, isFile, labelInfo, color, bgColor, actions, onDrop, ...other} = props;
+    const {nodeId, labelText, isFile, labelInfo, actions, onDrop, ...other} = props;
 
     const Item = isFile ? ItemFile : ItemFolder;
 

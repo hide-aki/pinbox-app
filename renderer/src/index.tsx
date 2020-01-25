@@ -9,7 +9,7 @@ import {store} from './app/store';
 import {ThemeProvider} from '@material-ui/core/styles';
 import {theme} from './theming/theme';
 import {handleMessage} from './features/ipcMessaging/incoming';
-import {RendererApi} from '../../main/src/common/typings/RendererApi';
+import {RendererApi} from '../../main/src/sharedTypings/RendererApi';
 
 declare global {
     interface Window {

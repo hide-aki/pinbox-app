@@ -7,7 +7,9 @@ import {Page} from '../../components/Page';
 import {dashboardSlice} from './slice'
 import {FileTreeAction} from './components/FileTree/typings/fileTreeAction';
 import {jsonToNavigableJson} from './components/FileTree/helper/jsonToNavigableJson';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {selectCurrentAccount} from '../account/selectors';
+import {selectIfs} from './selectors';
 
 const {actions} = dashboardSlice;
 
@@ -57,8 +59,7 @@ const mockedFileTreeStruct = jsonToNavigableJson({
 
 export const DashboardPage: React.FC = () => {
     const electronService = useContext(ElectronContext);
-    const dispatch = useDispatch();
-
+    const ifs = useSelector(selectIfs);
     const handleDrop = (files: FileList | null, nodePath: string): any => {
         sendFilesToElectron(electronService)(files, nodePath)
     };
@@ -79,7 +80,7 @@ export const DashboardPage: React.FC = () => {
                 <Grid item xs={12}>
                     <Paper>
                         <FileTree
-                            tree={mockedFileTreeStruct}
+                            tree={ifs.records}
                             onAction={handleAction}
                             onDrop={handleDrop}
                         />

@@ -1,12 +1,8 @@
 import {handleIfsChanged} from './ifsChangedHandler';
 import {handleIpfsReady} from './ipfsReadyHandler';
-import {IpcMessage} from '../../../../../main/src/common/typings/IpcMessage';
+import {IpcMessage} from '../../../../../main/src/sharedTypings/IpcMessage';
 
-/**
- * These messages must be compatible with outgoing message names
- * main/src/features/ipcMessaging/outgoing/providers.ts
- */
-const MessageNames = {
+export const MessageNames = {
     IpfsReady: 'IpfsReady',
     IfsChanged: 'IfsChanged'
 };

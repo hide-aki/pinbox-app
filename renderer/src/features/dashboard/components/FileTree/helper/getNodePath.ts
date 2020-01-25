@@ -1,4 +1,5 @@
 export function getNodePath(node: object): string {
+    console.log('getNodePath', node)
     const pathNames: string[] = [];
     let n = node;
     while (n) {

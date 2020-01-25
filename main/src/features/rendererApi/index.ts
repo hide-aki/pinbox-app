@@ -1,5 +1,5 @@
 import {loadIfs} from './loadIfs';
-import {RendererApi} from '../../common/typings/RendererApi';
+import {RendererApi} from '../../sharedTypings/RendererApi';
 
 const rendererApi: RendererApi = {
     loadIfs,

@@ -27,8 +27,12 @@ const useStyles = makeStyles(theme => ({
     })
 );
 
+interface TreeType {
+    root: any;
+}
+
 interface FileTreeProps {
-    tree: any
+    tree: TreeType
     onAction: OnActionFn
     onDrop: OnDropFn
 }
@@ -36,9 +40,7 @@ interface FileTreeProps {
 export const FileTree = (props: FileTreeProps) => {
     const classes = useStyles();
     const {onAction, onDrop, tree} = props;
-    // const rootNode = tree.root;
-    const rootNode = {};
-    const fileTreeItems = Object.keys(rootNode);
+    const fileTreeItems = Object.keys(tree.root);
     const hasFiles = fileTreeItems.length > 0;
 
     return (
@@ -55,12 +57,12 @@ export const FileTree = (props: FileTreeProps) => {
                 >
                     {
                         fileTreeItems.length
-                            ? fileTreeItems.map(k =>
+                            ? fileTreeItems.map((k) =>
                                 <FileTreeItem
                                     key={k}
+                                    nodeId={k}
                                     label={k}
-                                    // @ts-ignore
-                                    node={rootNode[k]}
+                                    node={tree.root[k]}
                                     onAction={onAction}
                                     onDrop={onDrop}/>
                             )

@@ -7,18 +7,28 @@ const schema = {
     ifs: {
         type: 'object',
         properties: {
-            tree: {
+            records: {
                 type: 'object',
-                default: {}
+                properties: {
+                    root: {
+                        type: 'object'
+                    }
+                }
+            },
+            lastModified: {
+                type: 'number',
             }
         },
-        default: { tree : {}}
+        default: {
+            lastModified: Date.now(),
+            records: {root: {}}
+        }
     }
 };
 
-export function createAppStore() : Store {
+export function createAppStore(): Store {
     let store = appStoreInstance();
-    if(store){
+    if (store) {
         return store;
     }
     const cwd = isDevelopment() ? path.join(__dirname, '../../../') : undefined;

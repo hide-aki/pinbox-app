@@ -5,14 +5,23 @@ import {handleMessage} from './features/ipcMessaging/incoming';
 import {createIpfsNode} from './features/ipfs/createIpfsNode';
 import {logger} from './features/logger';
 import {IpcChannelName} from './constants';
-import {IpcMessage} from './common/typings/IpcMessage';
 import {initializeMessageService} from './features/ipcMessaging/outgoing';
 import {IpfsReadyMessage} from './features/ipcMessaging/outgoing/providers';
 import {isDevelopment} from './util/isDevelopment';
 import {createAppStore} from './features/store';
+import {IpcMessage} from './sharedTypings/IpcMessage';
+import * as os from 'os';
 
 let mainWindow: BrowserWindow;
 const isDev = isDevelopment();
+let ExtensionPaths:any = null;
+if(isDev && process.platform === 'linux'){
+    const ChromeExtensionDir = path.join(os.homedir(), '.config/google-chrome/Default/Extensions');
+    ExtensionPaths = {
+        ReactDevTools: path.join(ChromeExtensionDir, 'fmkadmapgofadopljbjfkapdkoienihi/4.4.0_0'),
+        ReduxDevTools: path.join(ChromeExtensionDir, 'lmhkpmbekcpmknklioeibfkpmmfibljd/2.17.0_0'),
+    }
+}
 
 function initializeApp() {
     const messageSendService = initializeMessageService(mainWindow.webContents);
@@ -39,6 +48,11 @@ async function createWindow() {
 
     if (isDev) {
         mainWindow.webContents.openDevTools();
+
+        if(ExtensionPaths){
+            BrowserWindow.addDevToolsExtension(ExtensionPaths.ReactDevTools);
+            BrowserWindow.addDevToolsExtension(ExtensionPaths.ReduxDevTools);
+        }
     }
 
     const url = isDev

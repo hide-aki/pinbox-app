@@ -1,42 +1,28 @@
 import {IpcChannelName} from '../../../constants';
-import {IpcMessage} from '../../../common/typings/IpcMessage';
-import {IpcMessageProvider} from '../../../typings/IpcMessageProvider';
+import {IpcMessage} from '../../../sharedTypings/IpcMessage';
+import {ErrorMessage, InformationMessage, SuccessMessage} from './providers';
 
-const MessageNames = {
-    Success: 'Success',
-    Error: 'Error',
-    Information: 'Info',
-};
+export type IpcMessageProvider<T> = () => IpcMessage<T>;
 
 export class MessageSendService {
 
     constructor(private webContents: Electron.WebContents, private channel: string = IpcChannelName) {
     }
 
-    public send(message: IpcMessage<any> | IpcMessageProvider<any>): void {
-        // @ts-ignore
-        this.webContents.send(this.channel, message.messageName ? message : message())
+    public send(messageProvider: IpcMessageProvider<any>): void {
+        this.webContents.send(this.channel, messageProvider())
     }
 
     public sendSuccessMessage(messageText: string) {
-        this.send({
-            messageName: MessageNames.Success,
-            payload: messageText
-        })
+        this.send(SuccessMessage(messageText))
     }
 
     public sendErrorMessage(e: Error) {
-        this.send({
-            messageName: MessageNames.Error,
-            payload: e
-        })
+        this.send(ErrorMessage(e))
     }
 
     public sendInfoMessage(messageText: string) {
-        this.send({
-            messageName: MessageNames.Information,
-            payload: messageText
-        })
+        this.send(InformationMessage(messageText))
     }
 }
 

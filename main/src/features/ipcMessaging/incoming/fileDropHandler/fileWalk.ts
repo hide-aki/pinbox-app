@@ -6,16 +6,16 @@ import {promisify} from 'util';
 const stat = promisify(fs.stat);
 const readdir = promisify(fs.readdir);
 
-export const fileWalk = async (filePath: string, applyFn: (file: string) => void): Promise<void> => {
+export const fileWalk = async (filePath: string, applyFn: (file: string, depth: number) => void, depth: number = 0): Promise<void> => {
     const fileStats = await stat(filePath);
     if (fileStats.isDirectory()) {
         const dirFiles = await readdir(filePath);
         for (let i = 0; i < dirFiles.length; ++i) {
             const dirFile = dirFiles[i];
             if (dirFile === '.' || dirFile === '..') continue;
-            await fileWalk(join(filePath, dirFile), applyFn)
+            await fileWalk(join(filePath, dirFile), applyFn, depth + 1)
         }
     } else {
-        applyFn(filePath);
+        applyFn(filePath, depth);
     }
 };

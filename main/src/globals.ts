@@ -6,7 +6,7 @@
  */
 import Store from 'electron-store';
 import {MessageSendService} from './features/ipcMessaging/outgoing';
-import {FileStructure} from './features/internalFileStructure/FileStructure';
+import {InternalFileStructure} from './features/internalFileStructure/InternalFileStructure';
 
 // @ts-ignore
 global.ipfs = null;
@@ -28,7 +28,7 @@ export const messageSendServiceInstance = (): MessageSendService => {
     return global.messageSendService
 };
 
-export const internalFileStructureInstance = (): FileStructure => {
+export const internalFileStructureInstance = (): InternalFileStructure => {
 // @ts-ignore
     return global.internalFileStructure
 };

@@ -20,17 +20,6 @@ const useTreeItemStyles = makeStyles(theme => ({
             fontWeight: theme.typography.fontWeightRegular,
         },
     },
-    group: {
-        marginLeft: 0,
-        '& $content': {
-            paddingLeft: theme.spacing(2),
-        },
-    },
-    expanded: {},
-    label: {
-        fontWeight: 'inherit',
-        color: 'inherit',
-    },
     labelRoot: {
         display: 'flex',
         alignItems: 'center',

@@ -1,7 +1,10 @@
-export interface IfsChangedType {
-    ifsFilepath: string
-}
+import {store} from '../../../../app/store';
+import {dashboardSlice} from '../../../dashboard/slice'
+import {IpcMessageTypeIfsChanged} from '../../../../../../main/src/sharedTypings/IpcMessageTypeIfsChanged';
 
-export const handleIfsChanged = async (payload:IfsChangedType) => {
-    console.log('handleIfsChanged', window.rendererApi.loadIfs())
+const {actions} = dashboardSlice;
+
+export const handleIfsChanged = async (payload:IpcMessageTypeIfsChanged) => {
+    const ifs = window.rendererApi.loadIfs();
+    store.dispatch(actions.updateIfsStructure(ifs))
 };
