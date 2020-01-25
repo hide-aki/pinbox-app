@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
         treeView: {
             overflowY: 'auto',
             overflowX: 'hidden',
-            maxHeight: "70vh",
+            maxHeight: "62vh",
             padding: theme.spacing(1),
         }
     })
