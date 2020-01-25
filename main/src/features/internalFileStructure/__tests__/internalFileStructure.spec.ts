@@ -1,4 +1,4 @@
-import {InternalFileStructure} from '../InternalFileStructure';
+import {InternalFileStructureMutator} from '../InternalFileStructureMutator';
 import {FileRecord} from '../FileRecord';
 import {IfsData} from '../IfsData';
 
@@ -23,7 +23,7 @@ describe('InternalFileStructure', () => {
         });
 
         it('should add to correct path - existing path', () => {
-            let ifs = new InternalFileStructure(mockedIfs);
+            let ifs = new InternalFileStructureMutator(mockedIfs);
 
             let fileRecord = new FileRecord('a/foo.png', 'ipfsHash');
 
@@ -39,7 +39,7 @@ describe('InternalFileStructure', () => {
         });
 
         it('should add to correct path - non-existing path', () => {
-            let ifs = new InternalFileStructure(mockedIfs);
+            let ifs = new InternalFileStructureMutator(mockedIfs);
 
             let fileRecord = new FileRecord('a/b/c/foo.png', 'ipfsHash');
 
@@ -55,7 +55,7 @@ describe('InternalFileStructure', () => {
         });
 
         it('should add to correct path - root', () => {
-            let ifs = new InternalFileStructure(mockedIfs);
+            let ifs = new InternalFileStructureMutator(mockedIfs);
 
             let fileRecord = new FileRecord('foo.png', 'ipfsHash');
 

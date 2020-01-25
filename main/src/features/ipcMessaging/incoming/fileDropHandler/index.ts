@@ -7,14 +7,14 @@ import {fileWalk} from './fileWalk';
 import {handleException} from '../../../exceptions';
 import {IfsChangedMessage} from '../../outgoing/providers';
 import {appStoreInstance, messageSendServiceInstance} from '../../../../globals';
-import {InternalFileStructure} from '../../../internalFileStructure/InternalFileStructure';
+import {InternalFileStructureMutator} from '../../../internalFileStructure/InternalFileStructureMutator';
 import {FileRecord} from '../../../internalFileStructure/FileRecord';
 import * as path from 'path';
 
 const updateIFS = (fileRecord: FileRecord): string => {
     let appStore = appStoreInstance();
     let ifs = appStore.get('ifs');
-    const fileStructure = new InternalFileStructure(ifs);
+    const fileStructure = new InternalFileStructureMutator(ifs);
     fileStructure.addFileRecord(fileRecord);
     appStore.set('ifs', fileStructure.data);
     return appStore.path
@@ -50,10 +50,9 @@ const mountInternalFilePath = (ifsNodePath:string, file: string, depth: number) 
     return path.join(ifsNodePath, dirPath, fileName);
 };
 
-const handleFile = (ifsNodePath: string) => (file: string, depth: number): void => {
-    // const ipfsHash = await updateIPFS(file);
-    const ipfsHash = 'MockedHash';
-    const nodePath = mountInternalFilePath(ifsNodePath, file, depth)
+const handleFile = (ifsNodePath: string) => async (file: string, depth: number): Promise<void> => {
+    const ipfsHash = await updateIPFS(file);
+    const nodePath = mountInternalFilePath(ifsNodePath, file, depth);
     const ifsFilePath = updateIFS(new FileRecord(nodePath, ipfsHash));
      messageSendServiceInstance().send(IfsChangedMessage(ifsFilePath));
 };

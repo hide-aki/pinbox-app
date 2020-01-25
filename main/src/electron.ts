@@ -1,5 +1,5 @@
 import './globals'
-import {app, ipcMain, BrowserWindow} from 'electron';
+import {app, BrowserWindow, ipcMain} from 'electron';
 import * as path from 'path'
 import {handleMessage} from './features/ipcMessaging/incoming';
 import {createIpfsNode} from './features/ipfs/createIpfsNode';
@@ -14,8 +14,8 @@ import * as os from 'os';
 
 let mainWindow: BrowserWindow;
 const isDev = isDevelopment();
-let ExtensionPaths:any = null;
-if(isDev && process.platform === 'linux'){
+let ExtensionPaths: any = null;
+if (isDev && process.platform === 'linux') {
     const ChromeExtensionDir = path.join(os.homedir(), '.config/google-chrome/Default/Extensions');
     ExtensionPaths = {
         ReactDevTools: path.join(ChromeExtensionDir, 'fmkadmapgofadopljbjfkapdkoienihi/4.4.0_0'),
@@ -23,10 +23,11 @@ if(isDev && process.platform === 'linux'){
     }
 }
 
+
 function initializeApp() {
     const messageSendService = initializeMessageService(mainWindow.webContents);
     createAppStore();
-    createIpfsNode(async ipfsNode => {
+    createIpfsNode().then(async ipfsNode => {
         const ident = await ipfsNode.id();
         logger.info(`Successfully initialized IPFS node - ID: ${ident.id}`);
         // @ts-ignore
@@ -49,7 +50,7 @@ async function createWindow() {
     if (isDev) {
         mainWindow.webContents.openDevTools();
 
-        if(ExtensionPaths){
+        if (ExtensionPaths) {
             BrowserWindow.addDevToolsExtension(ExtensionPaths.ReactDevTools);
             BrowserWindow.addDevToolsExtension(ExtensionPaths.ReduxDevTools);
         }

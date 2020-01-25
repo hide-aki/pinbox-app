@@ -2,8 +2,16 @@ import {FileRecord} from './FileRecord';
 import {set} from 'lodash'
 import {IfsData} from './IfsData';
 
-export class InternalFileStructure {
+/**
+ * Class that mutates the Ifs data object.
+ */
+export class InternalFileStructureMutator {
+    private _mutated: boolean = false;
     constructor(public data: IfsData) {}
+
+    get mutated(): boolean {
+        return this._mutated;
+    }
 
     public addFileRecord(fileRecord: FileRecord) {
         const parts: any = fileRecord.nodePath.split('/');
@@ -17,6 +25,7 @@ export class InternalFileStructure {
     }
 
     private updateModifiedDate() {
-        this.data.lastModified = Date.now()
+        this.data.lastModified = Date.now();
+        this._mutated = true
     }
 }
