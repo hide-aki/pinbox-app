@@ -43,7 +43,7 @@ async function createWindow() {
         webPreferences: {
             nodeIntegration: true,
             // must be .js as it gets compiled to it!
-            preload: path.join(app.getAppPath(), '/preload.js')
+            preload: path.join(__dirname, 'preload.js')
         }
     });
 
