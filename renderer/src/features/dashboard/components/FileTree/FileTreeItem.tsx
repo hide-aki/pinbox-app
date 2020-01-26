@@ -2,9 +2,9 @@ import {StyledTreeItem} from './StyledTreeItem';
 import React from 'react';
 import {FileTreeAction} from './typings/fileTreeAction';
 import {voidFn} from '../../../../utils/voidFn';
-import {ItemActions} from './StyledTreeItem/ItemActions';
 import {OnDropFn} from './typings/onDropFn';
 import {caseInsensitiveSortFn} from '../../../../utils/caseInsensitiveSortFn';
+import {isEmptyString} from '../../../../utils/isEmptyString';
 
 interface FileItemProps {
     label: string,
@@ -30,15 +30,17 @@ export function FileTreeItem({label, node, nodeId, onDrop, onAction = voidFn}: F
                 node={childFileItem}
                 label={k}
                 onDrop={onDrop}
+                onAction={onAction}
             />
         });
     return (
         <StyledTreeItem
             nodeId={nodeId}
+            node={node}
             labelText={label}
             isFile={isFile}
-            labelInfo={node.ipfsHash}
-            actions={<ItemActions actions={[]} onAction={onAction}/>}
+            isRoot={isEmptyString(nodeId)}
+            onAction={onAction}
             onDrop={onDrop}
         >
             {nestedFileItems}

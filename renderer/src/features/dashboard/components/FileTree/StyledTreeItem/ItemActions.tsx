@@ -1,12 +1,8 @@
 import React from 'react';
-import makeStyles from '@material-ui/core/styles/makeStyles';
 import {IconButton, Menu, MenuItem} from '@material-ui/core';
 import MoreVertTwoTone from '@material-ui/icons/MoreVertTwoTone'
 import {FileTreeAction} from '../typings/fileTreeAction';
-
-const useActionStyles = makeStyles(theme => ({
-    root: {},
-}));
+import {FormattedMessage} from 'react-intl';
 
 interface StyledTreeItemActionsProps {
     actions: FileTreeAction[];
@@ -14,11 +10,10 @@ interface StyledTreeItemActionsProps {
 }
 
 export const ItemActions: React.FC<StyledTreeItemActionsProps> = (props): JSX.Element | null => {
-    const classes = useActionStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const {actions, onAction} = props;
 
-    if(!actions.length) return null;
+    if (!actions.length) return null;
 
     const closeActions = (event: any) => {
         setAnchorEl(null);
@@ -51,7 +46,7 @@ export const ItemActions: React.FC<StyledTreeItemActionsProps> = (props): JSX.El
                     actions.map(action =>
                         <MenuItem key={action.name}
                                   onClick={handleAction(action)}>
-                            {action.label}
+                            <FormattedMessage id={action.labelId}/>
                         </MenuItem>)
                 }
             </Menu>

@@ -8,7 +8,6 @@ import {FileTreeItem} from './FileTreeItem';
 import {DropZone} from './DropZone';
 import {OnDropFn} from './typings/onDropFn';
 import {OnActionFn} from './typings/onActionFn';
-import {caseInsensitiveSortFn} from '../../../../utils/caseInsensitiveSortFn';
 
 const useStyles = makeStyles(theme => ({
         root: {
@@ -40,8 +39,8 @@ interface FileTreeProps {
 export const FileTree = (props: FileTreeProps) => {
     const classes = useStyles();
     const {onAction, onDrop, tree} = props;
-    const fileTreeItems = Object.keys(tree.root).sort(caseInsensitiveSortFn);
-    const hasFiles = fileTreeItems.length > 0;
+    const hasFiles = Object.keys(tree.root).length > 0;
+    const rootNodeId = '';
 
     return (
         <div className={classes.root}>
@@ -54,18 +53,17 @@ export const FileTree = (props: FileTreeProps) => {
                 <TreeView
                     defaultCollapseIcon={<ExpandMoreIcon color="primary"/>}
                     defaultExpandIcon={<ChevronRightIcon color="primary"/>}
+                    defaultExpanded={[rootNodeId]}
                 >
                     {
-                        fileTreeItems.length
-                            ? fileTreeItems.map((k) =>
-                                <FileTreeItem
-                                    key={k}
-                                    nodeId={k}
-                                    label={k}
-                                    node={tree.root[k]}
-                                    onAction={onAction}
-                                    onDrop={onDrop}/>
-                            )
+                        hasFiles
+                            ? <FileTreeItem
+                                key='root'
+                                nodeId={rootNodeId}
+                                label='Pinbox'
+                                node={tree.root}
+                                onAction={onAction}
+                                onDrop={onDrop}/>
                             : <DropZone onDrop={onDrop}/>
                     }
                 </TreeView>

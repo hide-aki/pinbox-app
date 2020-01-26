@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import {Grid, Paper} from '@material-ui/core';
 import {FileTree} from './components/FileTree';
 import {ElectronContext} from '../../components/contexts/ElectronContext';
@@ -8,10 +8,12 @@ import {dashboardSlice} from './slice'
 import {FileTreeAction} from './components/FileTree/typings/fileTreeAction';
 import {useSelector} from 'react-redux';
 import {selectIfs} from './selectors';
+import {ActionNames} from './components/FileTree/StyledTreeItem/actions';
+import {RenameFileDialog} from './components/RenameFileDialog';
 
 const {actions} = dashboardSlice;
 
-const sendFilesToElectron = (service: ElectronService) => (files: FileList | null, nodePath:string): void => {
+const sendFilesToElectron = (service: ElectronService) => (files: FileList | null, nodePath: string): void => {
     if (files === null) return;
 
     let filePaths = new Array<string>();
@@ -32,17 +34,34 @@ const sendFilesToElectron = (service: ElectronService) => (files: FileList | nul
 
 export const DashboardPage: React.FC = () => {
     const electronService = useContext(ElectronContext);
+    const [renameDialogOpen, setRenameDialogOpen] = useState(false);
+    const [selectedNode, setSelectedNode] = useState(null);
     const ifs = useSelector(selectIfs);
+
     const handleDrop = (files: FileList | null, nodePath: string): any => {
         sendFilesToElectron(electronService)(files, nodePath)
     };
 
     const handleAction = (action: FileTreeAction): void => {
-        console.log('handleAction', action)
+        console.log('handleAction', action);
+        switch (action.name) {
+            case ActionNames.Rename:
+                setSelectedNode(action.context);
+                setRenameDialogOpen(true);
+                break;
+            case ActionNames.Remove:
+                break;
+            default:
+                console.warn('Unknown action:', action.name)
+        }
     };
 
     return (
         <Page>
+            <RenameFileDialog
+                isOpen={renameDialogOpen}
+                nodeId={selectedNode}
+            />
             <Grid
                 container
                 direction='row'
@@ -52,11 +71,16 @@ export const DashboardPage: React.FC = () => {
             >
                 <Grid item xs={12}>
                     <Paper>
-                        <FileTree
-                            tree={ifs.records}
-                            onAction={handleAction}
-                            onDrop={handleDrop}
-                        />
+                        {ifs && (
+                            <React.Fragment>
+                                <FileTree
+                                    tree={ifs.records}
+                                    onAction={handleAction}
+                                    onDrop={handleDrop}
+                                />
+                            </React.Fragment>
+                        )
+                        }
                     </Paper>
                 </Grid>
             </Grid>

@@ -6,7 +6,7 @@ import {mountInternalFilePath} from './mountInternalFilePath';
 import {addFileToInternalFileStructure} from './addFileToInternalFileStructure';
 import {addToIpfs} from './addToIpfs';
 
-const handleFile = (nodePath: string) => async (file: string, depth: number): Promise<void> => {
+const addFile = (nodePath: string) => async (file: string, depth: number): Promise<void> => {
     const ipfsHash = await addToIpfs(file);
     const internalFilePath = mountInternalFilePath(nodePath, file, depth);
     const ifsFilePath = addFileToInternalFileStructure(new FileRecord(internalFilePath, ipfsHash));
@@ -16,6 +16,6 @@ const handleFile = (nodePath: string) => async (file: string, depth: number): Pr
 export const handleFileDrop = (payload: any) => {
     const {filePaths, nodePath} = payload;
     filePaths.forEach((file: string) => {
-        fileWalk(file, handleFile(nodePath))
+        fileWalk(file, addFile(nodePath))
     });
 };

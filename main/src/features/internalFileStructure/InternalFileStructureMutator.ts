@@ -7,14 +7,16 @@ import {IfsData} from './IfsData';
  */
 export class InternalFileStructureMutator {
     private _mutated: boolean = false;
-    constructor(public data: IfsData) {}
+
+    constructor(public data: IfsData) {
+    }
 
     get mutated(): boolean {
         return this._mutated;
     }
 
     public upsertFileRecord(fileRecord: FileRecord) {
-        const parts: any = fileRecord.nodePath.split('/');
+        const parts: any = fileRecord.nodePath.split('/').filter(p => p && p.length > 0);
         set(this.data.records.root, parts, fileRecord.toPersistableJson());
         this.updateModifiedDate()
     }

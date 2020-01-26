@@ -1,7 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import {Typography} from '@material-ui/core';
 import InsertDriveFileTwoTone from '@material-ui/icons/InsertDriveFileTwoTone';
+import {ItemActions} from './ItemActions';
+import {OnActionFn} from '../typings/onActionFn';
+import {FileTreeAction} from '../typings/fileTreeAction';
+import {ActionNames, createActions} from './actions';
 
 const useTreeItemStyles = makeStyles(theme => ({
     root: {
@@ -30,23 +34,44 @@ const useTreeItemStyles = makeStyles(theme => ({
     },
 }));
 
-interface StyledTreeItemProps {
+interface ItemFileProps {
     nodeId: string;
+    node: any;
     labelText: string;
-    actions?: JSX.Element;
+    onAction: OnActionFn;
 }
 
-export const ItemFile: React.FC<StyledTreeItemProps> = (props): JSX.Element => {
+export const ItemFile: React.FC<ItemFileProps> = (props): JSX.Element => {
     const classes = useTreeItemStyles();
-    const {nodeId, labelText, actions: Actions = null, ...other} = props;
+    const [actionsVisible, setActionsVisible] = useState(false);
+    const {nodeId, labelText, onAction} = props;
+
+    const actions: FileTreeAction[] = createActions(
+        nodeId,
+        [
+            ActionNames.Rename,
+            ActionNames.Remove
+        ]
+    );
+
+    function handleMouseEnter() {
+        setActionsVisible(true)
+    }
+
+    function handleMouseLeave() {
+        setActionsVisible(false)
+    }
 
     return (
-        <div className={classes.labelRoot}>
+        <div className={classes.labelRoot}
+             onMouseEnter={handleMouseEnter}
+             onMouseLeave={handleMouseLeave}
+        >
             <InsertDriveFileTwoTone className={classes.fileIcon}/>
             <Typography variant="body2" className={classes.labelText}>
                 {labelText}
             </Typography>
-            {Actions}
+            {actionsVisible && <ItemActions actions={actions} onAction={onAction}/>}
         </div>
     )
 };

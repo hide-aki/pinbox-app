@@ -51,6 +51,8 @@
   "button.set_account": "Use Existing account",
   "dashboard.filetree.title" : "Your files",
   "dashboard.filetree.nofiles" : "No files yet",
+  "dashboard.filetree.actions.rename" : "Rename",
+  "dashboard.filetree.actions.remove" : "Remove",
   "dropbox.drop_here": "Drag and drop your files or folders in this area",
   "input.enter_passphrase": "Enter Passphrase",
   "input.enter_pin": "Enter PIN",

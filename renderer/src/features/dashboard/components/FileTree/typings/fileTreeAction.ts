@@ -1,5 +1,5 @@
 export interface FileTreeAction {
     name: string,
-    label: string,
+    labelId: string,
     context: any;
 }
