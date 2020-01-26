@@ -13,14 +13,9 @@ export class InternalFileStructureMutator {
         return this._mutated;
     }
 
-    public addFileRecord(fileRecord: FileRecord) {
+    public upsertFileRecord(fileRecord: FileRecord) {
         const parts: any = fileRecord.nodePath.split('/');
-        const data = {
-            nonce: fileRecord.nonce,
-            created: fileRecord.created,
-            ipfsHash: fileRecord.ipfsHash,
-        };
-        set(this.data.records.root, parts, data);
+        set(this.data.records.root, parts, fileRecord.toPersistableJson());
         this.updateModifiedDate()
     }
 

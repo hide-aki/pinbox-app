@@ -27,7 +27,7 @@ describe('InternalFileStructure', () => {
 
             let fileRecord = new FileRecord('a/foo.png', 'ipfsHash');
 
-            ifs.addFileRecord(fileRecord);
+            ifs.upsertFileRecord(fileRecord);
 
             expect(ifs.data).toBeDefined();
             expect(ifs.data.lastModified).not.toBe(0);
@@ -43,7 +43,7 @@ describe('InternalFileStructure', () => {
 
             let fileRecord = new FileRecord('a/b/c/foo.png', 'ipfsHash');
 
-            ifs.addFileRecord(fileRecord);
+            ifs.upsertFileRecord(fileRecord);
 
             expect(ifs.data).toBeDefined();
             expect(ifs.data.lastModified).not.toBe(0);
@@ -59,7 +59,7 @@ describe('InternalFileStructure', () => {
 
             let fileRecord = new FileRecord('foo.png', 'ipfsHash');
 
-            ifs.addFileRecord(fileRecord);
+            ifs.upsertFileRecord(fileRecord);
 
             expect(ifs.data).toBeDefined();
             expect(ifs.data.lastModified).not.toBe(0);

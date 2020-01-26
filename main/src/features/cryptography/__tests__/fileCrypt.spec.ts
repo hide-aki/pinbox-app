@@ -1,4 +1,4 @@
-import {encryptFileTo, decryptFileFrom} from '../../../../cryptography/fileCrypt';
+import {encryptFileTo, decryptFileFrom} from '../fileCrypt';
 import {join} from 'path';
 import {unlinkSync, existsSync, readFileSync} from 'fs';
 
