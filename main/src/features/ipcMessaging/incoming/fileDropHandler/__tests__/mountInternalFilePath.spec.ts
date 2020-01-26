@@ -1,5 +1,3 @@
-import {fileWalk} from '../fileWalk';
-import {join} from 'path';
 import {mountInternalFilePath} from '../mountInternalFilePath';
 
 describe('mountInternalFilePath', () => {

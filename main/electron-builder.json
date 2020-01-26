@@ -7,7 +7,6 @@
   },
   "files": [
     "build/**/*",
-    "node_modules/**/*",
     "out/**/*",
     "package.json",
     "ipfs.config.json"
