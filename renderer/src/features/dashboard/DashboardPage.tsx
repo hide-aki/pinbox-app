@@ -56,11 +56,16 @@ export const DashboardPage: React.FC = () => {
         }
     };
 
+    const handleRenameClose = (newName:string):void => {
+        console.log(newName);
+    }
+
     return (
         <Page>
             <RenameFileDialog
                 isOpen={renameDialogOpen}
                 nodeId={selectedNode}
+                onClose={handleRenameClose}
             />
             <Grid
                 container

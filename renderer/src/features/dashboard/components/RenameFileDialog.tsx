@@ -6,48 +6,62 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import {OnDialogCloseFn} from './FileTree/typings/onDialogCloseFn';
+import {getLabelFromNodeId} from './FileTree/helper/getLabelFromNodeId';
+import {FormattedHTMLMessage, FormattedMessage, useIntl} from 'react-intl';
 
 interface RenameFileDialogProps {
     isOpen: boolean
     nodeId: any
+    onClose: OnDialogCloseFn
 }
 
-export const RenameFileDialog : React.FC<RenameFileDialogProps> = ({nodeId, isOpen}) => {
+export const RenameFileDialog : React.FC<RenameFileDialogProps> = ({nodeId, isOpen, onClose}) => {
+    const intl = useIntl();
     const [open, setOpen] = useState(isOpen);
     const [name, setName] = useState('');
 
     useEffect(() => {
         setOpen(isOpen);
-        setName(nodeId);
+        setName(getLabelFromNodeId(nodeId));
     }, [isOpen, nodeId]);
 
     const handleClose = () => {
         setOpen(false);
+        onClose(null)
     };
 
     const handleConfirm = () => {
-        console.log('new name', name);
-        setOpen(false)
+        setOpen(false);
+        onClose(name)
     };
 
     const handleNameChange = (e: ChangeEvent) => {
-        console.log('new name', e.target.nodeValue);
-        const newName = e.target.nodeValue || '';
+        // @ts-ignore
+        const newName = e.target.value;
+        console.log('new name', newName);
         setName(newName)
     };
 
+    const label = getLabelFromNodeId(nodeId);
+
     return (
         <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-            <DialogTitle id="form-dialog-title">Rename File</DialogTitle>
+            <DialogTitle id="form-dialog-title">
+                <FormattedMessage id="dashboard.dialog.rename_file.title"/>
+            </DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    {`Bla ${nodeId}`}
+                    <FormattedHTMLMessage
+                        id="dashboard.dialog.rename_file.description"
+                        values={{label}}
+                    />
                 </DialogContentText>
                 <TextField
                     autoFocus
                     margin="dense"
                     id="name"
-                    label="New Name"
+                    label={intl.formatMessage({id:'dashboard.dialog.rename_file.label'})}
                     type="text"
                     fullWidth
                     value={name}
@@ -56,10 +70,10 @@ export const RenameFileDialog : React.FC<RenameFileDialogProps> = ({nodeId, isOp
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose} color="secondary">
-                    Cancel
+                    <FormattedMessage id="button.cancel" />
                 </Button>
                 <Button onClick={handleConfirm} color="primary">
-                    Rename
+                    <FormattedMessage id="button.apply" />
                 </Button>
             </DialogActions>
         </Dialog>
