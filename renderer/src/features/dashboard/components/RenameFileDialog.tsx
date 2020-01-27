@@ -10,7 +10,6 @@ import {OnDialogCloseFn} from './FileTree/typings/onDialogCloseFn';
 import {getLabelFromNodeId} from './FileTree/helper/getLabelFromNodeId';
 import {FormattedHTMLMessage, FormattedMessage, useIntl} from 'react-intl';
 import {isEmptyString} from '../../../utils/isEmptyString';
-import {isValid} from '@burstjs/util';
 
 interface RenameFileDialogProps {
     isOpen: boolean
