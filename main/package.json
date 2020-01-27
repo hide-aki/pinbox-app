@@ -30,6 +30,7 @@
   "devDependencies": {
     "@types/electron": "^1.6.10",
     "@types/jest": "^24.9.0",
+    "@types/opossum": "^4.1.0",
     "concurrently": "^5.0.2",
     "copyfiles": "^2.2.0",
     "cross-env": "^6.0.3",
@@ -49,7 +50,7 @@
     "argon2": "^0.25.1",
     "electron-store": "^5.1.0",
     "ipfs": "^0.40.0",
-    "keytar": "^5.0.0",
+    "keytar": "^5.1.0",
     "lodash": "^4.17.15",
     "opossum": "^4.2.4",
     "winston": "^3.2.1"

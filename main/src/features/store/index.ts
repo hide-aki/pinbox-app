@@ -17,10 +17,14 @@ const schema = {
             },
             lastModified: {
                 type: 'number',
+            },
+            publicKey: {
+                type: 'string',
             }
         },
         default: {
             lastModified: Date.now(),
+            publicKey: '',
             records: {root: {}}
         }
     }
