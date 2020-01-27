@@ -13,8 +13,6 @@ global.ipfs = null;
 // @ts-ignore
 global.messageSendService = null;
 // @ts-ignore
-global.internalFileStructure = null;
-// @ts-ignore
 global.appStore = null;
 
 
@@ -26,11 +24,6 @@ export const ipfsInstance = (): any => {
 export const messageSendServiceInstance = (): MessageSendService => {
 // @ts-ignore
     return global.messageSendService
-};
-
-export const internalFileStructureInstance = (): InternalFileStructureMutator => {
-// @ts-ignore
-    return global.internalFileStructure
 };
 
 export const appStoreInstance = (): Store => {

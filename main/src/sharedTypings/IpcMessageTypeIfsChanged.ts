@@ -1,3 +1,1 @@
-export interface IpcMessageTypeIfsChanged {
-    ifsFilepath: string
-}
+export interface IpcMessageTypeIfsChanged {}

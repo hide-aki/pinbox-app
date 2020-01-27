@@ -5,17 +5,19 @@ import {FileRecord} from '../../../internalFileStructure/FileRecord';
 import {mountInternalFilePath} from './mountInternalFilePath';
 import {addFileToInternalFileStructure} from './addFileToInternalFileStructure';
 import {addToIpfs} from './addToIpfs';
+import {IpcMessageTypeFileDrop} from '../../../../sharedTypings/IpcMessageTypeFileDrop';
 
 const addFile = (nodePath: string) => async (file: string, depth: number): Promise<void> => {
     const ipfsHash = await addToIpfs(file);
     const internalFilePath = mountInternalFilePath(nodePath, file, depth);
-    const ifsFilePath = addFileToInternalFileStructure(new FileRecord(internalFilePath, ipfsHash));
-    messageSendServiceInstance().send(IfsChangedMessage(ifsFilePath));
+    addFileToInternalFileStructure(new FileRecord(internalFilePath, ipfsHash));
+    messageSendServiceInstance().send(IfsChangedMessage());
 };
 
-export const handleFileDrop = (payload: any) => {
-    const {filePaths, nodePath} = payload;
+export const handleFileDrop = (payload: IpcMessageTypeFileDrop) => {
+    const {filePaths, ifsFilepath} = payload;
+    const addFileFn  = addFile(ifsFilepath);
     filePaths.forEach((file: string) => {
-        fileWalk(file, addFile(nodePath))
+        fileWalk(file, addFileFn)
     });
 };

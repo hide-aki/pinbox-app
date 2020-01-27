@@ -9,6 +9,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import {OnDialogCloseFn} from './FileTree/typings/onDialogCloseFn';
 import {getLabelFromNodeId} from './FileTree/helper/getLabelFromNodeId';
 import {FormattedHTMLMessage, FormattedMessage, useIntl} from 'react-intl';
+import {isEmptyString} from '../../../utils/isEmptyString';
+import {isValid} from '@burstjs/util';
 
 interface RenameFileDialogProps {
     isOpen: boolean
@@ -16,15 +18,31 @@ interface RenameFileDialogProps {
     onClose: OnDialogCloseFn
 }
 
-export const RenameFileDialog : React.FC<RenameFileDialogProps> = ({nodeId, isOpen, onClose}) => {
+function validateName(newName: string): boolean {
+    if (!isEmptyString(newName)) {
+        return newName.indexOf('/') === -1
+    }
+    return false;
+}
+
+const InitialName='@@INIT_NAME';
+
+export const RenameFileDialog: React.FC<RenameFileDialogProps> = ({nodeId, isOpen, onClose}) => {
     const intl = useIntl();
     const [open, setOpen] = useState(isOpen);
-    const [name, setName] = useState('');
+    const [valid, setValid] = useState(true);
+    const [name, setName] = useState(InitialName);
 
     useEffect(() => {
         setOpen(isOpen);
         setName(getLabelFromNodeId(nodeId));
-    }, [isOpen, nodeId]);
+        return () => { resetDialog() }
+    }, [isOpen]);
+
+    const resetDialog = () => {
+        setValid(true);
+        setName(InitialName);
+    };
 
     const handleClose = () => {
         setOpen(false);
@@ -39,8 +57,8 @@ export const RenameFileDialog : React.FC<RenameFileDialogProps> = ({nodeId, isOp
     const handleNameChange = (e: ChangeEvent) => {
         // @ts-ignore
         const newName = e.target.value;
-        console.log('new name', newName);
-        setName(newName)
+        setName(newName);
+        setValid(validateName(newName))
     };
 
     const label = getLabelFromNodeId(nodeId);
@@ -59,9 +77,11 @@ export const RenameFileDialog : React.FC<RenameFileDialogProps> = ({nodeId, isOp
                 </DialogContentText>
                 <TextField
                     autoFocus
+                    error={!valid}
+                    helperText={!valid && intl.formatMessage({id: 'dashboard.dialog.rename_file.invalid_name'})}
                     margin="dense"
                     id="name"
-                    label={intl.formatMessage({id:'dashboard.dialog.rename_file.label'})}
+                    label={intl.formatMessage({id: 'dashboard.dialog.rename_file.label'})}
                     type="text"
                     fullWidth
                     value={name}
@@ -70,10 +90,10 @@ export const RenameFileDialog : React.FC<RenameFileDialogProps> = ({nodeId, isOp
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose} color="secondary">
-                    <FormattedMessage id="button.cancel" />
+                    <FormattedMessage id="button.cancel"/>
                 </Button>
-                <Button onClick={handleConfirm} color="primary">
-                    <FormattedMessage id="button.apply" />
+                <Button onClick={handleConfirm} color="primary" disabled={!valid}>
+                    <FormattedMessage id="button.apply"/>
                 </Button>
             </DialogActions>
         </Dialog>

@@ -1,5 +1,5 @@
 import {FileRecord} from './FileRecord';
-import {set} from 'lodash'
+import {set, get} from 'lodash'
 import {IfsData} from './IfsData';
 
 /**
@@ -15,9 +15,23 @@ export class InternalFileStructureMutator {
         return this._mutated;
     }
 
+    private static splitNodePath(nodePath:string):string[] {
+        return nodePath.split('/').filter(p => p && p.length > 0);
+    }
+
     public upsertFileRecord(fileRecord: FileRecord) {
-        const parts: any = fileRecord.nodePath.split('/').filter(p => p && p.length > 0);
+        const parts = InternalFileStructureMutator.splitNodePath(fileRecord.nodePath);
         set(this.data.records.root, parts, fileRecord.toPersistableJson());
+        this.updateModifiedDate()
+    }
+
+    public renameFile(nodePath:string, newName:string) {
+        const parts = InternalFileStructureMutator.splitNodePath(nodePath);
+        const tmp = get(this.data.records.root, parts);
+        const oldName = parts.splice(Math.max(parts.length - 1, 0));
+        const parent = parts.length ? get(this.data.records.root, parts) : this.data.records.root;
+        parent[newName] = tmp;
+        delete parent[oldName[0]];
         this.updateModifiedDate()
     }
 

@@ -41,9 +41,7 @@ export const IpfsReadyMessage = (ident: any) => () : IpcMessage<IpcMessageTypeIp
     }
 });
 
-export const IfsChangedMessage = (ifsFilepath: string) => () : IpcMessage<IpcMessageTypeIfsChanged> => ({
+export const IfsChangedMessage = () => () : IpcMessage<IpcMessageTypeIfsChanged> => ({
     messageName: MessageNames.IfsChanged,
-    payload: {
-        ifsFilepath,
-    }
+    payload: {}
 });

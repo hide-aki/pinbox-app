@@ -10,10 +10,12 @@ import {useSelector} from 'react-redux';
 import {selectIfs} from './selectors';
 import {ActionNames} from './components/FileTree/StyledTreeItem/actions';
 import {RenameFileDialog} from './components/RenameFileDialog';
+import {isEmptyString} from '../../utils/isEmptyString';
+import {FileDropMessage, RenameFileMessage} from '../ipcMessaging/outgoing/providers';
 
 const {actions} = dashboardSlice;
 
-const sendFilesToElectron = (service: ElectronService) => (files: FileList | null, nodePath: string): void => {
+const dispatchFileDropMessage = (service: ElectronService) => (files: FileList | null, nodePath: string): void => {
     if (files === null) return;
 
     let filePaths = new Array<string>();
@@ -23,13 +25,11 @@ const sendFilesToElectron = (service: ElectronService) => (files: FileList | nul
             filePaths.push(fileItem.path)
         }
     }
-    service.sendMessage({
-        messageName: 'FileDrop',
-        payload: {
-            filePaths,
-            nodePath,
-        }
-    })
+    service.sendMessage(FileDropMessage(nodePath, filePaths))
+};
+
+const dispatchRenameFileMessage = (service: ElectronService) => (nodeId: string, newName: string): void => {
+    service.sendMessage(RenameFileMessage(nodeId, newName))
 };
 
 export const DashboardPage: React.FC = () => {
@@ -39,13 +39,13 @@ export const DashboardPage: React.FC = () => {
     const ifs = useSelector(selectIfs);
 
     const handleDrop = (files: FileList | null, nodePath: string): any => {
-        sendFilesToElectron(electronService)(files, nodePath)
+        dispatchFileDropMessage(electronService)(files, nodePath)
     };
 
     const handleAction = (action: FileTreeAction): void => {
-        console.log('handleAction', action);
         switch (action.name) {
             case ActionNames.Rename:
+                console.log('action', action.name);
                 setSelectedNode(action.context);
                 setRenameDialogOpen(true);
                 break;
@@ -56,9 +56,14 @@ export const DashboardPage: React.FC = () => {
         }
     };
 
-    const handleRenameClose = (newName:string):void => {
-        console.log(newName);
-    }
+    const handleRenameClose = (newName: string | null): void => {
+        if (selectedNode && !isEmptyString(newName)) {
+            // @ts-ignore
+            dispatchRenameFileMessage(electronService)(selectedNode, newName)
+        }
+        setSelectedNode(null);
+        setRenameDialogOpen(false);
+    };
 
     return (
         <Page>

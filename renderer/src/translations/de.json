@@ -57,6 +57,7 @@
   "dashboard.dialog.rename_file.description" : "Du kannst nun die Datei oder den Ordner <pre>{label}</pre> umbenennen.",
   "dashboard.dialog.rename_file.label" : "Neuer Name",
   "dashboard.dialog.rename_file.title" : "Datei oder Ordner umbenennen",
+  "dashboard.dialog.rename_file.invalid_name" : "Ungültiger Name",
   "dropbox.drop_here": "Ziehe Deine Dateien oder Ordner in diesen Bereich",
   "input.enter_passphrase": "Passphrase eingeben",
   "input.enter_pin": "PIN eingeben",

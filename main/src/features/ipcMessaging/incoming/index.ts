@@ -1,10 +1,13 @@
 import {handleFileDrop} from './fileDropHandler';
 import {handleNewAccount} from './newAccountHandler';
 import {IpcMessage} from '../../../sharedTypings/IpcMessage';
+import {logger} from '../../logger';
+import {handleRenameFile} from './renameFileHandler';
 
 const MessageNames = {
     FileDrop: 'FileDrop',
     NewAccount: 'NewAccount',
+    RenameFile: 'RenameFile'
 };
 
 export const handleMessage = (
@@ -12,6 +15,7 @@ export const handleMessage = (
 ): void => {
 
     const {messageName, payload} = message;
+    logger.debug(`Incoming IPC Message: ${messageName}`);
 
     switch (messageName) {
         case MessageNames.FileDrop:
@@ -20,5 +24,10 @@ export const handleMessage = (
         case MessageNames.NewAccount:
             handleNewAccount(payload);
             break;
+        case MessageNames.RenameFile:
+            handleRenameFile(payload);
+            break;
+        default:
+            logger.warn(`Unknown incoming message: ${messageName}`)
     }
 };

@@ -57,6 +57,7 @@
   "dashboard.dialog.rename_file.description" : "You can now rename the file or folder <pre>{label}</pre>.",
   "dashboard.dialog.rename_file.label" : "New Name",
   "dashboard.dialog.rename_file.title" : "Rename File or Folder",
+  "dashboard.dialog.rename_file.invalid_name" : "Invalid Name",
   "dropbox.drop_here": "Drag and drop your files or folders in this area",
   "input.enter_passphrase": "Enter Passphrase",
   "input.enter_pin": "Enter PIN",

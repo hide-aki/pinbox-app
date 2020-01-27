@@ -57,6 +57,7 @@
   "dashboard.dialog.rename_file.description" : "Agora você pode renomear o arquivo/a pasta <pre>{label}</pre>",
   "dashboard.dialog.rename_file.label" : "Novo nome",
   "dashboard.dialog.rename_file.title" : "Renomear arquivo ou pasta",
+  "dashboard.dialog.rename_file.invalid_name" : "Nome inválido",
   "dropbox.drop_here": "Drag and drop your files or folders in this area",
   "input.enter_passphrase": "Digitar Frase Secreta",
   "input.enter_pin": "Digitar PIN",

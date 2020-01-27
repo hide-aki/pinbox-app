@@ -4,7 +4,7 @@ import {IpcMessageTypeIfsChanged} from '../../../../../../main/src/sharedTypings
 
 const {actions} = dashboardSlice;
 
-export const handleIfsChanged = async (payload:IpcMessageTypeIfsChanged) => {
+export const handleIfsChanged = async (_:IpcMessageTypeIfsChanged) => {
     const ifs = window.rendererApi.loadIfs();
     store.dispatch(actions.updateIfsStructure(ifs))
 };

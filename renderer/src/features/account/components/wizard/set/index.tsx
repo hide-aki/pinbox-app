@@ -12,6 +12,7 @@ import {useDispatch} from 'react-redux';
 import {BurstAccountService} from '../../../../../services/BurstAccountService';
 import {thunks} from '../../../slice';
 import {ElectronContext} from '../../../../../components/contexts/ElectronContext';
+import {NewAccountMessage} from '../../../../ipcMessaging/outgoing/providers';
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -105,10 +106,7 @@ export const AccountSetter: React.FC = (props: any) => {
     const handleFinished = () => {
         const secureKeyService = new SecureKeyService();
         secureKeyService.storeKeys(pin, passphrase);
-        electronService.sendMessage({
-            messageName: 'NewAccount',
-            payload: passphrase
-        });
+        electronService.sendMessage(NewAccountMessage(passphrase));
         const burstAccountService = new BurstAccountService();
         const {accountId} = burstAccountService.getAccountIdentifiers(passphrase);
         dispatch(thunks.fetchBurstAccountInfo(accountId));

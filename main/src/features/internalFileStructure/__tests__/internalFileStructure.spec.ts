@@ -69,5 +69,51 @@ describe('InternalFileStructure', () => {
                 ipfsHash: expect.any(String)
             })
         });
-    })
+    });
+
+    describe('renameFile', () => {
+
+        let mockedIfs: IfsData;
+        beforeEach(() => {
+            mockedIfs = {
+                lastModified: 0,
+                records: {
+                    root: {
+                        a: {
+                            'b.txt': {
+                                nonce: 'nonce',
+                                created: 'created',
+                                ipfsHash: 'ipfsHash'
+                            }
+                        }
+                    }
+                }
+            };
+        });
+
+        it('should rename as expected', () => {
+            const mutator = new InternalFileStructureMutator(mockedIfs);
+            mutator.renameFile('a/b.txt', 'foo.txt');
+            expect(mockedIfs.records.root.a['foo.txt']).toEqual({
+                nonce: 'nonce',
+                created: 'created',
+                ipfsHash: 'ipfsHash'
+            });
+            expect(mockedIfs.records.root.a['b.txt']).not.toBeDefined()
+        });
+
+        it('should rename as expected - on root level', () => {
+            const mutator = new InternalFileStructureMutator(mockedIfs);
+            mutator.renameFile('a', 'bar');
+            expect(mockedIfs.records.root.bar).toEqual({
+                    'b.txt': {
+                        nonce: 'nonce',
+                        created: 'created',
+                        ipfsHash: 'ipfsHash'
+                    }
+                }
+            );
+            expect(mockedIfs.records.root.a).not.toBeDefined()
+        })
+    });
 });

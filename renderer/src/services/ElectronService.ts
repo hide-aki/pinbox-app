@@ -1,12 +1,9 @@
 import * as Electron from 'electron';
 import {ElectronWindow} from '../typings/electron.window';
+import {IpcMessage} from '../../../main/src/sharedTypings/IpcMessage';
+import {IpcMessageProvider} from '../../../main/src/features/ipcMessaging/outgoing/MessageSendService';
 
 declare let window: ElectronWindow;
-
-interface ElectronMessageType {
-    messageName: string;
-    payload: any;
-}
 
 let onMessageCount = 0;
 
@@ -92,16 +89,16 @@ export class ElectronService {
         return this.electron ? this.electron.shell : null;
     }
 
-    public sendMessage(message: ElectronMessageType) {
+    public sendMessage<T>(messageProvider: IpcMessageProvider<T>) {
         if (!this.ipcRenderer) {
             console.info('ipcRenderer not supported');
             return;
         }
 
-        this.ipcRenderer.send('channel', message);
+        this.ipcRenderer.send('channel', messageProvider());
     }
 
-    public onMessage(messageHandler: (message: ElectronMessageType) => void): void {
+    public onMessage(messageHandler: (message: IpcMessage<any>) => void): void {
         if(++onMessageCount > 1){
             console.warn('ElectronService.onMessage invoked multiple times', onMessageCount)
         }
@@ -110,7 +107,7 @@ export class ElectronService {
             return;
         }
 
-        this.ipcRenderer.on('channel', (event: Electron.IpcRendererEvent, message: ElectronMessageType) => {
+        this.ipcRenderer.on('channel', (event: Electron.IpcRendererEvent, message: IpcMessage<any>) => {
             messageHandler(message)
         })
     }

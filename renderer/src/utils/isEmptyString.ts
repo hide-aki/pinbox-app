@@ -1,1 +1,1 @@
-export const isEmptyString = (s?:string): boolean => s === undefined || s === null || s === ''
+export const isEmptyString = (s?:string|null): boolean => s === undefined || s === null || s === ''
