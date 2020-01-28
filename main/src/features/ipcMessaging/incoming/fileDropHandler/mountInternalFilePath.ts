@@ -1,5 +1,5 @@
 import * as path from "path";
-import {isTesting} from '../../../../util/isTesting';
+import {isTesting} from '../../../../utils/isTesting';
 
 const PathDelimiter = '/';
 export const mountInternalFilePath = (ifsNodePath: string, file: string, depth: number): string => {

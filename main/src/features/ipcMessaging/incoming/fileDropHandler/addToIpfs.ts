@@ -2,11 +2,11 @@ import {unlink} from 'fs'
 import {withIpfs} from '../../../ipfs/withIpfs';
 import {encryptFileTo, FileCryptArgs} from '../../../cryptography/fileCrypt';
 import {dirname, join} from "path";
-import {randomString} from '../../../../util/randomString';
+import {randomString} from '../../../../utils/randomString';
 import {logger} from '../../../logger';
 import {handleException} from '../../../exceptions';
 import {derivePassword} from '../../../cryptography/derivePassword';
-import {voidFn} from '../../../../util/voidFn';
+import {voidFn} from '../../../../utils/voidFn';
 
 const wait = (millies: number): Promise<void> => {
     return new Promise((resolve) => {

@@ -7,7 +7,7 @@ import {logger} from './features/logger';
 import {IpcChannelName} from './constants';
 import {initializeMessageService} from './features/ipcMessaging/outgoing';
 import {IpfsReadyMessage} from './features/ipcMessaging/outgoing/providers';
-import {isDevelopment} from './util/isDevelopment';
+import {isDevelopment} from './utils/isDevelopment';
 import {createAppStore} from './features/store';
 import {IpcMessage} from './sharedTypings/IpcMessage';
 import * as os from 'os';

@@ -1,4 +1,4 @@
-import {randomString} from '../../util/randomString';
+import {randomString} from '../../utils/randomString';
 
 export class FileRecord {
     public nonce: string;

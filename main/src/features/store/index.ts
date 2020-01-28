@@ -1,5 +1,5 @@
 import Store from 'electron-store';
-import {isDevelopment} from '../../util/isDevelopment';
+import {isDevelopment} from '../../utils/isDevelopment';
 import * as path from 'path';
 import {appStoreInstance} from '../../globals';
 
