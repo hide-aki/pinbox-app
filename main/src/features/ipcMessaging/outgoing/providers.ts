@@ -3,14 +3,18 @@ import {IpcMessage} from '../../../sharedTypings/IpcMessage';
 import {IpcMessageTypeIfsChanged} from '../../../sharedTypings/IpcMessageTypeIfsChanged';
 import {IpcMessageTypeTextMessage} from '../../../sharedTypings/IpcMessageTypeTextMessage';
 import {IpcMessageTypeErrorMessage} from '../../../sharedTypings/IpcMessageTypeErrorMessage';
+import {IpcMessageTypeNoKeystoreEntry} from '../../../sharedTypings/IpcMessageTypeNoKeystoreEntry';
 
 export const MessageNames = {
     Success: 'Success',
     Information: 'Information',
     Error: 'Error',
     IpfsReady: 'IpfsReady',
-    IfsChanged: 'IfsChanged'
+    IfsChanged: 'IfsChanged',
+    NoKeystoreEntry: 'NoKeystoreEntry'
 };
+
+const VoidPayload = {};
 
 export const SuccessMessage = (message:string) => () : IpcMessage<IpcMessageTypeTextMessage> => ({
     messageName: MessageNames.Success,
@@ -43,5 +47,10 @@ export const IpfsReadyMessage = (ident: any) => () : IpcMessage<IpcMessageTypeIp
 
 export const IfsChangedMessage = () => () : IpcMessage<IpcMessageTypeIfsChanged> => ({
     messageName: MessageNames.IfsChanged,
-    payload: {}
+    payload: VoidPayload
+});
+
+export const NoKeystoreEntryMessage = () => () : IpcMessage<IpcMessageTypeNoKeystoreEntry> => ({
+    messageName: MessageNames.NoKeystoreEntry,
+    payload: VoidPayload
 });

@@ -1,14 +1,12 @@
-import {unlinkSync} from 'fs'
-import {getPassword} from 'keytar'
+import {unlink} from 'fs'
 import {withIpfs} from '../../../ipfs/withIpfs';
 import {encryptFileTo, FileCryptArgs} from '../../../cryptography/fileCrypt';
 import {dirname, join} from "path";
 import {randomString} from '../../../../util/randomString';
 import {logger} from '../../../logger';
 import {handleException} from '../../../exceptions';
-import {KeyStoreServiceName} from '../../../../constants';
-import {appStoreInstance} from '../../../../globals';
-import {hashSecret} from '../../../cryptography/hashSecret';
+import {derivePassword} from '../../../cryptography/derivePassword';
+import {voidFn} from '../../../../util/voidFn';
 
 const wait = (millies: number): Promise<void> => {
     return new Promise((resolve) => {
@@ -16,34 +14,31 @@ const wait = (millies: number): Promise<void> => {
     })
 };
 
-async function generatePassword(nonce: string) : Promise<string> {
-    const store = appStoreInstance();
-    if(!store) return Promise.reject("No store available yet");
-    let publicKey = store.get('publicKey');
-    const privateKey = await getPassword(KeyStoreServiceName, publicKey);
-    // FIXME: Fallback if privateKey cannot be fetched! -> message to reforce login!
-    const hashedResult = await hashSecret(`${nonce}.${privateKey}`);
-    return hashedResult.hash;
-}
-
-export const addToIpfs = async (file: string, nonce:string): Promise<string> => withIpfs(async (ipfs: any): Promise<string> => {
-    let password = await generatePassword(nonce);
-    const args: FileCryptArgs = {
-        secret: password,
-        inputFilePath: file,
-        // TODO: use apps path
-        outputFilePath: join(dirname(file), randomString())
-    };
+export const addToIpfs = async (file: string, nonce: string): Promise<string> => withIpfs(async (ipfs: any): Promise<string> => {
+    let encryptedFile : string|null = null;
     try {
-        await encryptFileTo(args);
+        let password = await derivePassword(nonce);
+        const args: FileCryptArgs = {
+            secret: password,
+            inputFilePath: file,
+            // TODO: use apps path
+            outputFilePath: join(dirname(file), randomString())
+        };
         logger.debug(`Adding file: ${args.inputFilePath}`);
+        await encryptFileTo(args);
+        encryptedFile = args.outputFilePath;
+        logger.debug('Successfully encrypted');
         const result = await ipfs.addFromFs(args.outputFilePath);
-        logger.debug(`Added file: ${args.outputFilePath}, Ipfs: ${JSON.stringify(result)}`);
-        unlinkSync(args.outputFilePath);
+        logger.debug(`Added to IPFS:  ${JSON.stringify(result)}`);
         return Promise.resolve(result)
     } catch (e) {
         handleException(e);
         return Promise.reject(e)
+    } finally {
+        if(encryptedFile !== null){
+            logger.debug(`Removing encrypted File: ${encryptedFile}`);
+            await unlink(encryptedFile, voidFn)
+        }
     }
 });
 

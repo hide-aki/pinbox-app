@@ -4,7 +4,8 @@ import {IpcMessage} from '../../../../../main/src/sharedTypings/IpcMessage';
 
 export const MessageNames = {
     IpfsReady: 'IpfsReady',
-    IfsChanged: 'IfsChanged'
+    IfsChanged: 'IfsChanged',
+    NoKeystoreEntry: 'NoKeystoreEntry'
 };
 
 export const handleMessage = (
@@ -18,6 +19,9 @@ export const handleMessage = (
             handleIpfsReady(payload);
             break;
         case MessageNames.IfsChanged:
+            handleIfsChanged(payload);
+            break;
+        case MessageNames.NoKeystoreEntry:
             handleIfsChanged(payload);
             break;
         default:
