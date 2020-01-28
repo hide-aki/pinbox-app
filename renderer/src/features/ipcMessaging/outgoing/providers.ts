@@ -2,11 +2,13 @@ import {IpcMessageTypeRenameFile} from '../../../../../main/src/sharedTypings/Ip
 import {IpcMessage} from '../../../../../main/src/sharedTypings/IpcMessage';
 import {IpcMessageTypeFileDrop} from '../../../../../main/src/sharedTypings/IpcMessageTypeFileDrop';
 import {IpcMessageTypeNewAccount} from '../../../../../main/src/sharedTypings/IpcMessageTypeNewAccount';
+import {IpcMessageTypeAccountReady} from '../../../../../main/src/sharedTypings/IpcMessageTypeAccountReady';
 
 export const MessageNames = {
     NewAccount: 'NewAccount',
     FileDrop: 'FileDrop',
     RenameFile: 'RenameFile',
+    AccountReady: 'AccountReady'
 };
 
 export const RenameFileMessage = (ifsFilepath:string, newName:string) => () : IpcMessage<IpcMessageTypeRenameFile> => ({
@@ -29,5 +31,12 @@ export const NewAccountMessage = (passphrase:string) => () : IpcMessage<IpcMessa
     messageName: MessageNames.NewAccount,
     payload: {
         passphrase,
+    }
+});
+
+export const AccountReadyMessage = (publicKey:string) => () : IpcMessage<IpcMessageTypeAccountReady> => ({
+    messageName: MessageNames.AccountReady,
+    payload: {
+        publicKey,
     }
 });

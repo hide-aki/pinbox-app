@@ -1,11 +1,13 @@
-import {Action, createSlice} from '@reduxjs/toolkit';
-import {ThunkAction} from 'redux-thunk';
+import {createSlice} from '@reduxjs/toolkit';
 import {applicationSlice} from '../../app/slice';
 import {PersistenceService} from '../../services/PersistenceService';
 import {AccountState, BurstAccountService} from '../../services/BurstAccountService';
 import {Account} from '@burstjs/core';
 import {convertNumericIdToAddress} from '@burstjs/util';
 import {Thunk} from '../../typings/Thunk';
+import {ElectronService} from '../../services/ElectronService';
+import {AccountReadyMessage} from '../ipcMessaging/outgoing/providers';
+import {isEmptyString} from '../../utils/isEmptyString';
 
 const ACC_KEY = 'acc';
 
@@ -52,6 +54,10 @@ const fetchBurstAccountInfo = (accountIdent: string = '', publicKey: string = ''
             account = await accountService.fetchAccount(accountId);
         }
         dispatch(accountSlice.actions.setAccount(account));
+        if(!isEmptyString(account.keys.publicKey)){
+            const electronService = new ElectronService();
+            electronService.sendMessage(AccountReadyMessage(account.keys.publicKey))
+        }
     } catch (err) {
         dispatch(applicationSlice.actions.showErrorMessage(err.toString()))
     }
