@@ -65,7 +65,7 @@ export const AccountDetails: React.FC<IProps> =
         const t = (id: string) => intl.formatMessage({id});
 
         // @ts-ignore
-        const {account: accountId, accountRS, publicKey} = account;
+        const {account: accountId, accountRS, keys : {publicKey}} = account;
         const balance = formattingService.formatBurstBalance(account);
 
         const gotoPools = () => {

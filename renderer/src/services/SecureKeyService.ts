@@ -19,7 +19,6 @@ export class SecureKeyService {
             throw new Error('Invalid passphrase')
         }
 
-        // FIXME: This is not secure enough...use PBKDF2
         const keys = generateMasterKeys(passphrase);
         const hash = hashSHA256(pin);
         const keysStr = JSON.stringify(keys);

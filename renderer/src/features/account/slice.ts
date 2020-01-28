@@ -25,12 +25,16 @@ export const accountSlice = createSlice({
     }
 });
 
-const fetchBurstAccountInfo = (accountIdent: string = ''): Thunk => async dispatch => {
+const fetchBurstAccountInfo = (accountIdent: string = '', publicKey: string = ''): Thunk => async dispatch => {
     try {
         let accountId = accountIdent;
+        let pubKey = publicKey;
         if(!accountId.length){
             const a =  persistenceService.getJsonObject(ACC_KEY) as Account;
-            if(a){ accountId = a.account }
+            if(a){
+                accountId = a.account;
+                pubKey = a.keys.publicKey;
+            }
         }
         const accountService = new BurstAccountService();
         let account = null;
@@ -40,9 +44,12 @@ const fetchBurstAccountInfo = (accountIdent: string = ''): Thunk => async dispat
                 account: accountId,
                 accountRS: convertNumericIdToAddress(accountId),
                 balanceNQT: '0',
+                keys: {
+                    publicKey: pubKey
+                }
             };
         } else {
-            account = await new BurstAccountService().fetchAccount(accountId);
+            account = await accountService.fetchAccount(accountId);
         }
         dispatch(accountSlice.actions.setAccount(account));
     } catch (err) {

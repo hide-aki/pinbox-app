@@ -108,8 +108,8 @@ export const AccountSetter: React.FC = (props: any) => {
         secureKeyService.storeKeys(pin, passphrase);
         electronService.sendMessage(NewAccountMessage(passphrase));
         const burstAccountService = new BurstAccountService();
-        const {accountId} = burstAccountService.getAccountIdentifiers(passphrase);
-        dispatch(thunks.fetchBurstAccountInfo(accountId));
+        const {accountId, publicKey} = burstAccountService.getAccountIdentifiers(passphrase);
+        dispatch(thunks.fetchBurstAccountInfo(accountId, publicKey));
         history.push(RoutePaths.Index)
     };
 

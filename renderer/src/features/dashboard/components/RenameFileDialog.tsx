@@ -36,7 +36,7 @@ export const RenameFileDialog: React.FC<RenameFileDialogProps> = ({nodeId, isOpe
         setOpen(isOpen);
         setName(getLabelFromNodeId(nodeId));
         return () => { resetDialog() }
-    }, [isOpen]);
+    }, [isOpen, nodeId]);
 
     const resetDialog = () => {
         setValid(true);

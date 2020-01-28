@@ -9,7 +9,7 @@ export async function onAppStart(store: EnhancedStore) {
     // @ts-ignore
     store.dispatch(account.thunks.fetchBurstAccountInfo());
 
-    const ifs = window.rendererApi.loadIfs();
-    store.dispatch(dashboard.actions.updateIfsStructure(ifs))
+    // const ifs = window.rendererApi.loadIfs();
+    // store.dispatch(dashboard.actions.updateIfsStructure(ifs))
 
 }
