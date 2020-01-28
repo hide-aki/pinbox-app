@@ -4,31 +4,26 @@ import * as path from 'path';
 import {appStoreInstance} from '../../globals';
 
 const schema = {
-    ifs: {
+    users: {
         type: 'object',
-        properties: {
-            records: {
-                type: 'object',
+        patternProperties: {
+            "^[a-fA-F0-9]{64}$": {
+                type: "object",
                 properties: {
-                    root: {
-                        type: 'object'
+                    ifsCID: {
+                        type: 'string'
+                    },
+                    lastModified: {
+                        type: 'number'
                     }
                 }
-            },
-            lastModified: {
-                type: 'number',
-            },
-            publicKey: {
-                type: 'string',
             }
         },
-        default: {
-            lastModified: Date.now(),
-            publicKey: '',
-            records: {root: {}}
-        }
-    }
+        default: {},
+    },
 };
+
+
 
 export function createAppStore(): Store {
     let store = appStoreInstance();

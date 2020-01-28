@@ -14,21 +14,35 @@ global.ipfs = null;
 global.messageSendService = null;
 // @ts-ignore
 global.appStore = null;
+// @ts-ignore
+global.userStore = null;
+// @ts-ignore
+global.currentPublicKey = null;
 
+const assertInstance = (instanceName: string) : any => {
+    // @ts-ignore
+    const instance  = global[instanceName];
+    // if(!instance) throw Error(`Instance '${instanceName}' not available yet`);
+    return instance
+};
 
 export const ipfsInstance = (): any => {
-// @ts-ignore
-    return global.ipfs
+    return assertInstance('ipfs')
 };
 
 export const messageSendServiceInstance = (): MessageSendService => {
-// @ts-ignore
-    return global.messageSendService
+    return assertInstance('messageSendService')
 };
 
 export const appStoreInstance = (): Store => {
-// @ts-ignore
-    return global.appStore
+    return assertInstance('appStore')
 };
 
+export const userStoreInstance = (): Store => {
+    return assertInstance('userStore')
+};
+
+export const currentPublicKeyInstance = (): string => {
+    return assertInstance('currentPublicKey')
+};
 

@@ -1,13 +1,10 @@
-import {appStoreInstance, messageSendServiceInstance} from '../../globals';
+import {messageSendServiceInstance} from '../../globals';
 import {getPassword} from 'keytar';
 import {KeyStoreServiceName} from '../../constants';
 import {hashSecret} from './hashSecret';
 import {NoKeystoreEntryMessage} from '../ipcMessaging/outgoing/providers';
 
-export async function derivePassword(nonce: string): Promise<string> {
-    const store = appStoreInstance();
-    if (!store) return Promise.reject("No store available yet");
-    let publicKey = store.get('publicKey');
+export async function derivePassword(publicKey: string, nonce: string): Promise<string> {
     const privateKey = await getPassword(KeyStoreServiceName, publicKey);
     if (!privateKey) {
         messageSendServiceInstance().send(NoKeystoreEntryMessage());

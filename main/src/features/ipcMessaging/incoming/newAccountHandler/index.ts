@@ -3,14 +3,24 @@ import {generateMasterKeys} from '@burstjs/crypto';
 import {IpcMessageTypeNewAccount} from '../../../../sharedTypings/IpcMessageTypeNewAccount';
 import {KeyStoreServiceName} from '../../../../constants';
 import {appStoreInstance} from '../../../../globals';
+import {InternalFileStructure} from '../../../internalFileStructure/InternalFileStructure';
 
 export const handleNewAccount = async (
     payload: IpcMessageTypeNewAccount
-) : Promise<void> => {
+): Promise<void> => {
     const {passphrase} = payload;
-    const keys = generateMasterKeys(passphrase);
-    await setPassword(KeyStoreServiceName, keys.publicKey, keys.agreementPrivateKey);
-    // TODO: be careful with new accounts and existing store!
-    // Need to check whether this account already has an ifs in the blockchain, or not
-    appStoreInstance().set('publicKey', keys.publicKey)
+    const {publicKey, agreementPrivateKey} = generateMasterKeys(passphrase);
+    await setPassword(KeyStoreServiceName, publicKey, agreementPrivateKey);
+    const internalFileStructure = new InternalFileStructure();
+    const ipfsHash = await internalFileStructure.saveToIpfs(publicKey);
+    const appStore = appStoreInstance();
+    const users = appStore.get('users');
+    users[publicKey] = {
+        ifsCID: ipfsHash,
+        lastModified: Date.now(),
+    };
+    appStore.set("users", users);
+
+    // @ts-ignore
+    global.currentPublicKey = publicKey
 };

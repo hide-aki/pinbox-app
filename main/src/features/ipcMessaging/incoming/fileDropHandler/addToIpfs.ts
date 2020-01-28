@@ -7,6 +7,7 @@ import {logger} from '../../../logger';
 import {handleException} from '../../../exceptions';
 import {derivePassword} from '../../../cryptography/derivePassword';
 import {voidFn} from '../../../../utils/voidFn';
+import {currentPublicKeyInstance} from '../../../../globals';
 
 const wait = (millies: number): Promise<void> => {
     return new Promise((resolve) => {
@@ -15,9 +16,9 @@ const wait = (millies: number): Promise<void> => {
 };
 
 export const addToIpfs = async (file: string, nonce: string): Promise<string> => withIpfs(async (ipfs: any): Promise<string> => {
-    let encryptedFile : string|null = null;
+    let encryptedFile: string | null = null;
     try {
-        let password = await derivePassword(nonce);
+        let password = await derivePassword(currentPublicKeyInstance(), nonce);
         const args: FileCryptArgs = {
             secret: password,
             inputFilePath: file,
@@ -35,7 +36,7 @@ export const addToIpfs = async (file: string, nonce: string): Promise<string> =>
         handleException(e);
         return Promise.reject(e)
     } finally {
-        if(encryptedFile !== null){
+        if (encryptedFile !== null) {
             logger.debug(`Removing encrypted File: ${encryptedFile}`);
             await unlink(encryptedFile, voidFn)
         }
