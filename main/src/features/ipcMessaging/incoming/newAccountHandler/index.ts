@@ -2,7 +2,7 @@ import {setPassword} from 'keytar'
 import {generateMasterKeys} from '@burstjs/crypto';
 import {IpcMessageTypeNewAccount} from '../../../../sharedTypings/IpcMessageTypeNewAccount';
 import {KeyStoreServiceName} from '../../../../constants';
-import {fetchInternalFileStructure, InternalFileStructure} from '../../../internalFileStructure';
+import {fetchInternalFileStructure} from '../../../internalFileStructure';
 import {appStoreInstance} from '../../../../globals';
 
 async function resetInternalFileStructure(publicKey: string) {
