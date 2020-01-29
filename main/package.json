@@ -6,6 +6,9 @@
     "type": "github",
     "url": "https://github.com/ohager/pinbox-app"
   },
+  "engines": {
+    "node": "12"
+  },
   "author": "ohager",
   "main": "./out/electron.js",
   "scripts": {

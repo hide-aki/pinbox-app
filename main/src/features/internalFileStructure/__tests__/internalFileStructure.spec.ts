@@ -1,6 +1,6 @@
 import {existsSync}  from 'fs';
 import {FileRecord} from '../FileRecord';
-import {IfsData} from '../IfsData';
+import {IfsData} from '../../../sharedTypings/IfsData';
 import {InternalFileStructure} from '../InternalFileStructure';
 import * as path from 'path';
 

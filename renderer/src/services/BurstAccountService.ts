@@ -1,8 +1,9 @@
 import {generateMasterKeys, getAccountIdFromPublicKey} from '@burstjs/crypto';
 import {convertNumericIdToAddress} from '@burstjs/util';
-import {Account, Api, ApiSettings, composeApi} from '@burstjs/core';
+import {Api, ApiSettings, composeApi} from '@burstjs/core';
 import {SettingsService} from './SettingsService';
 import {defaultPeer} from '../app/burstPeers';
+import {BurstAccount} from '../typings/BurstAccount';
 
 interface IAccountIdentifierType {
     publicKey: string,
@@ -11,10 +12,10 @@ interface IAccountIdentifierType {
 }
 
 export enum AccountState {
-    UNDEFINED,
-    ACTIVE,
-    INACTIVE,
-    NOT_FOUND
+    Undefined,
+    Active,
+    Inactive,
+    NotFound
 }
 
 export class BurstAccountService {
@@ -47,16 +48,15 @@ export class BurstAccountService {
 
     public async verifyAccount(accountId: string): Promise<AccountState> {
         try {
-            let account = await this.api.account.getAccount(accountId);
-            // @ts-ignore
-            return account.publicKey ? AccountState.ACTIVE : AccountState.INACTIVE
+            let account = await this.fetchAccount(accountId);
+            return account.publicKey ? AccountState.Active : AccountState.Inactive
         } catch (e) {
-            return AccountState.NOT_FOUND
+            return AccountState.NotFound
         }
     }
 
-    public async fetchAccount(accountId: string): Promise<Account> {
-        return await this.api.account.getAccount(accountId);
+    public async fetchAccount(accountId: string): Promise<BurstAccount> {
+        return await this.api.account.getAccount(accountId) as BurstAccount;
     }
 }
 

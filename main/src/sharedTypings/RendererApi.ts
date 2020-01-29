@@ -1,4 +1,6 @@
+import {IfsData} from './IfsData';
+
 export interface RendererApi {
-    loadIfs: () => object
+    loadIfs: (publicKey:string) => Promise<IfsData>
     // add more here
 }

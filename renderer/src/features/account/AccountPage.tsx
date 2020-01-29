@@ -6,7 +6,6 @@ import {FormattedMessage} from 'react-intl';
 import AccountBackgroundImage from '../../images/background2.png';
 import {AccountDetails} from './components/details/AccountDetails';
 import {useSelector} from 'react-redux';
-import {Account} from '@burstjs/core';
 import {selectCurrentAccount} from './selectors';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -23,7 +22,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const AccountPage: React.FC = () => {
     const classes = useStyles();
-    const account = useSelector<any, Account>(selectCurrentAccount);
+    const account = useSelector(selectCurrentAccount);
     return (
         <Page backgroundImage={AccountBackgroundImage}>
             <Paper className={classes.paper}>

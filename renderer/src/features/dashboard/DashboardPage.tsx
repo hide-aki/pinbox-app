@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Grid, Paper} from '@material-ui/core';
 import {FileTree} from './components/FileTree';
 import {ElectronContext} from '../../components/contexts/ElectronContext';
@@ -6,12 +6,13 @@ import {ElectronService} from '../../services/ElectronService';
 import {Page} from '../../components/Page';
 import {dashboardSlice} from './slice'
 import {FileTreeAction} from './components/FileTree/typings/fileTreeAction';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {selectIfs} from './selectors';
 import {ActionNames} from './components/FileTree/StyledTreeItem/actions';
 import {RenameFileDialog} from './components/RenameFileDialog';
 import {isEmptyString} from '../../utils/isEmptyString';
 import {FileDropMessage, RenameFileMessage} from '../ipcMessaging/outgoing/providers';
+import {selectCurrentAccount} from '../account/selectors';
 
 const {actions} = dashboardSlice;
 
@@ -33,6 +34,15 @@ const dispatchRenameFileMessage = (service: ElectronService) => (nodeId: string,
 };
 
 export const DashboardPage: React.FC = () => {
+    // @ts-ignore
+    const {publicKey} = useSelector(selectCurrentAccount);
+    const dispatch = useDispatch();
+    useEffect(() => {
+        window.rendererApi.loadIfs(publicKey).then(ifs => {
+            console.log('triggered');
+            dispatch(dashboardSlice.actions.updateIfsStructure(ifs));
+        })
+    }, [publicKey]);
     const electronService = useContext(ElectronContext);
     const [renameDialogOpen, setRenameDialogOpen] = useState(false);
     const [selectedNode, setSelectedNode] = useState(null);

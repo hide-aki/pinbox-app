@@ -1,3 +1,3 @@
-import {Account} from '@burstjs/core'
+import {BurstAccount} from '../../typings/BurstAccount';
 
-export const selectCurrentAccount = (state:any): Account => state.account.account;
+export const selectCurrentAccount = (state:any): BurstAccount => state.account.account;

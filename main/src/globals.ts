@@ -6,7 +6,6 @@
  */
 import Store from 'electron-store';
 import {MessageSendService} from './features/ipcMessaging/outgoing';
-import {InternalFileStructureMutator} from './features/internalFileStructure/InternalFileStructureMutator';
 
 // @ts-ignore
 global.ipfs = null;
@@ -18,6 +17,11 @@ global.appStore = null;
 global.userStore = null;
 // @ts-ignore
 global.currentPublicKey = null;
+// @ts-ignore
+global.ifs = null;
+
+// TODO: refactor to a typed option
+// global.singletons : GlobalSingletons = { ipfs, ifs, etc...}
 
 const assertInstance = (instanceName: string) : any => {
     // @ts-ignore
@@ -40,6 +44,10 @@ export const appStoreInstance = (): Store => {
 
 export const userStoreInstance = (): Store => {
     return assertInstance('userStore')
+};
+
+export const internalFileStructureInstance = () => {
+    return assertInstance('ifs')
 };
 
 export const currentPublicKeyInstance = (): string => {

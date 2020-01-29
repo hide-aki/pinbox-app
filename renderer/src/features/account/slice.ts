@@ -8,6 +8,8 @@ import {Thunk} from '../../typings/Thunk';
 import {ElectronService} from '../../services/ElectronService';
 import {AccountReadyMessage} from '../ipcMessaging/outgoing/providers';
 import {isEmptyString} from '../../utils/isEmptyString';
+import {dashboardSlice} from '../dashboard/slice';
+import {BurstAccount} from '../../typings/BurstAccount';
 
 const ACC_KEY = 'acc';
 
@@ -35,28 +37,30 @@ const fetchBurstAccountInfo = (accountIdent: string = '', publicKey: string = ''
             const a =  persistenceService.getJsonObject(ACC_KEY) as Account;
             if(a){
                 accountId = a.account;
-                pubKey = a.keys.publicKey;
+                // @ts-ignore
+                pubKey = a.publicKey;
             }
         }
         const accountService = new BurstAccountService();
         let account = null;
         let accountState = await accountService.verifyAccount(accountId);
-        if (accountState === AccountState.NOT_FOUND) {
+        if (accountState === AccountState.NotFound) {
             account = {
                 account: accountId,
                 accountRS: convertNumericIdToAddress(accountId),
                 balanceNQT: '0',
-                keys: {
-                    publicKey: pubKey
-                }
+                publicKey: pubKey
             };
         } else {
             account = await accountService.fetchAccount(accountId);
         }
+
         dispatch(accountSlice.actions.setAccount(account));
-        if(!isEmptyString(account.keys.publicKey)){
+
+
+        if(!isEmptyString(pubKey)){
             const electronService = new ElectronService();
-            electronService.sendMessage(AccountReadyMessage(account.keys.publicKey))
+            electronService.sendMessage(AccountReadyMessage(pubKey))
         }
     } catch (err) {
         dispatch(applicationSlice.actions.showErrorMessage(err.toString()))

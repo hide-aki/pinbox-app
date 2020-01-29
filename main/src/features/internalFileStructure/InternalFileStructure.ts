@@ -3,7 +3,7 @@ import {join} from 'path'
 import {promisify} from 'util'
 import {app} from 'electron';
 import {get, set} from 'lodash'
-import {IfsData} from './IfsData';
+import {IfsData} from '../../sharedTypings/IfsData';
 import {FileRecord} from './FileRecord';
 import {ipfsInstance} from '../../globals';
 import {decryptFileFrom, encryptFileTo} from '../cryptography/fileCrypt';

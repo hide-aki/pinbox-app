@@ -53,17 +53,17 @@ const getStateViews = (accountState: AccountState): IStateView => {
     let description = '';
     let icon = undefined;
     switch (accountState) {
-        case AccountState.ACTIVE:
+        case AccountState.Active:
             labelId = 'account.state.active';
             description = 'account.state.active.description';
             icon = <VerifiedTwoTone/>;
             break;
-        case AccountState.INACTIVE:
+        case AccountState.Inactive:
             labelId = 'account.state.inactive';
             description = 'account.state.inactive.description';
             icon = <DoneTwoTone/>;
             break;
-        case AccountState.NOT_FOUND:
+        case AccountState.NotFound:
             labelId = 'account.state.notfound';
             description = 'account.state.notfound.description';
             icon = <HelpTwoTone/>;
@@ -81,7 +81,7 @@ export const VerifyAccountStep: React.FC<IProps> =
         const accountInfo = burstAccountService.getAccountIdentifiers(passphrase);
         const intl = useIntl();
         const classes = useStyles();
-        const [accountState, setAccountState] = useState<AccountState>(AccountState.UNDEFINED);
+        const [accountState, setAccountState] = useState<AccountState>(AccountState.Undefined);
 
         useEffect(() => {
             const fetchAccountState = async () => {
@@ -100,7 +100,7 @@ export const VerifyAccountStep: React.FC<IProps> =
                     <h2>{accountInfo.burstAddress}</h2>
                 </div>
                 {
-                    accountState === AccountState.UNDEFINED
+                    accountState === AccountState.Undefined
                         ? (
                             <div className={classes.verifying}>
                                 <LinearProgress/>

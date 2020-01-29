@@ -1,30 +1,27 @@
 import {fileWalk} from './fileWalk';
 import {IfsChangedMessage} from '../../outgoing/providers';
-import {messageSendServiceInstance} from '../../../../globals';
+import {currentPublicKeyInstance, messageSendServiceInstance} from '../../../../globals';
 import {FileRecord} from '../../../internalFileStructure/FileRecord';
 import {mountInternalFilePath} from './mountInternalFilePath';
-import {updateInternalFileSystem} from './updateInternalFileSystem';
 import {addToIpfs} from './addToIpfs';
 import {IpcMessageTypeFileDrop} from '../../../../sharedTypings/IpcMessageTypeFileDrop';
+import {getIfsPath, InternalFileStructure, withInternalFileStructure} from '../../../internalFileStructure';
 
-const addFile = (nodePath: string) => async (file: string, depth: number): Promise<void> => {
+const addFile = (nodePath: string, ifs: InternalFileStructure) => async (file: string, depth: number): Promise<void> => {
     const internalFilePath = mountInternalFilePath(nodePath, file, depth);
     const fileRecord = new FileRecord(internalFilePath, null);
-    updateInternalFileSystem(fileRecord);
+    const ipfsHash = await addToIpfs(file, fileRecord.nonce);
+    ifs.upsertFileRecord(new FileRecord(internalFilePath, ipfsHash));
+    await ifs.saveToLocal(getIfsPath(currentPublicKeyInstance()));
     messageSendServiceInstance().send(IfsChangedMessage());
-    addToIpfs(file, fileRecord.nonce)
-        .then(ipfsHash => {
-            updateInternalFileSystem(new FileRecord(internalFilePath, ipfsHash));
-            messageSendServiceInstance().send(IfsChangedMessage());
-        }).catch(() => {
-        messageSendServiceInstance().sendErrorMessage(new Error('IPFS has a severe problem. Try to reopen Pinbox.'))
-    });
 };
 
-export const handleFileDrop = (payload: IpcMessageTypeFileDrop) => {
-    const {filePaths, ifsFilepath} = payload;
-    const addFileFn = addFile(ifsFilepath);
-    filePaths.forEach((file: string) => {
-        fileWalk(file, addFileFn)
+export const handleFileDrop = async (payload: IpcMessageTypeFileDrop): Promise<void> => {
+    withInternalFileStructure((ifs) => {
+        const {filePaths, ifsFilepath} = payload;
+        const addFileFn = addFile(ifsFilepath, ifs);
+        filePaths.forEach((file: string) => {
+            fileWalk(file, addFileFn)
+        });
     });
 };

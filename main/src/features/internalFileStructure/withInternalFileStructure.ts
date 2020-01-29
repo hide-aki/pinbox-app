@@ -1,20 +1,14 @@
 import {logger} from '../logger';
-import {appStoreInstance, currentPublicKeyInstance} from '../../globals';
-import {IfsData} from './IfsData';
 import {InternalFileStructure} from './InternalFileStructure';
+import {fetchInternalFileStructure} from './fetchInternalFileStructure';
+import {currentPublicKeyInstance} from '../../globals';
 
-export const withInternalFileStructure = (withIfsFn: (ifs: IfsData, saveIfsFn: (mutatedIfs: IfsData) => any) => any): any => {
-
-    // TODO: Implement new InternalFileStructure!
-    const appStore = appStoreInstance();
-    const publicKey = currentPublicKeyInstance();
-    if (appStore) {
-        let ifs = appStore.get('ifs');
-        return withIfsFn(ifs, (mutatedIfs) => {
-            appStore.set('ifs', mutatedIfs);
-        })
-    } else {
-        logger.debug('AppStore not available')
+export const withInternalFileStructure = async (withIfsFn: (ifs: InternalFileStructure) => any): Promise<any> => {
+    try{
+        const internalFileStructure = await fetchInternalFileStructure(currentPublicKeyInstance());
+        return withIfsFn(internalFileStructure)
+    }catch(e){
+        logger.error(`IFS exception: ${e.message}`)
     }
 };
 

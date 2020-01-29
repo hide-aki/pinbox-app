@@ -1,12 +1,14 @@
-import {InternalFileStructure} from '../internalFileStructure/InternalFileStructure';
+import {IfsData} from '../../sharedTypings/IfsData';
+import {getIfsPath, InternalFileStructure} from '../internalFileStructure';
 
-export async function loadIfs(): Promise<object> {
-
-    // // get publicKey from somewhere
-    // const publicKey = 'publicKey';
-    // const {ifs} = userStore.get(publicKey);
-    // const internalFileStructure = await InternalFileStructure.loadFromIpfs(ifs, publicKey);
-    // return internalFileStructure.data;
-
-    return Promise.resolve({})
+export async function loadIfs(publicKey: string): Promise<IfsData> {
+    let internalFileStructure: InternalFileStructure;
+    try {
+        internalFileStructure = await InternalFileStructure.loadFromLocal(getIfsPath(publicKey));
+        return internalFileStructure.data
+    } catch (e) {
+        const internalFileStructure = new InternalFileStructure();
+        await internalFileStructure.saveToLocal(getIfsPath(publicKey));
+        return internalFileStructure.data
+    }
 }

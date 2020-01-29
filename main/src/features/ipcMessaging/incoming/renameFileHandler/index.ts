@@ -1,17 +1,16 @@
 import {IpcMessageTypeRenameFile} from '../../../../sharedTypings/IpcMessageTypeRenameFile';
-import {InternalFileStructureMutator} from '../../../internalFileStructure/InternalFileStructureMutator';
 import {withInternalFileStructure} from '../../../internalFileStructure/withInternalFileStructure';
-import {messageSendServiceInstance} from '../../../../globals';
+import {currentPublicKeyInstance, messageSendServiceInstance} from '../../../../globals';
 import {IfsChangedMessage} from '../../outgoing/providers';
+import {getIfsPath} from '../../../internalFileStructure/getIfsPath';
 
-export const handleRenameFile = (
+export const handleRenameFile = async (
     payload: IpcMessageTypeRenameFile
-) => {
-    withInternalFileStructure((ifsData, saveIfsFn) => {
+): Promise<void> => {
+    await withInternalFileStructure((ifs) => {
         const {newName, ifsFilepath} = payload;
-        const fileStructure = new InternalFileStructureMutator(ifsData);
-        fileStructure.renameFile(ifsFilepath, newName);
-        saveIfsFn(fileStructure.data);
+        ifs.renameFileRecord(ifsFilepath, newName);
+        ifs.saveToLocal(getIfsPath(currentPublicKeyInstance()));
         messageSendServiceInstance().send(IfsChangedMessage());
     })
 };
