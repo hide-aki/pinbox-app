@@ -101,7 +101,7 @@ describe('InternalFileStructure', () => {
 
     describe('loadFromLocal/saveToLocal', () => {
         const TestSecret = 'TestSecret';
-        const TestPath = path.join(__dirname, 'test.json');
+        const TestPath = path.join(__dirname, 'test.ifs');
 
        it('should load a saved IFS - No Encryption', async () => {
            const internalFileStructure = new InternalFileStructure(mockedIfs);

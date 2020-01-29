@@ -41,6 +41,7 @@ async function createWindow() {
         width: 900,
         height: 800,
         webPreferences: {
+            devTools: isDev,
             nodeIntegration: true,
             // must be .js as it gets compiled to it!
             preload: path.join(__dirname, 'preload.js')
@@ -49,7 +50,6 @@ async function createWindow() {
 
     if (isDev) {
         mainWindow.webContents.openDevTools();
-
         if (ExtensionPaths) {
             BrowserWindow.addDevToolsExtension(ExtensionPaths.ReactDevTools);
             BrowserWindow.addDevToolsExtension(ExtensionPaths.ReduxDevTools);
