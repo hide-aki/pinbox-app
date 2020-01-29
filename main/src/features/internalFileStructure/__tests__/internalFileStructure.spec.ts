@@ -1,30 +1,31 @@
-import {InternalFileStructureMutator} from '../InternalFileStructureMutator';
+import {existsSync}  from 'fs';
 import {FileRecord} from '../FileRecord';
 import {IfsData} from '../IfsData';
+import {InternalFileStructure} from '../InternalFileStructure';
+import * as path from 'path';
 
 describe('InternalFileStructure', () => {
-    describe('addFileRecord', () => {
-        let mockedIfs: IfsData;
-        beforeEach(() => {
-            mockedIfs = {
-                lastModified: 0,
-                records: {
-                    root: {
-                        a: {
-                            'b.txt': {
-                                nonce: 'nonce',
-                                created: 'created',
-                                ipfsHash: 'ipfsHash'
-                            }
+    let mockedIfs: IfsData;
+    beforeEach(() => {
+        mockedIfs = {
+            lastModified: 0,
+            records: {
+                root: {
+                    a: {
+                        'b.txt': {
+                            nonce: 'nonce',
+                            created: 'created',
+                            ipfsHash: 'ipfsHash'
                         }
                     }
                 }
-            };
-        });
+            }
+        };
+    });
 
+    describe('addFileRecord', () => {
         it('should add to correct path - existing path', () => {
-            let ifs = new InternalFileStructureMutator(mockedIfs);
-
+            let ifs = new InternalFileStructure(mockedIfs);
             let fileRecord = new FileRecord('a/foo.png', 'ipfsHash');
 
             ifs.upsertFileRecord(fileRecord);
@@ -39,7 +40,7 @@ describe('InternalFileStructure', () => {
         });
 
         it('should add to correct path - non-existing path', () => {
-            let ifs = new InternalFileStructureMutator(mockedIfs);
+            let ifs = new InternalFileStructure(mockedIfs);
 
             let fileRecord = new FileRecord('a/b/c/foo.png', 'ipfsHash');
 
@@ -55,7 +56,7 @@ describe('InternalFileStructure', () => {
         });
 
         it('should add to correct path - root', () => {
-            let ifs = new InternalFileStructureMutator(mockedIfs);
+            let ifs = new InternalFileStructure(mockedIfs);
 
             let fileRecord = new FileRecord('foo.png', 'ipfsHash');
 
@@ -71,29 +72,10 @@ describe('InternalFileStructure', () => {
         });
     });
 
-    describe('renameFile', () => {
-
-        let mockedIfs: IfsData;
-        beforeEach(() => {
-            mockedIfs = {
-                lastModified: 0,
-                records: {
-                    root: {
-                        a: {
-                            'b.txt': {
-                                nonce: 'nonce',
-                                created: 'created',
-                                ipfsHash: 'ipfsHash'
-                            }
-                        }
-                    }
-                }
-            };
-        });
-
+    describe('renameFileRecord', () => {
         it('should rename as expected', () => {
-            const mutator = new InternalFileStructureMutator(mockedIfs);
-            mutator.renameFile('a/b.txt', 'foo.txt');
+            const mutator = new InternalFileStructure(mockedIfs);
+            mutator.renameFileRecord('a/b.txt', 'foo.txt');
             expect(mockedIfs.records.root.a['foo.txt']).toEqual({
                 nonce: 'nonce',
                 created: 'created',
@@ -103,8 +85,8 @@ describe('InternalFileStructure', () => {
         });
 
         it('should rename as expected - on root level', () => {
-            const mutator = new InternalFileStructureMutator(mockedIfs);
-            mutator.renameFile('a', 'bar');
+            const mutator = new InternalFileStructure(mockedIfs);
+            mutator.renameFileRecord('a', 'bar');
             expect(mockedIfs.records.root.bar).toEqual({
                     'b.txt': {
                         nonce: 'nonce',
@@ -116,4 +98,31 @@ describe('InternalFileStructure', () => {
             expect(mockedIfs.records.root.a).not.toBeDefined()
         })
     });
+
+    describe('loadFromLocal/saveToLocal', () => {
+        const TestSecret = 'TestSecret';
+        const TestPath = path.join(__dirname, 'test.json');
+
+       it('should load a saved IFS - No Encryption', async () => {
+           const internalFileStructure = new InternalFileStructure(mockedIfs);
+           const outputFilePath = await internalFileStructure.saveToLocal(TestPath);
+           const wasWritten = existsSync(outputFilePath);
+           expect(wasWritten).toBeTruthy();
+
+           const loadedIfs = await InternalFileStructure.loadFromLocal(outputFilePath);
+           expect(loadedIfs.data).toEqual(mockedIfs);
+
+       });
+
+       it('should load a saved IFS - With Encryption', async () => {
+           const internalFileStructure = new InternalFileStructure(mockedIfs);
+           const outputFilePath = await internalFileStructure.saveToLocal(TestPath, TestSecret);
+           const wasWritten = existsSync(outputFilePath);
+           expect(wasWritten).toBeTruthy();
+
+           const loadedIfs = await InternalFileStructure.loadFromLocal(outputFilePath, TestSecret);
+           expect(loadedIfs.data).toEqual(mockedIfs);
+       });
+    });
+
 });

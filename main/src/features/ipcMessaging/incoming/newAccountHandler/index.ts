@@ -11,15 +11,15 @@ export const handleNewAccount = async (
     const {passphrase} = payload;
     const {publicKey, agreementPrivateKey} = generateMasterKeys(passphrase);
     await setPassword(KeyStoreServiceName, publicKey, agreementPrivateKey);
-    const internalFileStructure = new InternalFileStructure();
-    const ipfsHash = await internalFileStructure.saveToIpfs(publicKey);
-    const appStore = appStoreInstance();
-    const users = appStore.get('users');
-    users[publicKey] = {
-        ifsCID: ipfsHash,
-        lastModified: Date.now(),
-    };
-    appStore.set("users", users);
+    // const internalFileStructure = new InternalFileStructure();
+    // const ipfsHash = await internalFileStructure.saveToIpfs(publicKey);
+    // const appStore = appStoreInstance();
+    // const users = appStore.get('users');
+    // users[publicKey] = {
+    //     ifsCID: ipfsHash,
+    //     lastModified: Date.now(),
+    // };
+    // appStore.set("users", users);
 
     // @ts-ignore
     global.currentPublicKey = publicKey

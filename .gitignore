@@ -91,3 +91,5 @@ main/ipfs
 *.txt.x
 .gitignore
 config.json
+test.json
+test.json.tmp

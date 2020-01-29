@@ -7,9 +7,7 @@ import {IfsData} from './IfsData';
 import {FileRecord} from './FileRecord';
 import {ipfsInstance} from '../../globals';
 import {decryptFileFrom, encryptFileTo} from '../cryptography/fileCrypt';
-import {derivePassword} from '../cryptography/derivePassword';
 import {randomString} from '../../utils/randomString';
-import {logger} from '../logger';
 
 const EmptyIfsData: IfsData = {
     records: {root: {}},
@@ -27,32 +25,6 @@ const readFile = promisify(_readFile);
 export class InternalFileStructure {
     private _mutated: boolean = false;
 
-    public constructor(private _data: IfsData = EmptyIfsData) {
-    }
-
-    public static async loadFromIpfs(ipfsHash: string, publicKey: string): Promise<InternalFileStructure> {
-        // 1. get file from ipfs
-        const ipfs = ipfsInstance();
-        const chunks = [];
-        for await (const chunk of ipfs.cat(ipfsHash)) {
-            chunks.push(chunk)
-        }
-        // 2. decrypt
-        const localFilePath = join(app.getAppPath(), `ifs.${publicKey}.enc`);
-        const plainTextFilePath = localFilePath.replace('.enc', '.json');
-        await writeFile(localFilePath, Buffer.concat(chunks));
-        const secret = await derivePassword(publicKey, IfsStaticNonce);
-        await decryptFileFrom({
-            inputFilePath: localFilePath,
-            isCompressed: true,
-            outputFilePath: plainTextFilePath,
-            secret,
-        });
-        // 3. load IFS now
-        const ifsData: string = await readFile(plainTextFilePath, 'utf-8');
-        return new InternalFileStructure(JSON.parse(ifsData))
-    }
-
     get mutated(): boolean {
         return this._mutated;
     }
@@ -61,8 +33,17 @@ export class InternalFileStructure {
         return this._data;
     }
 
-    private static splitNodePath(nodePath: string): string[] {
-        return nodePath.split('/').filter(p => p && p.length > 0);
+    public constructor(private _data: IfsData = EmptyIfsData) {
+    }
+
+    public static async loadFromIpfs(ipfsHash: string, localOutputPath: string, secret: string): Promise<InternalFileStructure> {
+        const ipfs = ipfsInstance();
+        const chunks = [];
+        for await (const chunk of ipfs.cat(ipfsHash)) {
+            chunks.push(chunk)
+        }
+        await writeFile(localOutputPath, Buffer.concat(chunks));
+        return InternalFileStructure.loadFromLocal(localOutputPath, secret);
     }
 
     public upsertFileRecord(fileRecord: FileRecord) {
@@ -81,19 +62,50 @@ export class InternalFileStructure {
         this.updateModifiedDate()
     }
 
-    public async saveToIpfs(publicKey: string): Promise<string> {
-        const inputFilePath = join(app.getAppPath(), `ifs.${publicKey}.json`);
-        await writeFile(inputFilePath, JSON.stringify(this.data));
-        const outputFilePath = randomString();
-        const secret = await derivePassword(publicKey, IfsStaticNonce);
+    private static getLocalFilepath(publicKey: string, suffix: string = 'enc'): string {
+        return join(app.getAppPath(), `ifs.${publicKey}.${suffix}`);
+    }
+
+    public static async loadFromLocal(inputFilePath: string, secret: string = ''): Promise<InternalFileStructure> {
+        let outputFilePath = inputFilePath;
+        if (secret !== '') {
+            outputFilePath += '.tmp';
+            await decryptFileFrom({
+                isCompressed: true,
+                secret,
+                inputFilePath,
+                outputFilePath
+            });
+        }
+        const data = await readFile(outputFilePath, 'utf-8');
+        const ifsData = JSON.parse(data);
+        return new InternalFileStructure(ifsData);
+    }
+
+    public async saveToLocal(outputFilePath: string, secret: string = ''): Promise<string> {
+        if (secret === '') {
+            await writeFile(outputFilePath, JSON.stringify(this.data), 'utf-8');
+            return outputFilePath
+        }
+        const inputFilePath = outputFilePath + '.tmp';
+        await writeFile(inputFilePath, JSON.stringify(this.data), 'utf-8');
         await encryptFileTo({
             inputFilePath,
             isCompressed: true,
             outputFilePath,
             secret,
         });
-        const result = await  ipfsInstance().addFromFs(outputFilePath);
+        return outputFilePath;
+    }
+
+    public async saveToIpfs(secret: string): Promise<string> {
+        const localFilePath = await this.saveToLocal(randomString(), secret);
+        const result = await ipfsInstance().addFromFs(localFilePath);
         return result[0].hash;
+    }
+
+    private static splitNodePath(nodePath: string): string[] {
+        return nodePath.split('/').filter(p => p && p.length > 0);
     }
 
     private updateModifiedDate() {

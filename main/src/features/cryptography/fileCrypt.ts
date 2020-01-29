@@ -1,7 +1,7 @@
-import {createWriteStream, createReadStream} from 'fs'
-import {createGzip, createGunzip} from 'zlib'
-import {createHash, createCipheriv, randomBytes, createDecipheriv} from 'crypto'
-import {Transform, PassThrough} from 'stream';
+import {createReadStream, createWriteStream} from 'fs'
+import {createGunzip, createGzip} from 'zlib'
+import {createCipheriv, createDecipheriv, createHash, randomBytes} from 'crypto'
+import {PassThrough, Transform} from 'stream';
 
 class AppendInitVector extends Transform {
     private hasAppended = false;
