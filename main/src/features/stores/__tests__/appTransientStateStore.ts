@@ -1,4 +1,4 @@
-import {AppTransientStateStore} from '../appTransientStateStore';
+import {AppTransientStateStore} from '../transient/appTransientStateStore';
 
 describe('AppTransientStateStore', () => {
     it('should be possible to subscribe and receive the events', () => {

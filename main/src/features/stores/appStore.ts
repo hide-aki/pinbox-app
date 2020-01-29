@@ -24,7 +24,7 @@ const schema = {
 };
 
 
-
+// TODO: make it available as object in the transient store
 export function createAppStore(): Store {
     let store = appStoreInstance();
     if (store) {

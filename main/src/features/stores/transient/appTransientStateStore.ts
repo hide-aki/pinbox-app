@@ -1,8 +1,14 @@
 import EventEmitter from 'events'
-import {InternalFileStructure} from '../internalFileStructure';
+import {InternalFileStructure} from '../../internalFileStructure';
 import {set} from 'lodash';
+import {logger} from '../../logger';
 
 const EventName = 'AppSessionStore';
+
+export const AppTransientStatePaths = {
+    CurrentPublicKey: 'currentPublicKey',
+    InternalFileStructure: 'ifs',
+};
 
 export interface AppTransientState {
     currentPublicKey: string,
@@ -16,6 +22,7 @@ export class AppTransientStateStoreSubscription {
     }
 
     public unsubscribe(): void {
+        logger.debug('Transient State: Unsubscribing...');
         this._store.off(EventName, this._ref);
     }
 }
@@ -39,12 +46,16 @@ export class AppTransientStateStore extends EventEmitter {
     }
 
     public set(path: string, value: any) {
+        logger.debug(`Transient State: Setting [${path}] to: ${JSON.stringify(value)}`);
         set(this._state, path, value);
         this.emit(EventName, this.state, path)
     }
 
     public subscribe(fn: AppTransientStateStoreListener): AppTransientStateStoreSubscription {
+        logger.debug(`Transient State: Subscription realized`);
         this.on(EventName, fn);
         return new AppTransientStateStoreSubscription(this, fn)
     }
 }
+
+export const appTransientStateStore = new AppTransientStateStore();

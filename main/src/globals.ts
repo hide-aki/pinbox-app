@@ -6,6 +6,7 @@
  */
 import Store from 'electron-store';
 import {MessageSendService} from './features/ipcMessaging/outgoing';
+import {AppTransientStateStore} from './features/stores/transient/appTransientStateStore';
 
 // @ts-ignore
 global.ipfs = null;
@@ -19,6 +20,7 @@ global.userStore = null;
 global.currentPublicKey = null;
 // @ts-ignore
 global.ifs = null;
+
 
 // TODO: refactor to a typed option
 // global.singletons : GlobalSingletons = { ipfs, ifs, etc...}
@@ -48,9 +50,5 @@ export const userStoreInstance = (): Store => {
 
 export const internalFileStructureInstance = () => {
     return assertInstance('ifs')
-};
-
-export const currentPublicKeyInstance = (): string => {
-    return assertInstance('currentPublicKey')
 };
 

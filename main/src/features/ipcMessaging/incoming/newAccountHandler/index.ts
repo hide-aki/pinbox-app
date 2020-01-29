@@ -4,6 +4,7 @@ import {IpcMessageTypeNewAccount} from '../../../../sharedTypings/IpcMessageType
 import {KeyStoreServiceName} from '../../../../constants';
 import {fetchInternalFileStructure} from '../../../internalFileStructure';
 import {appStoreInstance} from '../../../../globals';
+import {AppTransientStatePaths, appTransientStateStore} from '../../../stores/transient/appTransientStateStore';
 
 async function resetInternalFileStructure(publicKey: string) {
     const ifs = await fetchInternalFileStructure(publicKey)
@@ -25,8 +26,5 @@ export const handleNewAccount = async (
         lastModified: Date.now(),
     };
     appStore.set("users", users);
-
-    // @ts-ignore
-    global.currentPublicKey = publicKey
-
+    appTransientStateStore.set(AppTransientStatePaths.CurrentPublicKey, publicKey);
 };
