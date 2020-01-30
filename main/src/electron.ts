@@ -1,4 +1,3 @@
-import './globals'
 import {app, BrowserWindow, ipcMain} from 'electron';
 import * as path from 'path'
 import {handleMessage} from './features/ipcMessaging/incoming';
@@ -12,6 +11,19 @@ import {createAppStore} from './features/stores';
 import {IpcMessage} from './sharedTypings/IpcMessage';
 import * as os from 'os';
 import {initializeTransientStore, uninitializeTransientStore} from './features/stores/transient';
+import {Singletons} from './singletons';
+
+export interface Global{
+    singletons: Singletons
+}
+
+declare let global : Global;
+global.singletons = {
+    appStore: null,
+    ipfs: null,
+    messageSendService: null,
+};
+
 
 let mainWindow: BrowserWindow;
 const isDev = isDevelopment();
@@ -32,8 +44,7 @@ function initializeApp() {
     createIpfsNode().then(async ipfsNode => {
         const ident = await ipfsNode.id();
         logger.info(`Successfully initialized IPFS node - ID: ${ident.id}`);
-        // @ts-ignore
-        global.ipfs = ipfsNode;
+        global.singletons.ipfs = ipfsNode;
         messageSendService.send(IpfsReadyMessage(ident))
     });
 }

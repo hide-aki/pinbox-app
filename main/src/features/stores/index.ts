@@ -1,4 +1,4 @@
-import { createAppStore } from "./appStore";
+import { createAppStore } from "./persistent/appStore";
 
 export {
     createAppStore,

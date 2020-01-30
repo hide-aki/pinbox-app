@@ -1,5 +1,5 @@
 import {AppTransientState, AppTransientStatePaths} from '../appTransientStateStore';
-import {messageSendServiceInstance} from '../../../../globals';
+import {messageSendServiceInstance} from '../../../../singletons';
 import {IfsChangedMessage} from '../../../ipcMessaging/outgoing/providers';
 import {getIfsPath} from '../../../internalFileStructure';
 

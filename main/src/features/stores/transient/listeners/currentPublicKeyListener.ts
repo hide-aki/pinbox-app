@@ -1,6 +1,4 @@
 import {AppTransientState, AppTransientStatePaths, appTransientStateStore} from '../appTransientStateStore';
-import {messageSendServiceInstance} from '../../../../globals';
-import {IfsChangedMessage} from '../../../ipcMessaging/outgoing/providers';
 import {getIfsPath, InternalFileStructure} from '../../../internalFileStructure';
 
 export function currentPublicKeyListener(state: AppTransientState, path: string | null): void {

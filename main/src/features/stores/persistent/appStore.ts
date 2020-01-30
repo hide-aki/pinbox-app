@@ -1,7 +1,6 @@
 import Store from 'electron-store';
-import {isDevelopment} from '../../utils/isDevelopment';
+import {isDevelopment} from '../../../utils/isDevelopment';
 import * as path from 'path';
-import {appStoreInstance} from '../../globals';
 
 const schema = {
     users: {
@@ -23,23 +22,17 @@ const schema = {
     },
 };
 
-
-// TODO: make it available as object in the transient store
 export function createAppStore(): Store {
-    let store = appStoreInstance();
-    if (store) {
-        return store;
-    }
     const cwd = isDevelopment() ? path.join(__dirname, '../../../') : undefined;
     // @ts-ignore
-    store = new Store({
+    const store = new Store({
         schema,
         cwd,
         name: 'pinbox.store'
     });
 
     // @ts-ignore
-    global.appStore = store;
+    global.singletons.appStore = store;
     return store;
 }
 

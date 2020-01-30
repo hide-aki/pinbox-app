@@ -1,12 +1,9 @@
 import {fileWalk} from './fileWalk';
-import {IfsChangedMessage} from '../../outgoing/providers';
-import {messageSendServiceInstance} from '../../../../globals';
 import {FileRecord} from '../../../internalFileStructure/FileRecord';
 import {mountInternalFilePath} from './mountInternalFilePath';
 import {addToIpfs} from './addToIpfs';
 import {IpcMessageTypeFileDrop} from '../../../../sharedTypings/IpcMessageTypeFileDrop';
-import {getIfsPath, InternalFileStructure, withInternalFileStructure} from '../../../internalFileStructure';
-import {selectCurrentPublicKey} from '../../../stores/transient/selectors';
+import {InternalFileStructure, withInternalFileStructure} from '../../../internalFileStructure';
 import {AppTransientStatePaths, appTransientStateStore} from '../../../stores/transient/appTransientStateStore';
 
 const addFile = (nodePath: string, ifs: InternalFileStructure) => async (file: string, depth: number): Promise<void> => {

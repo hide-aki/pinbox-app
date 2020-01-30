@@ -34,14 +34,6 @@ const dispatchRenameFileMessage = (service: ElectronService) => (nodeId: string,
 };
 
 export const DashboardPage: React.FC = () => {
-    // @ts-ignore
-    const {publicKey} = useSelector(selectCurrentAccount);
-    const dispatch = useDispatch();
-    // useEffect(() => {
-    //     window.rendererApi.loadIfs(publicKey).then (ifs => {
-    //         dispatch(dashboardSlice.actions.updateIfsStructure(ifs));
-    //     });
-    // }, [publicKey]);
     const electronService = useContext(ElectronContext);
     const [renameDialogOpen, setRenameDialogOpen] = useState(false);
     const [selectedNode, setSelectedNode] = useState(null);
@@ -54,7 +46,6 @@ export const DashboardPage: React.FC = () => {
     const handleAction = (action: FileTreeAction): void => {
         switch (action.name) {
             case ActionNames.Rename:
-                console.log('action', action.name);
                 setSelectedNode(action.context);
                 setRenameDialogOpen(true);
                 break;

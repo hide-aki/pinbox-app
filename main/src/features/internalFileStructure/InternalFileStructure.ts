@@ -5,7 +5,7 @@ import {app} from 'electron';
 import {get, set} from 'lodash'
 import {IfsData} from '../../sharedTypings/IfsData';
 import {FileRecord} from './FileRecord';
-import {ipfsInstance} from '../../globals';
+import {ipfsInstance} from '../../singletons';
 import {decryptFileFrom, encryptFileTo} from '../cryptography/fileCrypt';
 import {randomString} from '../../utils/randomString';
 import {logger} from '../logger';
@@ -14,8 +14,6 @@ const EmptyIfsData: IfsData = {
     records: {root: {}},
     lastModified: Date.now()
 };
-
-const IfsStaticNonce = 'ifs';
 
 const writeFile = promisify(_writeFile);
 const readFile = promisify(_readFile);

@@ -1,4 +1,4 @@
-import {messageSendServiceInstance} from '../../globals';
+import {messageSendServiceInstance} from '../../singletons';
 import {getPassword} from 'keytar';
 import {KeyStoreServiceName} from '../../constants';
 import {hashSecret} from './hashSecret';
