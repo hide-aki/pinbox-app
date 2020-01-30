@@ -40,23 +40,27 @@ const CryptoParams = {
 
 export const encryptFileTo = async (args: FileCryptArgs): Promise<void> =>
     new Promise((resolve, reject) => {
-        const {secret, inputFilePath, outputFilePath, isCompressed} = args;
-        const readStream = createReadStream(inputFilePath);
-        const writeStream = createWriteStream(outputFilePath);
-        const gzipStream = isCompressed ? createGzip() : new PassThrough();
+        try {
+            const {secret, inputFilePath, outputFilePath, isCompressed} = args;
+            const readStream = createReadStream(inputFilePath);
+            const writeStream = createWriteStream(outputFilePath);
+            const gzipStream = isCompressed ? createGzip() : new PassThrough();
 
-        const iv = randomBytes(CryptoParams.IVByteLength);
-        const cipherKey = getCipherKey(secret);
-        const appendIVStream = new AppendInitVector(iv);
-        const cipherStream = createCipheriv(CryptoParams.Algorithm, cipherKey, iv);
+            const iv = randomBytes(CryptoParams.IVByteLength);
+            const cipherKey = getCipherKey(secret);
+            const appendIVStream = new AppendInitVector(iv);
+            const cipherStream = createCipheriv(CryptoParams.Algorithm, cipherKey, iv);
 
-        readStream
-            .pipe(gzipStream)
-            .pipe(cipherStream)
-            .pipe(appendIVStream)
-            .pipe(writeStream)
-            .on('error', reject)
-            .on('finish', resolve)
+            readStream
+                .pipe(gzipStream)
+                .pipe(cipherStream)
+                .pipe(appendIVStream)
+                .pipe(writeStream)
+                .on('error', reject)
+                .on('finish', resolve)
+        } catch (e) {
+            reject(e)
+        }
     });
 
 
@@ -76,25 +80,23 @@ const getInitializationVector = (inputFilePath: string): Promise<Buffer> => new 
 
 export const decryptFileFrom = (args: FileCryptArgs): Promise<void> =>
     new Promise(async (resolve, reject) => {
-        try{
+        try {
+            const {secret, inputFilePath, outputFilePath, isCompressed} = args;
+            const iv = await getInitializationVector(inputFilePath);
+            const readStream = createReadStream(inputFilePath, {start: CryptoParams.IVByteLength});
+            const gunzipStream = isCompressed ? createGunzip() : new PassThrough();
+            const writeStream = createWriteStream(outputFilePath);
 
-        const {secret, inputFilePath, outputFilePath, isCompressed} = args;
-        const iv = await getInitializationVector(inputFilePath);
-        const readStream = createReadStream(inputFilePath, {start: CryptoParams.IVByteLength});
-        const gunzipStream = isCompressed ? createGunzip() : new PassThrough();
-        const writeStream = createWriteStream(outputFilePath);
+            const cipherKey = getCipherKey(secret);
+            const decipherStream = createDecipheriv(CryptoParams.Algorithm, cipherKey, iv);
 
-        const cipherKey = getCipherKey(secret);
-        const decipherStream = createDecipheriv(CryptoParams.Algorithm, cipherKey, iv);
-
-        readStream
-            .pipe(decipherStream)
-            .pipe(gunzipStream)
-            .pipe(writeStream)
-            .on('error', reject)
-            .on('finish', resolve)
-        }catch(e){
-            console.error(e)
+            readStream
+                .pipe(decipherStream)
+                .pipe(gunzipStream)
+                .pipe(writeStream)
+                .on('error', reject)
+                .on('finish', resolve)
+        } catch (e) {
             reject(e)
         }
     });

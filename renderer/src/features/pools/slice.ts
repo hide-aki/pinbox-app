@@ -5,11 +5,23 @@ import {Thunk} from '../../typings/Thunk';
 
 const poolService = new PoolService();
 
+// THIS FILE IS USED ONLY WHEN MULTIPLE POOLS ARE AVAILABLE
+
+
+const mockedPools = [
+    {
+        name: "Pool #1",
+        description: "The very first pinbox pool",
+        url: "https://pool1.pinbox.io",
+    },
+];
+
 export const poolSlice = createSlice({
     name: 'account',
     initialState: {
-        availablePools: [],
-        currentPool: poolService.getCurrentPool()
+        availablePools: mockedPools,
+        // one fixed pool yet
+        currentPool: mockedPools[0].url,
     },
     reducers: {
         setAvailablePools: (state, action) => {
@@ -22,19 +34,6 @@ export const poolSlice = createSlice({
     }
 });
 
-
-const mockedPools = [
-    {
-        name: "Pool #1",
-        description: "The very first pinbox pool",
-        url: "https://pool1.pinbox.io",
-    },
-    {
-        name: "Pool #2",
-        description: "The very second pinbox pool",
-        url: "https://pool2.pinbox.io",
-    }
-];
 
 function mockPools() {
     return Promise.resolve(mockedPools);

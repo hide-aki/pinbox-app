@@ -2,12 +2,12 @@ import {createSlice} from '@reduxjs/toolkit';
 import {applicationSlice} from '../../app/slice';
 import {PersistenceService} from '../../services/PersistenceService';
 import {AccountState, BurstAccountService} from '../../services/BurstAccountService';
-import {Account} from '@burstjs/core';
 import {convertNumericIdToAddress} from '@burstjs/util';
 import {Thunk} from '../../typings/Thunk';
 import {ElectronService} from '../../services/ElectronService';
 import {AccountReadyMessage} from '../ipcMessaging/outgoing/providers';
 import {isEmptyString} from '../../utils/isEmptyString';
+import {BurstAccount} from '../../typings/BurstAccount';
 
 const ACC_KEY = 'acc';
 
@@ -38,11 +38,13 @@ const fetchBurstAccountInfo = (accountIdent: string = '', publicKey: string = ''
         let accountId = accountIdent;
         let pubKey = publicKey;
         if(!accountId.length){
-            const a =  persistenceService.getJsonObject(ACC_KEY) as Account;
+            const a =  persistenceService.getJsonObject(ACC_KEY) as BurstAccount;
             if(a){
                 accountId = a.account;
-                // @ts-ignore
                 pubKey = a.publicKey;
+            }
+            else{
+                console.error('No account info found');
             }
         }
         const accountService = new BurstAccountService();
@@ -60,6 +62,8 @@ const fetchBurstAccountInfo = (accountIdent: string = '', publicKey: string = ''
         }
 
         dispatch(accountSlice.actions.setAccount(account));
+
+        console.log('fetchAccountInfo -pk', pubKey)
 
         if(!isEmptyString(pubKey)){
             const electronService = new ElectronService();

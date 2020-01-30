@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-    Button,
     ExpansionPanel,
     ExpansionPanelDetails,
     ExpansionPanelSummary,
@@ -12,13 +11,12 @@ import {
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMoreTwoTone'
 import {useIntl} from 'react-intl';
-import {Account} from '@burstjs/core';
+import {useSelector} from 'react-redux';
+import {useHistory} from 'react-router';
 import {LabeledTextField} from './LabeledTextField';
 import {formattingService} from '../../../../services/FormattingService';
-import {useSelector} from 'react-redux';
 import {selectCurrentPool} from '../../../pools/selectors';
 import {RoutePaths} from '../../../../routing/routes';
-import {useHistory} from 'react-router';
 import {BrowserLink} from '../../../../components/BrowserLink';
 import {BurstAccount} from '../../../../typings/BurstAccount';
 
@@ -107,8 +105,8 @@ export const AccountDetails: React.FC<IProps> =
                         <BrowserLink url={currentPool ? currentPool.url : ''}>
                             {currentPool ? currentPool.name : ''}
                         </BrowserLink>
-                        <Button className={classes.normalFont}
-                                onClick={gotoPools}>{t("account.details.select_pool")}</Button>
+                        {/*<Button className={classes.normalFont}*/}
+                        {/*        onClick={gotoPools}>{t("account.details.select_pool")}</Button>*/}
                     </div>
                 </LabeledTextField>
             </div>

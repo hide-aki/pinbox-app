@@ -17,7 +17,7 @@ import {FinishStep} from '../FinishStep';
 import {SecureKeyService} from '../../../../../services/SecureKeyService';
 import {RoutePaths} from '../../../../../routing/routes';
 import {BurstAccountService} from '../../../../../services/BurstAccountService';
-import {thunks} from '../../../slice';
+import {accountSlice, thunks} from '../../../slice';
 import {useDispatch} from 'react-redux';
 import {ElectronContext} from '../../../../../components/contexts/ElectronContext';
 import {NewAccountMessage} from '../../../../ipcMessaging/outgoing/providers';
@@ -116,10 +116,9 @@ export const AccountCreator: React.FC = (props: any) => {
         electronService.sendMessage(NewAccountMessage(passphrase));
         const burstAccountService = new BurstAccountService();
         const {accountId, publicKey}  = burstAccountService.getAccountIdentifiers(passphrase);
-        console.log('handleFinished', publicKey)
         dispatch(thunks.fetchBurstAccountInfo(accountId, publicKey));
         setPassphrase('');
-        history.push(RoutePaths.Index)
+        history.push(RoutePaths.Dashboard)
     };
 
     const handleBack = () => {

@@ -12,6 +12,7 @@ export const handleIfsChanged = async (_: IpcMessageTypeIfsChanged) => {
         const ifs = await window.rendererApi.loadIfs(account.publicKey);
         store.dispatch(actions.updateIfsStructure(ifs))
     } catch (e) {
-        window.location.href = RouteProviders.Login()
+        console.error('handleIfsChanged',e)
+        // window.location.href = RouteProviders.Login()
     }
 };

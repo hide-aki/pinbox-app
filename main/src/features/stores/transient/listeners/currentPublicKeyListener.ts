@@ -2,7 +2,7 @@ import {AppTransientState, AppTransientStatePaths, appTransientStateStore} from 
 import {getIfsPath, InternalFileStructure} from '../../../internalFileStructure';
 import {logger} from '../../../logger';
 import {getIfsSecret} from '../../../internalFileStructure/getIfsSecret';
-import {ErrorCodes, NoSecretError} from '../../../exceptions';
+import {ErrorCodes} from '../../../exceptions';
 import {messageSendServiceInstance} from '../../../../singletons';
 import {NoSecretFoundMessage} from '../../../ipcMessaging/outgoing/providers';
 
