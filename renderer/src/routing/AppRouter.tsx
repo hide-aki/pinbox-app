@@ -9,11 +9,26 @@ import {RequiresAccount} from './guards/RequiresAccount';
 import {LoginPage} from '../app/LoginPage';
 import {AccountPage} from '../features/account/AccountPage';
 import {SettingsPage} from '../features/settings/SettingsPage';
+import {useSelector} from 'react-redux';
+import {selectHasEnteredPin} from '../app/selectors';
+import {makeStyles} from '@material-ui/core';
 
+const useStyles = makeStyles({
+    normal: {
+        filter: 'sepia(0) blur(0)',
+        transition: 'filter 1s',
+    },
+    blurred: {
+        filter: 'sepia(1) blur(10px)',
+        transition: 'filter 5s'
+    },
+});
 export const AppRouter: React.FC = () => {
+    const classes = useStyles();
+    const hasEnteredPin = useSelector(selectHasEnteredPin);
     return (
         <Router>
-            <div>
+            <div className={hasEnteredPin ? classes.normal : classes.blurred }>
                 <Layout/>
                 <Switch>
                     <Route path={RoutePaths.Login} exact component={LoginPage}/>
@@ -30,4 +45,4 @@ export const AppRouter: React.FC = () => {
             </div>
         </Router>
     );
-}
+};

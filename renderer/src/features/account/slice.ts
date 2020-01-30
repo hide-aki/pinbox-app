@@ -43,9 +43,6 @@ const fetchBurstAccountInfo = (accountIdent: string = '', publicKey: string = ''
                 accountId = a.account;
                 pubKey = a.publicKey;
             }
-            else{
-                console.error('No account info found');
-            }
         }
         const accountService = new BurstAccountService();
         let account = null;
@@ -62,8 +59,6 @@ const fetchBurstAccountInfo = (accountIdent: string = '', publicKey: string = ''
         }
 
         dispatch(accountSlice.actions.setAccount(account));
-
-        console.log('fetchAccountInfo -pk', pubKey)
 
         if(!isEmptyString(pubKey)){
             const electronService = new ElectronService();

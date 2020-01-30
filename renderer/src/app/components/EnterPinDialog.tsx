@@ -6,92 +6,85 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import {OnDialogCloseFn} from '../../../typings/onDialogCloseFn';
-import {getLabelFromNodeId} from './FileTree/helper/getLabelFromNodeId';
 import {FormattedHTMLMessage, FormattedMessage, useIntl} from 'react-intl';
-import {isEmptyString} from '../../../utils/isEmptyString';
+import {useDispatch} from 'react-redux';
+import {applicationSlice} from '../slice';
+import {SecureKeyService} from '../../services/SecureKeyService';
 
-interface RenameFileDialogProps {
+interface EnterPinDialogProps {
     isOpen: boolean
-    nodeId: any
-    onClose: OnDialogCloseFn
 }
 
-function validateName(newName: string): boolean {
-    if (!isEmptyString(newName)) {
-        return newName.indexOf('/') === -1
+function validatePin(pin: string): boolean {
+    const secureKeyService = new SecureKeyService();
+    try {
+        return secureKeyService.getKeys(pin).publicKey !== undefined
+    } catch (e) {
+        // ignore
     }
     return false;
 }
 
-const InitialName='@@INIT_NAME';
-
-export const RenameFileDialog: React.FC<RenameFileDialogProps> = ({nodeId, isOpen, onClose}) => {
+export const EnterPinDialog: React.FC<EnterPinDialogProps> = ({isOpen}) => {
     const intl = useIntl();
     const [open, setOpen] = useState(isOpen);
+    const dispatch = useDispatch();
     const [valid, setValid] = useState(true);
-    const [name, setName] = useState(InitialName);
+    const [pin, setPin] = useState('');
 
     useEffect(() => {
         setOpen(isOpen);
-        setName(getLabelFromNodeId(nodeId));
-        return () => { resetDialog() }
-    }, [isOpen, nodeId]);
+        return () => {
+            resetDialog()
+        }
+    }, [isOpen]);
 
     const resetDialog = () => {
         setValid(true);
-        setName(InitialName);
+        setPin('');
     };
 
     const handleClose = () => {
         setOpen(false);
-        onClose(null)
     };
 
     const handleConfirm = () => {
-        setOpen(false);
-        onClose(name)
+        const isValidPin = validatePin(pin);
+        setValid(isValidPin);
+        setOpen(!isValidPin);
+        dispatch(applicationSlice.actions.setHasEnteredPin(isValidPin))
     };
 
-    const handleNameChange = (e: ChangeEvent) => {
+    const handleChange = (e: ChangeEvent) => {
         // @ts-ignore
-        const newName = e.target.value;
-        setName(newName);
-        setValid(validateName(newName))
+        setPin(e.target.value);
     };
-
-    const label = getLabelFromNodeId(nodeId);
-
     return (
         <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
             <DialogTitle id="form-dialog-title">
-                <FormattedMessage id="dashboard.dialog.rename_file.title"/>
+                <FormattedMessage id="app.dialog.enter_pin.title"/>
             </DialogTitle>
             <DialogContent>
                 <DialogContentText>
                     <FormattedHTMLMessage
-                        id="dashboard.dialog.rename_file.description"
-                        values={{label}}
+                        id="app.dialog.enter_pin.description"
                     />
                 </DialogContentText>
                 <TextField
                     autoFocus
                     error={!valid}
-                    helperText={!valid && intl.formatMessage({id: 'dashboard.dialog.rename_file.invalid_name'})}
+                    helperText={!valid && intl.formatMessage({id: 'app.dialog.enter_pin.invalid_pin'})}
                     margin="dense"
                     id="name"
-                    label={intl.formatMessage({id: 'dashboard.dialog.rename_file.label'})}
+                    label={intl.formatMessage({id: 'app.dialog.enter_pin.label'})}
                     type="text"
                     fullWidth
-                    value={name}
-                    onChange={handleNameChange}
+                    value={pin}
+                    onChange={handleChange}
                 />
             </DialogContent>
             <DialogActions>
-                <Button onClick={handleClose} color="secondary">
-                    <FormattedMessage id="button.cancel"/>
-                </Button>
-                <Button onClick={handleConfirm} color="primary" disabled={!valid}>
+                <Button onClick={handleConfirm} color="primary">
                     <FormattedMessage id="button.apply"/>
                 </Button>
             </DialogActions>

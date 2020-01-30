@@ -14,7 +14,7 @@ import {Button, Radio, TableFooter} from '@material-ui/core';
 import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 import {poolSlice} from './slice';
-import {RoutePaths, RouteProviders} from '../../routing/routes';
+import {RouteProviders} from '../../routing/routes';
 import {useHistory} from 'react-router';
 import {selectCurrentPoolId} from './selectors';
 import {IPoolDescription} from '../../typings/IPoolDescription';
