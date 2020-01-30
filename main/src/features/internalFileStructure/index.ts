@@ -7,5 +7,4 @@ export {
     InternalFileStructure,
     getIfsPath,
     withInternalFileStructure,
-    fetchInternalFileStructure,
 }
