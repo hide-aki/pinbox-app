@@ -3,7 +3,7 @@ import {IpcMessage} from '../../../sharedTypings/IpcMessage';
 import {IpcMessageTypeIfsChanged} from '../../../sharedTypings/IpcMessageTypeIfsChanged';
 import {IpcMessageTypeTextMessage} from '../../../sharedTypings/IpcMessageTypeTextMessage';
 import {IpcMessageTypeErrorMessage} from '../../../sharedTypings/IpcMessageTypeErrorMessage';
-import {IpcMessageTypeNoKeystoreEntry} from '../../../sharedTypings/IpcMessageTypeNoKeystoreEntry';
+import {IpcMessageTypeNoSecretFound} from '../../../sharedTypings/IpcMessageTypeNoSecretFound';
 
 export const MessageNames = {
     Success: 'Success',
@@ -11,7 +11,7 @@ export const MessageNames = {
     Error: 'Error',
     IpfsReady: 'IpfsReady',
     IfsChanged: 'IfsChanged',
-    NoKeystoreEntry: 'NoKeystoreEntry'
+    NoSecretFound: 'NoSecretFound'
 };
 
 const VoidPayload = {};
@@ -50,7 +50,7 @@ export const IfsChangedMessage = () => () : IpcMessage<IpcMessageTypeIfsChanged>
     payload: VoidPayload
 });
 
-export const NoKeystoreEntryMessage = () => () : IpcMessage<IpcMessageTypeNoKeystoreEntry> => ({
-    messageName: MessageNames.NoKeystoreEntry,
+export const NoSecretFoundMessage = () => () : IpcMessage<IpcMessageTypeNoSecretFound> => ({
+    messageName: MessageNames.NoSecretFound,
     payload: VoidPayload
 });

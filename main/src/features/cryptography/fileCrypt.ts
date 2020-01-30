@@ -76,6 +76,8 @@ const getInitializationVector = (inputFilePath: string): Promise<Buffer> => new 
 
 export const decryptFileFrom = (args: FileCryptArgs): Promise<void> =>
     new Promise(async (resolve, reject) => {
+        try{
+
         const {secret, inputFilePath, outputFilePath, isCompressed} = args;
         const iv = await getInitializationVector(inputFilePath);
         const readStream = createReadStream(inputFilePath, {start: CryptoParams.IVByteLength});
@@ -91,4 +93,8 @@ export const decryptFileFrom = (args: FileCryptArgs): Promise<void> =>
             .pipe(writeStream)
             .on('error', reject)
             .on('finish', resolve)
+        }catch(e){
+            console.error(e)
+            reject(e)
+        }
     });

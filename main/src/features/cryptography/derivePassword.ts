@@ -1,15 +1,14 @@
-import {messageSendServiceInstance} from '../../singletons';
 import {getPassword} from 'keytar';
 import {KeyStoreServiceName} from '../../constants';
 import {hashSecret} from './hashSecret';
-import {NoKeystoreEntryMessage} from '../ipcMessaging/outgoing/providers';
+import {NoSecretError} from '../exceptions';
 
 export async function derivePassword(publicKey: string, nonce: string): Promise<string> {
-    const privateKey = await getPassword(KeyStoreServiceName, publicKey);
-    if (!privateKey) {
-        messageSendServiceInstance().send(NoKeystoreEntryMessage());
-        return Promise.reject('No key found');
+    try {
+        const privateKey = await getPassword(KeyStoreServiceName, publicKey);
+        if (!privateKey) throw new NoSecretError('No Key');
+        return hashSecret(privateKey, nonce);
+    } catch (e) {
+        throw new NoSecretError(e.message)
     }
-    const hashedResult = await hashSecret(`${nonce}.${privateKey}`);
-    return hashedResult.hash;
 }

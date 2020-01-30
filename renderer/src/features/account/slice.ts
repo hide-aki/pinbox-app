@@ -8,8 +8,6 @@ import {Thunk} from '../../typings/Thunk';
 import {ElectronService} from '../../services/ElectronService';
 import {AccountReadyMessage} from '../ipcMessaging/outgoing/providers';
 import {isEmptyString} from '../../utils/isEmptyString';
-import {dashboardSlice} from '../dashboard/slice';
-import {BurstAccount} from '../../typings/BurstAccount';
 
 const ACC_KEY = 'acc';
 
@@ -23,6 +21,12 @@ export const accountSlice = createSlice({
     reducers: {
         setAccount: (state, action) => {
             state.account = action.payload;
+            persistenceService.storeJsonObject(ACC_KEY, state.account);
+            return state
+        },
+        clearAccount: (state, action) => {
+            state.account = {};
+
             persistenceService.storeJsonObject(ACC_KEY, state.account);
             return state
         }
@@ -56,7 +60,6 @@ const fetchBurstAccountInfo = (accountIdent: string = '', publicKey: string = ''
         }
 
         dispatch(accountSlice.actions.setAccount(account));
-
 
         if(!isEmptyString(pubKey)){
             const electronService = new ElectronService();

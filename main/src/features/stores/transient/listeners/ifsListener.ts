@@ -1,7 +1,9 @@
 import {AppTransientState, AppTransientStatePaths} from '../appTransientStateStore';
 import {messageSendServiceInstance} from '../../../../singletons';
-import {IfsChangedMessage} from '../../../ipcMessaging/outgoing/providers';
+import {IfsChangedMessage, NoSecretFoundMessage} from '../../../ipcMessaging/outgoing/providers';
 import {getIfsPath} from '../../../internalFileStructure';
+import {getIfsSecret} from '../../../internalFileStructure/getIfsSecret';
+import {NoSecretError} from '../../../exceptions';
 
 let timeout: NodeJS.Timeout | null = null;
 
@@ -16,9 +18,19 @@ export function ifsListener(state: AppTransientState, path: string | null): void
     }
 
     timeout = setTimeout(async () => {
-        await ifs.saveToLocal(getIfsPath(publicKey));
-        messageSendServiceInstance().send(IfsChangedMessage());
-        timeout = null
+        try {
+            const secret = await getIfsSecret(publicKey);
+            await ifs.saveToLocal(getIfsPath(publicKey), secret);
+            messageSendServiceInstance().send(IfsChangedMessage());
+        } catch (e) {
+            if (e instanceof NoSecretError) {
+                messageSendServiceInstance().send(NoSecretFoundMessage());
+            }
+            throw e
+        } finally {
+
+            timeout = null
+        }
     }, 250);
 }
 

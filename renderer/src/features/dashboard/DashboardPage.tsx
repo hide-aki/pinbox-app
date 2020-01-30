@@ -12,7 +12,6 @@ import {ActionNames} from './components/FileTree/StyledTreeItem/actions';
 import {RenameFileDialog} from './components/RenameFileDialog';
 import {isEmptyString} from '../../utils/isEmptyString';
 import {FileDropMessage, RenameFileMessage} from '../ipcMessaging/outgoing/providers';
-import {selectCurrentAccount} from '../account/selectors';
 
 const {actions} = dashboardSlice;
 

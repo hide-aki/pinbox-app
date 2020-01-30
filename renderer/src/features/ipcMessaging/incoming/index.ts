@@ -1,11 +1,12 @@
 import {handleIfsChanged} from './ifsChangedHandler';
 import {handleIpfsReady} from './ipfsReadyHandler';
 import {IpcMessage} from '../../../../../main/src/sharedTypings/IpcMessage';
+import {handleNoSecretFound} from './noSecretFoundHandler';
 
 export const MessageNames = {
     IpfsReady: 'IpfsReady',
     IfsChanged: 'IfsChanged',
-    NoKeystoreEntry: 'NoKeystoreEntry'
+    NoSecretFound: 'NoSecretFound'
 };
 
 export const handleMessage = (
@@ -21,8 +22,8 @@ export const handleMessage = (
         case MessageNames.IfsChanged:
             handleIfsChanged(payload);
             break;
-        case MessageNames.NoKeystoreEntry:
-            handleIfsChanged(payload);
+        case MessageNames.NoSecretFound:
+            handleNoSecretFound(payload);
             break;
         default:
             console.warn('Unknown message received', payload)

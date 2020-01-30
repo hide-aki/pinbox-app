@@ -1,7 +1,5 @@
-import {readFile as _readFile, writeFile as _writeFile} from 'fs'
-import {join} from 'path'
+import {readFile as _readFile, writeFile as _writeFile, existsSync, unlinkSync} from 'fs'
 import {promisify} from 'util'
-import {app} from 'electron';
 import {get, set} from 'lodash'
 import {IfsData} from '../../sharedTypings/IfsData';
 import {FileRecord} from './FileRecord';
@@ -9,6 +7,9 @@ import {ipfsInstance} from '../../singletons';
 import {decryptFileFrom, encryptFileTo} from '../cryptography/fileCrypt';
 import {randomString} from '../../utils/randomString';
 import {logger} from '../logger';
+import {FileNotFoundError} from '../exceptions';
+import {isDevelopment} from '../../utils/isDevelopment';
+import {isProduction} from '../../utils/isProduction';
 
 const EmptyIfsData: IfsData = {
     records: {root: {}},
@@ -32,7 +33,7 @@ export class InternalFileStructure {
         return this._data;
     }
 
-    public hasRecords():boolean {
+    public hasRecords(): boolean {
         return Object.keys(this.data.records.root).length > 0
     }
 
@@ -65,15 +66,15 @@ export class InternalFileStructure {
         this.updateModifiedDate()
     }
 
-    private static getLocalFilepath(publicKey: string, suffix: string = 'enc'): string {
-        return join(app.getAppPath(), `ifs.${publicKey}.${suffix}`);
-    }
-
     public static async loadFromLocal(inputFilePath: string, secret: string = ''): Promise<InternalFileStructure> {
         logger.debug('Loading IFS locally', inputFilePath);
         let outputFilePath = inputFilePath;
+        if(!existsSync(outputFilePath)){
+            throw new FileNotFoundError(outputFilePath)
+        }
         if (secret !== '') {
             outputFilePath += '.tmp';
+            logger.debug(`Decrypting IFS...`);
             await decryptFileFrom({
                 isCompressed: true,
                 secret,
@@ -81,7 +82,11 @@ export class InternalFileStructure {
                 outputFilePath
             });
         }
+        logger.debug(`Reading decrypted IFS...`);
         const data = await readFile(outputFilePath, 'utf-8');
+        if(isProduction()){
+            unlinkSync(outputFilePath);
+        }
         const ifsData = JSON.parse(data);
         return new InternalFileStructure(ifsData);
     }
@@ -92,7 +97,7 @@ export class InternalFileStructure {
             await writeFile(outputFilePath, JSON.stringify(this.data), 'utf-8');
             return outputFilePath
         }
-        logger.debug('Encrypting IFS...');
+        logger.debug(`Encrypting IFS...`);
         const inputFilePath = outputFilePath + '.tmp';
         await writeFile(inputFilePath, JSON.stringify(this.data), 'utf-8');
         await encryptFileTo({
@@ -101,6 +106,9 @@ export class InternalFileStructure {
             outputFilePath,
             secret,
         });
+        if(isProduction()){
+            unlinkSync(inputFilePath)
+        }
         return outputFilePath;
     }
 

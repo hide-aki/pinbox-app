@@ -1,14 +1,24 @@
-import {logger} from '../logger';
+export enum ErrorCodes {
+    Unkown,
+    NoSecret,
+    FileNotFound,
+}
 
-const finalizeUncaughtExceptions = (e: Error|any) => {
-    logger.error(e);
-    process.exit(666);
-};
+export class MainError extends Error {
+    constructor(message:string, public code: ErrorCodes) {
+        super(message);
+    }
+}
 
-// ultimate instance of exception handling
-process.on('uncaughtException', finalizeUncaughtExceptions);
-process.on('unhandledRejection',finalizeUncaughtExceptions);
+export class FileNotFoundError extends MainError{
+    constructor(message:string, public code: ErrorCodes = ErrorCodes.FileNotFound ) {
+        super(`File not found: ${message}`, code);
+    }
+}
 
-export const handleException = (e:Error) => {
-    logger.error(e)
-};
+
+export class NoSecretError extends MainError{
+    constructor(message:string, public code: ErrorCodes = ErrorCodes.NoSecret ) {
+        super(`Could not gather the secret: ${message}`, code);
+    }
+}

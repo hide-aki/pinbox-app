@@ -4,7 +4,6 @@ import {encryptFileTo, FileCryptArgs} from '../../../cryptography/fileCrypt';
 import {dirname, join} from "path";
 import {randomString} from '../../../../utils/randomString';
 import {logger} from '../../../logger';
-import {handleException} from '../../../exceptions';
 import {derivePassword} from '../../../cryptography/derivePassword';
 import {voidFn} from '../../../../utils/voidFn';
 import {selectCurrentPublicKey} from '../../../stores/transient/selectors';
@@ -34,7 +33,6 @@ export const addToIpfs = async (file: string, nonce: string): Promise<string> =>
         logger.debug(`Added to IPFS:  ${JSON.stringify(result)}`);
         return Promise.resolve(result)
     } catch (e) {
-        handleException(e);
         return Promise.reject(e)
     } finally {
         if (encryptedFile !== null) {

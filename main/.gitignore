@@ -1,2 +1,3 @@
 pinbox.store.json
-*.ifs.json
+*.ifs
+*.ifs.tmp
