@@ -13,7 +13,7 @@ export const handleMessage = (
 ): void => {
 
     const {messageName, payload} = message;
-
+    console.log('Incoming message', messageName);
     switch (messageName) {
         case MessageNames.IpfsReady:
             handleIpfsReady(payload);

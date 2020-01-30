@@ -44,10 +44,6 @@ export const appStoreInstance = (): Store => {
     return assertInstance('appStore')
 };
 
-export const userStoreInstance = (): Store => {
-    return assertInstance('userStore')
-};
-
 export const internalFileStructureInstance = () => {
     return assertInstance('ifs')
 };

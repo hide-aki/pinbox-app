@@ -2,13 +2,10 @@ import {InternalFileStructure} from './InternalFileStructure';
 import {getIfsPath} from './getIfsPath';
 import {existsSync} from "fs";
 import {logger} from '../logger';
-import {internalFileStructureInstance} from '../../globals';
+import {selectInternalFileStructure} from '../stores/transient/selectors';
 
 export async function fetchInternalFileStructure(publicKey: string): Promise<InternalFileStructure> {
-    let ifs = internalFileStructureInstance();
-    if (ifs) {
-        return ifs;
-    }
+    let ifs = selectInternalFileStructure();
     ifs = new InternalFileStructure();
     const ifsLocalFilePath = getIfsPath(publicKey);
     if (existsSync(ifsLocalFilePath)) {
@@ -18,8 +15,6 @@ export async function fetchInternalFileStructure(publicKey: string): Promise<Int
         logger.debug(`Create new IFS`);
         ifs = new InternalFileStructure()
     }
-    // @ts-ignore
-    global.ifs = ifs;
     logger.debug('IFS initialized');
     return ifs
 }

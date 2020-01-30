@@ -17,4 +17,4 @@ export const selectCurrentPublicKey = (assert:boolean = true) : string  => {
     return publicKey;
 };
 
-export const selectIfs = () : InternalFileStructure  => select<InternalFileStructure>().ifs;
+export const selectInternalFileStructure = () : InternalFileStructure  => select<InternalFileStructure>().ifs;

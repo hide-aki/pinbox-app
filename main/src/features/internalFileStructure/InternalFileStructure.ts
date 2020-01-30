@@ -8,6 +8,7 @@ import {FileRecord} from './FileRecord';
 import {ipfsInstance} from '../../globals';
 import {decryptFileFrom, encryptFileTo} from '../cryptography/fileCrypt';
 import {randomString} from '../../utils/randomString';
+import {logger} from '../logger';
 
 const EmptyIfsData: IfsData = {
     records: {root: {}},
@@ -31,6 +32,10 @@ export class InternalFileStructure {
 
     get data(): IfsData {
         return this._data;
+    }
+
+    public hasRecords():boolean {
+        return Object.keys(this.data.records.root).length > 0
     }
 
     public constructor(private _data: IfsData = EmptyIfsData) {
@@ -67,6 +72,7 @@ export class InternalFileStructure {
     }
 
     public static async loadFromLocal(inputFilePath: string, secret: string = ''): Promise<InternalFileStructure> {
+        logger.debug('Loading IFS locally', inputFilePath);
         let outputFilePath = inputFilePath;
         if (secret !== '') {
             outputFilePath += '.tmp';
@@ -83,10 +89,12 @@ export class InternalFileStructure {
     }
 
     public async saveToLocal(outputFilePath: string, secret: string = ''): Promise<string> {
+        logger.debug('Saving IFS locally', outputFilePath);
         if (secret === '') {
             await writeFile(outputFilePath, JSON.stringify(this.data), 'utf-8');
             return outputFilePath
         }
+        logger.debug('Encrypting IFS...');
         const inputFilePath = outputFilePath + '.tmp';
         await writeFile(inputFilePath, JSON.stringify(this.data), 'utf-8');
         await encryptFileTo({

@@ -11,6 +11,7 @@ import {isDevelopment} from './utils/isDevelopment';
 import {createAppStore} from './features/stores';
 import {IpcMessage} from './sharedTypings/IpcMessage';
 import * as os from 'os';
+import {initializeTransientStore, uninitializeTransientStore} from './features/stores/transient';
 
 let mainWindow: BrowserWindow;
 const isDev = isDevelopment();
@@ -27,6 +28,7 @@ if (isDev && process.platform === 'linux') {
 function initializeApp() {
     const messageSendService = initializeMessageService(mainWindow.webContents);
     createAppStore();
+    initializeTransientStore();
     createIpfsNode().then(async ipfsNode => {
         const ident = await ipfsNode.id();
         logger.info(`Successfully initialized IPFS node - ID: ${ident.id}`);
@@ -60,7 +62,7 @@ async function createWindow() {
         ? 'http://localhost:3000'
         : `file://${path.join(__dirname, "../build/index.html")}`;
 
-    logger.info(`Using url: ${url}`);
+    logger.debug(`Using url: ${url}`);
 
     mainWindow.on("closed", () => (mainWindow.destroy()));
 
@@ -82,8 +84,11 @@ app.on("window-all-closed", () => {
         app.quit();
     }
 });
-app.on("activate", () => {
+app.on("before-quit", () => {
+    uninitializeTransientStore()
+});
+app.on("activate", async () => {
     if (mainWindow === null) {
-        createWindow();
+        await createWindow();
     }
 });

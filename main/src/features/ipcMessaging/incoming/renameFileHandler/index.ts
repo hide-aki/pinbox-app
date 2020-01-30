@@ -1,8 +1,6 @@
 import {IpcMessageTypeRenameFile} from '../../../../sharedTypings/IpcMessageTypeRenameFile';
-import {getIfsPath, withInternalFileStructure} from '../../../internalFileStructure';
-import {messageSendServiceInstance} from '../../../../globals';
-import {IfsChangedMessage} from '../../outgoing/providers';
-import {selectCurrentPublicKey} from '../../../stores/transient/selectors';
+import {withInternalFileStructure} from '../../../internalFileStructure';
+import {AppTransientStatePaths, appTransientStateStore} from '../../../stores/transient/appTransientStateStore';
 
 export const handleRenameFile = async (
     payload: IpcMessageTypeRenameFile
@@ -10,7 +8,6 @@ export const handleRenameFile = async (
     await withInternalFileStructure((ifs) => {
         const {newName, ifsFilepath} = payload;
         ifs.renameFileRecord(ifsFilepath, newName);
-        ifs.saveToLocal(getIfsPath(selectCurrentPublicKey()));
-        messageSendServiceInstance().send(IfsChangedMessage());
+        appTransientStateStore.set(AppTransientStatePaths.InternalFileStructure, ifs)
     })
 };

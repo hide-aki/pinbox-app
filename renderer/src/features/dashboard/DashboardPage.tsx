@@ -37,12 +37,11 @@ export const DashboardPage: React.FC = () => {
     // @ts-ignore
     const {publicKey} = useSelector(selectCurrentAccount);
     const dispatch = useDispatch();
-    useEffect(() => {
-        window.rendererApi.loadIfs(publicKey).then(ifs => {
-            console.log('triggered');
-            dispatch(dashboardSlice.actions.updateIfsStructure(ifs));
-        })
-    }, [publicKey]);
+    // useEffect(() => {
+    //     window.rendererApi.loadIfs(publicKey).then (ifs => {
+    //         dispatch(dashboardSlice.actions.updateIfsStructure(ifs));
+    //     });
+    // }, [publicKey]);
     const electronService = useContext(ElectronContext);
     const [renameDialogOpen, setRenameDialogOpen] = useState(false);
     const [selectedNode, setSelectedNode] = useState(null);
