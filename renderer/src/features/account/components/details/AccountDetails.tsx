@@ -15,12 +15,12 @@ import {useIntl} from 'react-intl';
 import {Account} from '@burstjs/core';
 import {LabeledTextField} from './LabeledTextField';
 import {formattingService} from '../../../../services/FormattingService';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {selectCurrentPool} from '../../../pools/selectors';
 import {RoutePaths} from '../../../../routing/routes';
 import {useHistory} from 'react-router';
 import {BrowserLink} from '../../../../components/BrowserLink';
-import {applicationSlice} from '../../../../app/slice';
+import {BurstAccount} from '../../../../typings/BurstAccount';
 
 const useStyles = makeStyles((theme: Theme) => ({
         root: {},
@@ -52,9 +52,8 @@ const useStyles = makeStyles((theme: Theme) => ({
 );
 
 interface IProps {
-    account: Account,
+    account: BurstAccount,
 }
-
 
 export const AccountDetails: React.FC<IProps> =
     ({account}) => {
@@ -65,7 +64,7 @@ export const AccountDetails: React.FC<IProps> =
         const t = (id: string) => intl.formatMessage({id});
 
         // @ts-ignore
-        const {account: accountId, accountRS, keys : {publicKey}} = account;
+        const {account: accountId, accountRS, publicKey} = account;
         const balance = formattingService.formatBurstBalance(account);
 
         const gotoPools = () => {
