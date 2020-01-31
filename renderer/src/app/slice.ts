@@ -8,19 +8,21 @@ export const applicationSlice = createSlice({
             text: ''
         },
         isIpfsReady: false,
-        showPinLock: false,
-        hasEnteredPin: false
+        hasEnteredPin: false,
+        userInactive: false,
     },
     reducers: {
         updateIpfsStatus: (state,action) =>{
             state.isIpfsReady = action.payload;
-            return state;
         },
         setHasEnteredPin: (state, action) => {
-            state.hasEnteredPin = action.payload
+            state.hasEnteredPin = action.payload;
         },
-        setShowPinLock: (state, action) => {
-            state.showPinLock = action.payload
+        setUserInactive: (state, action) => {
+            state.userInactive = action.payload;
+            if(state.userInactive){
+                state.hasEnteredPin = false;
+            }
         },
         showMessage: (state, action) => {
             const {type, text} = action.payload;
