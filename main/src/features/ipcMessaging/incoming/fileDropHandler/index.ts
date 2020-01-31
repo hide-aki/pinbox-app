@@ -11,15 +11,18 @@ const addFile = (nodePath: string, ifs: InternalFileStructure) => async (file: s
     const fileRecord = new FileRecord(internalFilePath, null);
     const ipfsHash = await addToIpfs(file, fileRecord.nonce);
     ifs.upsertFileRecord(new FileRecord(internalFilePath, ipfsHash));
-    appTransientStateStore.set(AppTransientStatePaths.InternalFileStructure, ifs);
 };
 
 export const handleFileDrop = (payload: IpcMessageTypeFileDrop): void => {
-    withInternalFileStructure((ifs) => {
+    withInternalFileStructure(async (ifs) => {
         const {filePaths, ifsFilepath} = payload;
         const addFileFn = addFile(ifsFilepath, ifs);
-        filePaths.forEach((file: string) => {
-            fileWalk(file, addFileFn)
+        filePaths.forEach((file, index) => {
+            fileWalk(file, addFileFn).then( _ =>{
+                if(index === filePaths.length - 1){
+                    appTransientStateStore.set(AppTransientStatePaths.InternalFileStructure, ifs);
+                }
+            })
         });
     });
 };

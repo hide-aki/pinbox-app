@@ -6,7 +6,7 @@ import {promisify} from 'util';
 const stat = promisify(fs.stat);
 const readdir = promisify(fs.readdir);
 
-export const fileWalk = async (filePath: string, applyFn: (file: string, depth: number) => void, depth: number = 0): Promise<void> => {
+export const fileWalk = async (filePath: string, applyFn: (file: string, depth: number) => Promise<any>, depth: number = 0): Promise<any> => {
     const fileStats = await stat(filePath);
     if (fileStats.isDirectory()) {
         const dirFiles = await readdir(filePath);
@@ -16,6 +16,6 @@ export const fileWalk = async (filePath: string, applyFn: (file: string, depth: 
             await fileWalk(join(filePath, dirFile), applyFn, depth + 1)
         }
     } else {
-        applyFn(filePath, depth);
+        return await applyFn(filePath, depth);
     }
 };

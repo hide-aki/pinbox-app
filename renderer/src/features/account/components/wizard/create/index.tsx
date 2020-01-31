@@ -21,6 +21,7 @@ import {accountSlice, thunks} from '../../../slice';
 import {useDispatch} from 'react-redux';
 import {ElectronContext} from '../../../../../components/contexts/ElectronContext';
 import {NewAccountMessage} from '../../../../ipcMessaging/outgoing/providers';
+import {applicationSlice} from '../../../../../app/slice';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -134,7 +135,8 @@ export const AccountCreator: React.FC = (props: any) => {
     };
 
     const handlePinChanged = (pin: string) => {
-        setPin(pin)
+        setPin(pin);
+        dispatch(applicationSlice.actions.setHasEnteredPin(true));
     };
 
     const handlePassphraseChanged = (passphrase: string) => {

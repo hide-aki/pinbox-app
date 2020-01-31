@@ -5,6 +5,7 @@ import {poolSlice} from '../features/pools/slice';
 import {settingsSlice} from '../features/settings/slice';
 import {applicationSlice} from './slice';
 import {PersistenceService} from '../services/PersistenceService';
+import {RouteProviders} from '../routing/routes';
 
 const rootReducer = combineReducers({
     account: accountSlice.reducer,
@@ -18,6 +19,7 @@ export const store = configureStore({
     reducer: (state, action) => {
         if(action.type === 'application/reset') {
             new PersistenceService().clear();
+            window.location.replace(RouteProviders.Index());
             state = undefined;
         }
         return rootReducer(state, action);

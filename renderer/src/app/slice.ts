@@ -8,6 +8,7 @@ export const applicationSlice = createSlice({
             text: ''
         },
         isIpfsReady: false,
+        showPinLock: false,
         hasEnteredPin: false
     },
     reducers: {
@@ -17,6 +18,9 @@ export const applicationSlice = createSlice({
         },
         setHasEnteredPin: (state, action) => {
             state.hasEnteredPin = action.payload
+        },
+        setShowPinLock: (state, action) => {
+            state.showPinLock = action.payload
         },
         showMessage: (state, action) => {
             const {type, text} = action.payload;

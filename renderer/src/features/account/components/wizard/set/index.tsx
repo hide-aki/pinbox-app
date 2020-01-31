@@ -13,6 +13,7 @@ import {BurstAccountService} from '../../../../../services/BurstAccountService';
 import {thunks} from '../../../slice';
 import {ElectronContext} from '../../../../../components/contexts/ElectronContext';
 import {NewAccountMessage} from '../../../../ipcMessaging/outgoing/providers';
+import {applicationSlice} from '../../../../../app/slice';
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -126,7 +127,8 @@ export const AccountSetter: React.FC = (props: any) => {
     };
 
     const handlePinChanged = (pin: string) => {
-        setPin(pin)
+        setPin(pin);
+        dispatch(applicationSlice.actions.setHasEnteredPin(true));
     };
 
     const handlePassphraseChanged = (pin: string) => {

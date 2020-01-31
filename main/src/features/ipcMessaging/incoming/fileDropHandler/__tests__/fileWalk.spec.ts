@@ -11,9 +11,9 @@ describe('fileWalk', () => {
 
     it('calls callback for single directory recursively', async () => {
         const testFile = join(__dirname, '/testFiles');
-        const walker = jest.fn();
-        await fileWalk(testFile, (file) => {
-            walker(file)
+        const walker = jest.fn((file) => Promise.resolve());
+        await fileWalk(testFile,async (file) => {
+            await walker(file)
         });
         expect(walker).toHaveBeenCalledTimes(4);
     })
