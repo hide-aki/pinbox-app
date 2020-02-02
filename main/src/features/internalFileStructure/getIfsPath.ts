@@ -1,5 +1,10 @@
+import {app, remote} from 'electron'
 import {join} from 'path'
+import {isDevelopment} from '../../utils/isDevelopment';
 
 export const getIfsPath = (publicKey: string): string => {
-    return join(__dirname, '../../../', `${publicKey}.ifs`);
+    const filename = `${publicKey}.ifs`;
+    return isDevelopment() ?
+        join(__dirname, '../../../', filename) :
+        join((app || remote.app).getPath('userData'), filename);
 };

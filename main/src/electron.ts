@@ -12,6 +12,7 @@ import {IpcMessage} from './sharedTypings/IpcMessage';
 import * as os from 'os';
 import {initializeTransientStore, uninitializeTransientStore} from './features/stores/transient';
 import {Singletons} from './singletons';
+import unhandled from 'electron-unhandled'
 
 export interface Global{
     singletons: Singletons
@@ -31,11 +32,17 @@ let ExtensionPaths: any = null;
 if (isDev && process.platform === 'linux') {
     const ChromeExtensionDir = path.join(os.homedir(), '.config/google-chrome/Default/Extensions');
     ExtensionPaths = {
+        // NOTE: The ids are machine specific. On other machines other ids are generated
         ReactDevTools: path.join(ChromeExtensionDir, 'fmkadmapgofadopljbjfkapdkoienihi/4.4.0_0'),
         ReduxDevTools: path.join(ChromeExtensionDir, 'lmhkpmbekcpmknklioeibfkpmmfibljd/2.17.0_0'),
     }
 }
 
+unhandled({
+    logger: e => {
+        logger.error(`Unhandled Error: ${e.message}`)
+    }
+});
 
 function initializeApp() {
     const messageSendService = initializeMessageService(mainWindow.webContents);
