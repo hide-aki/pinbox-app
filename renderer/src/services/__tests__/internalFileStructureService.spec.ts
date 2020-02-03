@@ -11,7 +11,7 @@ const MockIfsData = {
                 "BAT.jpg": {
                     "nonce": "GGhr7h9mIKB2_DJjDyCI2lCjrpx+mlXPIanwDoRuhSA=",
                     "created": 1580675098674,
-                    "status": "pinned",
+                    "status": "synced",
                     "ipfsRecord": [
                         {
                             "path": "mOwWh0a3vbw8xljVcVZbN7WQRI04srhgMMSZCjRUAt4=",
@@ -23,7 +23,7 @@ const MockIfsData = {
                 "BAT.pdf": {
                     "nonce": "z7EgnVuO8FEzeqkWZfJbPMyUrZQuekbjru+xfRbbhsE=",
                     "created": 1580675098772,
-                    "status": "pinned",
+                    "status": "synced",
                     "ipfsRecord": [
                         {
                             "path": "RkNIhG09WbduRoCjYbRYigltXDU101b0UpeCv7ft6sM=",
@@ -70,9 +70,9 @@ describe('InternalFileStructureService', () => {
     });
 
     describe('calculateCapacityByPredicate', () => {
-        it('should calculate only entries with status "pinned"', () => {
+        it('should calculate only entries with status "synced"', () => {
             const service = new InternalFileStructureService(MockIfsData);
-            const size = service.calculateCapacityByPredicate((fileRecord: FileRecord): boolean => fileRecord.status === 'pinned');
+            const size = service.calculateCapacityByPredicate((fileRecord: FileRecord): boolean => fileRecord.status === 'synced');
             expect(size.eq(100500)).toBeTruthy()
         });
     })

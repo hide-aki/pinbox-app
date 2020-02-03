@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {PinboxAppBar} from './PinboxAppBar';
 import {PinLock} from './PinLock';
 import {makeStyles} from '@material-ui/core';
@@ -6,6 +6,8 @@ import {useSelector} from 'react-redux';
 import {selectHasEnteredPin, selectUserInactive} from '../selectors';
 import {RoutePaths} from '../../routing/routes';
 import {useLocation} from 'react-router-dom';
+import {ElectronContext} from '../../components/contexts/ElectronContext';
+import {ElectronService} from '../../services/ElectronService';
 
 const useStyles = makeStyles({
     normal: {
@@ -26,16 +28,18 @@ const UnlockedRoutes = new Set<string>([
     RoutePaths.Settings,
 ]);
 
+
 function showPinLock(hasEnteredPin: boolean, location: string): boolean {
     if (UnlockedRoutes.has(location)) return false;
     return !hasEnteredPin;
 }
 
 export const Layout: React.FC = ({children}) => {
+    const electronService = useContext<ElectronService>(ElectronContext);
     const classes = useStyles();
     const location = useLocation();
     const hasEnteredPin = useSelector(selectHasEnteredPin);
-    const isPinLockShown = showPinLock(hasEnteredPin, location.pathname);
+    const isPinLockShown = electronService.isDevelopment ? false : showPinLock(hasEnteredPin, location.pathname);
 
     return (
         <div className={isPinLockShown ? classes.blurred : classes.normal}>

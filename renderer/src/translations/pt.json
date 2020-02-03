@@ -65,6 +65,7 @@
   "dashboard.filetree.actions.rename" : "Renomear",
   "dashboard.filetree.nofiles" : "Nenhum arquivo ainda",
   "dashboard.filetree.title" : "Seus arquivos",
+  "dashboard.capacity.title" : "Sua capacidade de armazenamento",
   "dropbox.drop_here": "Drag and drop your files or folders in this area",
   "input.enter_passphrase": "Digitar Frase Secreta",
   "input.enter_pin": "Digitar PIN",

@@ -12,7 +12,7 @@ import {OnActionFn} from './typings/onActionFn';
 const useStyles = makeStyles(theme => ({
         root: {
             padding: theme.spacing(4),
-            minHeight: "70vh",
+            minHeight: "50vh",
         },
         title: {
             textAlign: 'center'
@@ -20,7 +20,8 @@ const useStyles = makeStyles(theme => ({
         treeView: {
             overflowY: 'auto',
             overflowX: 'hidden',
-            maxHeight: "62vh",
+            minHeight: "55vh",
+            maxHeight: "55vh",
             padding: theme.spacing(1),
         }
     })

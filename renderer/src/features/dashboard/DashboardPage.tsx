@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Grid, Paper} from '@material-ui/core';
 import {FileTree} from './components/FileTree';
 import {ElectronContext} from '../../components/contexts/ElectronContext';
@@ -6,12 +6,14 @@ import {ElectronService} from '../../services/ElectronService';
 import {Page} from '../../components/Page';
 import {dashboardSlice} from './slice'
 import {FileTreeAction} from './components/FileTree/typings/fileTreeAction';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {selectIfs} from './selectors';
 import {ActionNames} from './components/FileTree/StyledTreeItem/actions';
 import {RenameFileDialog} from './components/RenameFileDialog';
 import {isEmptyString} from '../../utils/isEmptyString';
 import {FileDropMessage, RenameFileMessage} from '../ipcMessaging/outgoing/providers';
+import {CapacityChart} from './components/CapacityChart';
+import Big from 'big.js'
 
 const {actions} = dashboardSlice;
 
@@ -82,11 +84,33 @@ export const DashboardPage: React.FC = () => {
                     <Paper>
                         {ifs && (
                             <React.Fragment>
+                                <CapacityChart capacities={
+                                    {synced:Big(100), uploading:Big(0), none:Big(0)}
+                                } subscriptions={[]}/>
+                            </React.Fragment>
+                        )
+                        }
+                    </Paper>
+                </Grid>
+                <Grid item xs={8}>
+                    <Paper>
+                        {ifs && (
+                            <React.Fragment>
                                 <FileTree
                                     tree={ifs.records}
                                     onAction={handleAction}
                                     onDrop={handleDrop}
                                 />
+                            </React.Fragment>
+                        )
+                        }
+                    </Paper>
+                </Grid>
+                <Grid item xs={4}>
+                    <Paper>
+                        {ifs && (
+                            <React.Fragment>
+                                <h2>Details</h2>
                             </React.Fragment>
                         )
                         }

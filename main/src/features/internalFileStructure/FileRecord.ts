@@ -1,7 +1,7 @@
 import {randomString} from '../../utils/randomString';
 import {IpfsRecord} from '../../sharedTypings/IpfsRecord';
 
-type FileRecordStatus = 'local' | 'pinned' | 'expired'
+type FileRecordStatus = 'none' | 'uploading' | 'synced'
 
 export class FileRecord {
     public nonce: string;
@@ -14,7 +14,7 @@ export class FileRecord {
     ) {
         this.created = Date.now();
         this.nonce = randomString();
-        this.status = 'local'
+        this.status = 'none'
     }
 
     public static fromPersistedJson(obj: object): FileRecord {

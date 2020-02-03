@@ -8,9 +8,9 @@ import {AppTransientStatePaths, appTransientStateStore} from '../../../stores/tr
 
 const addFile = (nodePath: string, ifs: InternalFileStructure) => async (file: string, depth: number): Promise<void> => {
     const internalFilePath = mountInternalFilePath(nodePath, file, depth);
-    const fileRecord = new FileRecord(internalFilePath, null);
-    const ipfsHash = await addToIpfs(file, fileRecord.nonce);
-    ifs.upsertFileRecord(new FileRecord(internalFilePath, ipfsHash));
+    const fileRecord = new FileRecord(internalFilePath, []);
+    const ipfsRecord = await addToIpfs(file, fileRecord.nonce);
+    ifs.upsertFileRecord(new FileRecord(internalFilePath, ipfsRecord));
 };
 
 export const handleFileDrop = (payload: IpcMessageTypeFileDrop): void => {

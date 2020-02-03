@@ -7,6 +7,7 @@ import {logger} from '../../../logger';
 import {derivePassword} from '../../../cryptography/derivePassword';
 import {voidFn} from '../../../../utils/voidFn';
 import {selectCurrentPublicKey} from '../../../stores/transient/selectors';
+import {IpfsRecord} from '../../../../sharedTypings/IpfsRecord';
 
 const wait = (millies: number): Promise<void> => {
     return new Promise((resolve) => {
@@ -14,7 +15,7 @@ const wait = (millies: number): Promise<void> => {
     })
 };
 
-export const addToIpfs = async (file: string, nonce: string): Promise<string> => withIpfs(async (ipfs: any): Promise<string> => {
+export const addToIpfs = async (file: string, nonce: string): Promise<IpfsRecord[]> => withIpfs(async (ipfs: any): Promise<IpfsRecord[]> => {
     let encryptedFile: string | null = null;
     try {
         const publicKey = selectCurrentPublicKey();
