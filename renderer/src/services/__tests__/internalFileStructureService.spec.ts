@@ -1,15 +1,17 @@
 // @ts-ignore
 
 import {InternalFileStructureService} from '../InternalFileStructureService';
+import {FileRecord} from '../../../../main/src/features/internalFileStructure/FileRecord';
 
 const MockIfsData = {
     lastModified: 1234,
     records: {
         root: {
-            burst: {
+            "burst": {
                 "BAT.jpg": {
                     "nonce": "GGhr7h9mIKB2_DJjDyCI2lCjrpx+mlXPIanwDoRuhSA=",
                     "created": 1580675098674,
+                    "status": "pinned",
                     "ipfsRecord": [
                         {
                             "path": "mOwWh0a3vbw8xljVcVZbN7WQRI04srhgMMSZCjRUAt4=",
@@ -21,11 +23,24 @@ const MockIfsData = {
                 "BAT.pdf": {
                     "nonce": "z7EgnVuO8FEzeqkWZfJbPMyUrZQuekbjru+xfRbbhsE=",
                     "created": 1580675098772,
+                    "status": "pinned",
                     "ipfsRecord": [
                         {
                             "path": "RkNIhG09WbduRoCjYbRYigltXDU101b0UpeCv7ft6sM=",
                             "hash": "QmPHgYxJz4EihuHusemF9m2YFgpBv7YEChup8d4K1Ya1vG",
                             "size": 500
+                        }
+                    ]
+                },
+                "BAT.foo": {
+                    "nonce": "z7EgnVuO8FEzeqkWZfJbPMyUrZQuekbjru+xfRbbhsE=",
+                    "created": 1580675098772,
+                    "status": "local",
+                    "ipfsRecord": [
+                        {
+                            "path": "RkNIhG09WbduRoCjYbRYigltXDU101b0UpeCv7ft6sM=",
+                            "hash": "QmPHgYxJz4EihuHusemF9m2YFgpBv7YEChup8d4K1Ya1vG",
+                            "size": 1000
                         }
                     ]
                 },
@@ -39,7 +54,7 @@ describe('InternalFileStructureService', () => {
         it('should calculate all entries sizes correctly', () => {
             const service = new InternalFileStructureService(MockIfsData);
             const size = service.calculateOverallCapacity();
-            expect(size.eq(100500)).toBeTruthy()
+            expect(size.eq(101500)).toBeTruthy()
         });
 
         it('should return 0 if no entry was found', () => {
@@ -52,5 +67,13 @@ describe('InternalFileStructureService', () => {
             const size = service.calculateOverallCapacity();
             expect(size.eq(0)).toBeTruthy()
         })
+    });
+
+    describe('calculateCapacityByPredicate', () => {
+        it('should calculate only entries with status "pinned"', () => {
+            const service = new InternalFileStructureService(MockIfsData);
+            const size = service.calculateCapacityByPredicate((fileRecord: FileRecord): boolean => fileRecord.status === 'pinned');
+            expect(size.eq(100500)).toBeTruthy()
+        });
     })
 });

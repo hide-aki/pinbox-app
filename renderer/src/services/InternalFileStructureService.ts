@@ -1,6 +1,7 @@
 import {IfsData} from '../../../main/src/sharedTypings/IfsData';
 import {FileRecord} from '../../../main/src/features/internalFileStructure/FileRecord';
 import Big from 'big.js'
+import {PredicateFn} from '../typings/PredicateFn';
 
 /*
 export const fileWalk = async (filePath: string, applyFn: (file: string, depth: number) => Promise<any>, depth: number = 0): Promise<any> => {
@@ -42,6 +43,16 @@ export class InternalFileStructureService {
         let size = new Big(0);
         this.walk(this._ifsData.records.root, fileRecord => {
             size = size.plus(fileRecord.ipfsRecord[0].size)
+        });
+        return size;
+    }
+
+    calculateCapacityByPredicate(predicate: PredicateFn<FileRecord>): Big {
+        let size = new Big(0);
+        this.walk(this._ifsData.records.root, fileRecord => {
+            if(predicate(fileRecord)){
+                size = size.plus(fileRecord.ipfsRecord[0].size)
+            }
         });
         return size;
     }
