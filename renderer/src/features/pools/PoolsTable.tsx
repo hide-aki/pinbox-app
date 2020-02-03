@@ -17,7 +17,7 @@ import {poolSlice} from './slice';
 import {RouteProviders} from '../../routing/routes';
 import {useHistory} from 'react-router';
 import {selectCurrentPoolId} from './selectors';
-import {IPoolDescription} from '../../typings/IPoolDescription';
+import {PoolDescription} from '../../typings/PoolDescription';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -81,7 +81,7 @@ function getSorting<K extends keyof any>(
 
 interface headCell {
     disablePadding: boolean;
-    id: keyof IPoolDescription;
+    id: keyof PoolDescription;
     label: string;
     numeric: boolean;
 }
@@ -94,7 +94,7 @@ const headCells: headCell[] = [
 interface EnhancedTableProps {
     classes: ReturnType<typeof useStyles>;
     numSelected: number;
-    onRequestSort: (event: React.MouseEvent<unknown>, property: keyof IPoolDescription) => void;
+    onRequestSort: (event: React.MouseEvent<unknown>, property: keyof PoolDescription) => void;
     order: Order;
     orderBy: string;
     rowCount: number;
@@ -102,7 +102,7 @@ interface EnhancedTableProps {
 
 function EnhancedTableHead(props: EnhancedTableProps) {
     const {classes, order, orderBy, onRequestSort} = props;
-    const createSortHandler = (property: keyof IPoolDescription) => (event: React.MouseEvent<unknown>) => {
+    const createSortHandler = (property: keyof PoolDescription) => (event: React.MouseEvent<unknown>) => {
         onRequestSort(event, property);
     };
 
@@ -168,7 +168,7 @@ const EnhancedTableToolbar = () => {
 };
 
 interface IProps {
-    pools: IPoolDescription[],
+    pools: PoolDescription[],
 }
 
 export const PoolsTable: React.FC<IProps> = ({pools}) => {
@@ -178,12 +178,12 @@ export const PoolsTable: React.FC<IProps> = ({pools}) => {
     const selectedPoolId = useSelector<any, string>(selectCurrentPoolId);
     const rows = pools;
     const [order, setOrder] = React.useState<Order>('asc');
-    const [orderBy, setOrderBy] = React.useState<keyof IPoolDescription>('name');
+    const [orderBy, setOrderBy] = React.useState<keyof PoolDescription>('name');
     const [selected, setSelected] = React.useState<string>(selectedPoolId);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-    const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof IPoolDescription) => {
+    const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof PoolDescription) => {
         const isDesc = orderBy === property && order === 'desc';
         setOrder(isDesc ? 'asc' : 'desc');
         setOrderBy(property);

@@ -28,7 +28,7 @@ export const poolSlice = createSlice({
             state.availablePools = action.payload;
         },
         setPool: (state, {payload: pool}) => {
-            poolService.storeCurrentPool(pool);
+            poolService.storeCurrentPoolUrl(pool);
             state.currentPool = pool;
         }
     }

@@ -1,6 +1,6 @@
 import {IPersistenceService} from '../typings/IPersistenceService';
 
-export class PersistenceService implements IPersistenceService {
+export class PersistenceService implements IPersistenceService{
     storeItem(key: string, serializedData: string) {
         localStorage.setItem(key, serializedData);
     }

@@ -3,20 +3,20 @@ export const MockedFileTree = {
         'some path': {
             'deeperPath': {
                 'file1.txt': {
-                    ipfsHash: 'ipfsHash_1',
+                    ipfsRecord: [],
                 }
             }
         },
         'other path': {
             'file2.txt': {
-                ipfsHash: 'ipfsHash_2',
+                ipfsRecord: [],
             },
             'file3.txt': {
-                ipfsHash: 'ipfsHash_3',
+                ipfsRecord: [],
             },
             'next path': {
                 'file4.txt': {
-                    ipfsHash: 'ipfsHash_4',
+                    ipfsRecord: [],
                 },
             }
         }

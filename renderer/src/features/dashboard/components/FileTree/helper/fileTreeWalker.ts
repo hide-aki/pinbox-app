@@ -1,6 +1,6 @@
 // @ts-ignore
 
-const isLeaf = (obj: TreeNode): boolean => obj.ipfsHash !== undefined;
+const isLeaf = (obj: TreeNode): boolean => obj.ipfsRecord !== undefined;
 
 export function fileTreeWalker(node: any,
                                visitorFn: (node: any, parent: any) => void,

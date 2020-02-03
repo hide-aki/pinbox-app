@@ -3,6 +3,11 @@ import {FileRecord} from '../FileRecord';
 import {IfsData} from '../../../sharedTypings/IfsData';
 import {InternalFileStructure} from '../InternalFileStructure';
 import * as path from 'path';
+import {IpfsRecord} from '../../../sharedTypings/IpfsRecord';
+
+const MockedIpfsRecord: IpfsRecord = {
+    hash: 'hash', path: 'path', size: 0
+};
 
 describe('InternalFileStructure', () => {
     let mockedIfs: IfsData;
@@ -15,7 +20,8 @@ describe('InternalFileStructure', () => {
                         'b.txt': {
                             nonce: 'nonce',
                             created: 'created',
-                            ipfsHash: 'ipfsHash'
+                            ipfsRecord: [MockedIpfsRecord],
+                            status: 'local',
                         }
                     }
                 }
@@ -26,7 +32,7 @@ describe('InternalFileStructure', () => {
     describe('addFileRecord', () => {
         it('should add to correct path - existing path', () => {
             let ifs = new InternalFileStructure(mockedIfs);
-            let fileRecord = new FileRecord('a/foo.png', 'ipfsHash');
+            let fileRecord = new FileRecord('a/foo.png', [MockedIpfsRecord]);
 
             ifs.upsertFileRecord(fileRecord);
 
@@ -35,14 +41,15 @@ describe('InternalFileStructure', () => {
             expect(ifs.data.records.root.a['foo.png']).toEqual({
                 nonce: expect.any(String),
                 created: expect.any(Number),
-                ipfsHash: expect.any(String)
+                ipfsRecord: [MockedIpfsRecord],
+                status: 'local'
             })
         });
 
         it('should add to correct path - non-existing path', () => {
             let ifs = new InternalFileStructure(mockedIfs);
 
-            let fileRecord = new FileRecord('a/b/c/foo.png', 'ipfsHash');
+            let fileRecord = new FileRecord('a/b/c/foo.png', [MockedIpfsRecord]);
 
             ifs.upsertFileRecord(fileRecord);
 
@@ -51,14 +58,15 @@ describe('InternalFileStructure', () => {
             expect(ifs.data.records.root.a.b.c['foo.png']).toEqual({
                 nonce: expect.any(String),
                 created: expect.any(Number),
-                ipfsHash: expect.any(String)
+                ipfsRecord: [MockedIpfsRecord],
+                status: 'local'
             })
         });
 
         it('should add to correct path - root', () => {
             let ifs = new InternalFileStructure(mockedIfs);
 
-            let fileRecord = new FileRecord('foo.png', 'ipfsHash');
+            let fileRecord = new FileRecord('foo.png', [MockedIpfsRecord]);
 
             ifs.upsertFileRecord(fileRecord);
 
@@ -67,7 +75,8 @@ describe('InternalFileStructure', () => {
             expect(ifs.data.records.root['foo.png']).toEqual({
                 nonce: expect.any(String),
                 created: expect.any(Number),
-                ipfsHash: expect.any(String)
+                ipfsRecord: [MockedIpfsRecord],
+                status: 'local'
             })
         });
     });
@@ -79,7 +88,8 @@ describe('InternalFileStructure', () => {
             expect(mockedIfs.records.root.a['foo.txt']).toEqual({
                 nonce: 'nonce',
                 created: 'created',
-                ipfsHash: 'ipfsHash'
+                ipfsRecord: [MockedIpfsRecord],
+                status: 'local'
             });
             expect(mockedIfs.records.root.a['b.txt']).not.toBeDefined()
         });
@@ -91,7 +101,8 @@ describe('InternalFileStructure', () => {
                     'b.txt': {
                         nonce: 'nonce',
                         created: 'created',
-                        ipfsHash: 'ipfsHash'
+                        ipfsRecord: [MockedIpfsRecord],
+                        status: 'local'
                     }
                 }
             );

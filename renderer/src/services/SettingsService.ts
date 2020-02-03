@@ -1,5 +1,4 @@
 import {PersistenceService} from './PersistenceService';
-import {IPersistenceService} from '../typings/IPersistenceService';
 import {messages} from '../translations'
 import {availablePeers} from '../app/burstPeers'
 
@@ -11,7 +10,7 @@ export interface ISettings {
 }
 
 export class SettingsService {
-    constructor(private persistenceService: IPersistenceService = new PersistenceService()) {
+    constructor(private persistenceService: PersistenceService = new PersistenceService()) {
     }
 
     storeSettings(settings: ISettings) {

@@ -10,7 +10,7 @@ import {
     Theme
 } from '@material-ui/core';
 import {FormattedHTMLMessage, useIntl} from 'react-intl';
-import {IPoolDescription} from '../../../../../typings/IPoolDescription';
+import {PoolDescription} from '../../../../../typings/PoolDescription';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface IProps {
     onReady: (isReady: boolean) => void,
-    availablePools: Array<IPoolDescription>,
+    availablePools: Array<PoolDescription>,
 }
 
 export const SelectPoolStep: React.FC<IProps> =

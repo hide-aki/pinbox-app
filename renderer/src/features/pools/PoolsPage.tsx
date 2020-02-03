@@ -5,7 +5,7 @@ import {makeStyles, Theme} from '@material-ui/core';
 import PoolsBackgroundImage from '../../images/background1.png';
 import {selectAvailablePools} from './selectors';
 import {useSelector} from 'react-redux';
-import {IPoolDescription} from '../../typings/IPoolDescription';
+import {PoolDescription} from '../../typings/PoolDescription';
 
 const useStyle = makeStyles((theme: Theme) => ({
     root: {
@@ -15,7 +15,7 @@ const useStyle = makeStyles((theme: Theme) => ({
 
 export const PoolsPage: React.FC = () => {
     const classes = useStyle();
-    const availablePools = useSelector<any, IPoolDescription[]>(selectAvailablePools);
+    const availablePools = useSelector<any, PoolDescription[]>(selectAvailablePools);
     return (
         <Page backgroundImage={PoolsBackgroundImage}>
             <div className={classes.root}>

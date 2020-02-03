@@ -1,4 +1,4 @@
-export interface IPoolDescription {
+export interface PoolDescription {
     name: string,
     description: string,
     url: string,

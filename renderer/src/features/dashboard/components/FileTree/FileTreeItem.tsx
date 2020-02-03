@@ -16,7 +16,7 @@ interface FileItemProps {
 }
 
 export function FileTreeItem({label, node, nodeId, onDrop, onAction = voidFn}: FileItemProps) {
-    const isFile = node.ipfsHash !== undefined;
+    const isFile = node.ipfsRecord !== undefined;
 
     const nestedFileItems = isFile
         ? null
