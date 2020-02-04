@@ -38,12 +38,10 @@ describe('InternalFileStructure', () => {
 
             expect(ifs.data).toBeDefined();
             expect(ifs.data.lastModified).not.toBe(0);
-            expect(ifs.data.records.root.a['foo.png']).toEqual({
-                nonce: expect.any(String),
-                created: expect.any(Number),
-                ipfsRecord: [MockedIpfsRecord],
-                status: 'local'
-            })
+            expect(ifs.data.records.root.a['foo.png'].nonce).toEqual(expect.any(String));
+            expect(ifs.data.records.root.a['foo.png'].created).toEqual(expect.any(Number));
+            expect(ifs.data.records.root.a['foo.png'].ipfsRecord).toEqual([MockedIpfsRecord]);
+            expect(ifs.data.records.root.a['foo.png'].status).toBe('none');
         });
 
         it('should add to correct path - non-existing path', () => {
@@ -55,12 +53,10 @@ describe('InternalFileStructure', () => {
 
             expect(ifs.data).toBeDefined();
             expect(ifs.data.lastModified).not.toBe(0);
-            expect(ifs.data.records.root.a.b.c['foo.png']).toEqual({
-                nonce: expect.any(String),
-                created: expect.any(Number),
-                ipfsRecord: [MockedIpfsRecord],
-                status: 'local'
-            })
+            expect(ifs.data.records.root.a.b.c['foo.png'].nonce).toEqual(expect.any(String));
+            expect(ifs.data.records.root.a.b.c['foo.png'].created).toEqual(expect.any(Number));
+            expect(ifs.data.records.root.a.b.c['foo.png'].ipfsRecord).toEqual([MockedIpfsRecord]);
+            expect(ifs.data.records.root.a.b.c['foo.png'].status).toBe('none');
         });
 
         it('should add to correct path - root', () => {
@@ -72,12 +68,10 @@ describe('InternalFileStructure', () => {
 
             expect(ifs.data).toBeDefined();
             expect(ifs.data.lastModified).not.toBe(0);
-            expect(ifs.data.records.root['foo.png']).toEqual({
-                nonce: expect.any(String),
-                created: expect.any(Number),
-                ipfsRecord: [MockedIpfsRecord],
-                status: 'local'
-            })
+            expect(ifs.data.records.root['foo.png'].nonce).toEqual(expect.any(String));
+            expect(ifs.data.records.root['foo.png'].created).toEqual(expect.any(Number));
+            expect(ifs.data.records.root['foo.png'].ipfsRecord).toEqual([MockedIpfsRecord]);
+            expect(ifs.data.records.root['foo.png'].status).toBe('none');
         });
     });
 
