@@ -9,16 +9,17 @@ export class InternalFileStructureService {
 
     private static isFileRecord(obj: object): boolean {
         // @ts-ignore
-        return obj.ipfsRecord !== undefined
+        return obj && obj.ipfsRecord !== undefined
     }
 
     public walk(node: object, applyFn: (fileRecord: IfsFileRecordData) => any): any {
+
         if (InternalFileStructureService.isFileRecord(node)) {
-            return applyFn(node as IfsFileRecordData)
+            // @ts-ignore
+            return applyFn(node)
         } else {
             // @ts-ignore
             Object.keys(node).forEach(propName => this.walk(node[propName], applyFn))
-
         }
     }
 

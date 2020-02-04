@@ -12,5 +12,5 @@ export const mountInternalFilePath = (ifsNodePath: string, file: string, depth: 
     }
     const dirPathParts = dirPath.split(PathDelimiter);
     dirPath = dirPathParts.slice(dirPathParts.length - depth).join(PathDelimiter);
-    return path.join(ifsNodePath, dirPath, fileName);
+    return path.posix.join(ifsNodePath, dirPath, fileName);
 };

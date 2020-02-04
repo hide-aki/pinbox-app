@@ -5,11 +5,15 @@ import {addToIpfs} from './addToIpfs';
 import {IpcMessageTypeFileDrop} from '../../../../sharedTypings/IpcMessageTypeFileDrop';
 import {InternalFileStructure, withInternalFileStructure} from '../../../internalFileStructure';
 import {AppTransientStatePaths, appTransientStateStore} from '../../../stores/transient/appTransientStateStore';
+import {logger} from "../../../logger";
 
 const addFile = (nodePath: string, ifs: InternalFileStructure) => async (file: string, depth: number): Promise<void> => {
     const internalFilePath = mountInternalFilePath(nodePath, file, depth);
     const fileRecord = new FileRecord(internalFilePath, []);
     const ipfsRecord = await addToIpfs(file, fileRecord.nonce);
+
+    logger.debug(`addFile: ${JSON.stringify(ipfsRecord)}`);
+
     ifs.upsertFileRecord(new FileRecord(internalFilePath, ipfsRecord));
 };
 

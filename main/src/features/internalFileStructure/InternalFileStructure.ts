@@ -52,6 +52,9 @@ export class InternalFileStructure {
 
     public upsertFileRecord(fileRecord: FileRecord) {
         const parts = InternalFileStructure.splitNodePath(fileRecord.nodePath);
+
+        logger.debug(`upsertFileRecord:  ${fileRecord.nodePath}, ${parts}`);
+
         set(this.data.records.root, parts, fileRecord.toPersistableJson());
         this.updateModifiedDate()
     }
