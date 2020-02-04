@@ -1,12 +1,12 @@
 import {randomString} from '../../utils/randomString';
 import {IpfsRecord} from '../../sharedTypings/IpfsRecord';
+import {IfsFileRecordStatus} from '../../sharedTypings/IfsFileRecordStatus';
+import {IfsFileRecordData} from '../../sharedTypings/IfsFileRecordData';
 
-type FileRecordStatus = 'none' | 'uploading' | 'synced'
-
-export class FileRecord {
+export class FileRecord implements IfsFileRecordData{
     public nonce: string;
     public created: number;
-    public status: FileRecordStatus;
+    public status: IfsFileRecordStatus;
 
     constructor(
         public nodePath: string,

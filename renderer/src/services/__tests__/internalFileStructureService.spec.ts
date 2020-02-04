@@ -1,7 +1,7 @@
 // @ts-ignore
 
 import {InternalFileStructureService} from '../InternalFileStructureService';
-import {FileRecord} from '../../../../main/src/features/internalFileStructure/FileRecord';
+import {IfsFileRecordData} from '../../../../main/src/sharedTypings/IfsFileRecordData';
 
 const MockIfsData = {
     lastModified: 1234,
@@ -72,7 +72,7 @@ describe('InternalFileStructureService', () => {
     describe('calculateCapacityByPredicate', () => {
         it('should calculate only entries with status "synced"', () => {
             const service = new InternalFileStructureService(MockIfsData);
-            const size = service.calculateCapacityByPredicate((fileRecord: FileRecord): boolean => fileRecord.status === 'synced');
+            const size = service.calculateCapacityByPredicate((fileRecord: IfsFileRecordData): boolean => fileRecord.status === 'synced');
             expect(size.eq(100500)).toBeTruthy()
         });
     })

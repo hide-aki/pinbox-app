@@ -35,14 +35,6 @@ interface BulletData {
     markers: number[]
 }
 
-const MockData = [{
-    id: 'capacity',
-    title: <div/>,
-    ranges: [100, 200, 400, 750, 800, 1500, 2000, 2300, 2350],
-    measures: [25, 50, 400], // capacities
-    markers: [800 * 0.8]
-}];
-
 interface CapacityChartProps {
     subscriptions: Big[],
     capacities: {
@@ -67,7 +59,7 @@ interface UsedResult {
     relative: string
 }
 
-function calculateUsed(props: CapacityChartProps): UsedResult {
+function calculateUsed(): UsedResult {
     return {
         absolute: '0',
         relative: '0 %'
@@ -95,7 +87,7 @@ export const CapacityChart: React.FC<CapacityChartProps> = (props) => {
 
     const subscriptionCount = props.subscriptions.length;
     const total = calculateTotal(props);
-    const used = calculateUsed(props);
+    const used = calculateUsed();
     const chartData = mapChartData(props);
 
     return (

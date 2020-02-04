@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Grid, Paper} from '@material-ui/core';
 import {FileTree} from './components/FileTree';
 import {ElectronContext} from '../../components/contexts/ElectronContext';
@@ -7,7 +7,7 @@ import {Page} from '../../components/Page';
 import {dashboardSlice} from './slice'
 import {FileTreeAction} from './components/FileTree/typings/fileTreeAction';
 import {useSelector} from 'react-redux';
-import {selectIfs} from './selectors';
+import {capacitySelector, ifsSelector} from './selectors';
 import {ActionNames} from './components/FileTree/StyledTreeItem/actions';
 import {RenameFileDialog} from './components/RenameFileDialog';
 import {isEmptyString} from '../../utils/isEmptyString';
@@ -38,7 +38,8 @@ export const DashboardPage: React.FC = () => {
     const electronService = useContext(ElectronContext);
     const [renameDialogOpen, setRenameDialogOpen] = useState(false);
     const [selectedNode, setSelectedNode] = useState(null);
-    const ifs = useSelector(selectIfs);
+    const ifs = useSelector(ifsSelector);
+    const capacities = useSelector(capacitySelector);
 
     const handleDrop = (files: FileList | null, nodePath: string): any => {
         dispatchFileDropMessage(electronService)(files, nodePath)
@@ -84,13 +85,7 @@ export const DashboardPage: React.FC = () => {
                     <Paper>
                         {ifs && (
                             <React.Fragment>
-                                <CapacityChart capacities={
-                                    {
-                                        synced: Big(100000),
-                                        uploading: Big(50000),
-                                        none: Big(0)
-                                    }
-                                }
+                                <CapacityChart capacities={capacities}
                                                subscriptions={[Big(400000)]}
                                 />
                             </React.Fragment>
