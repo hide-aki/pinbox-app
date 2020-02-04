@@ -85,8 +85,14 @@ export const DashboardPage: React.FC = () => {
                         {ifs && (
                             <React.Fragment>
                                 <CapacityChart capacities={
-                                    {synced:Big(100), uploading:Big(0), none:Big(0)}
-                                } subscriptions={[]}/>
+                                    {
+                                        synced: Big(100000),
+                                        uploading: Big(50000),
+                                        none: Big(0)
+                                    }
+                                }
+                                               subscriptions={[Big(400000)]}
+                                />
                             </React.Fragment>
                         )
                         }

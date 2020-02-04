@@ -5,6 +5,8 @@ import {makeStyles} from '@material-ui/core';
 import Big from 'big.js';
 import Typography from '@material-ui/core/Typography';
 import {FormattedMessage} from 'react-intl';
+import {scaleBigToNumber} from './helper/scaleBigToNumber';
+import {stackNumericArray} from './helper/stackNumericArray';
 
 const useStyles = makeStyles(theme => ({
         root: {
@@ -16,6 +18,10 @@ const useStyles = makeStyles(theme => ({
         },
         chart: {
             height: "48px"
+        },
+        chartContainer: {
+            display: "flex",
+            flexDirection: "row"
         }
     })
 );
@@ -38,7 +44,7 @@ const MockData = [{
 }];
 
 interface CapacityChartProps {
-    subscriptions: [],
+    subscriptions: Big[],
     capacities: {
         none: Big,
         uploading: Big,
@@ -46,36 +52,78 @@ interface CapacityChartProps {
     }
 }
 
-// function mapChartData({subscriptions, capacities}: CapacityChartProps) : BulletData[] {
-//     const ranges = subscriptions.reduce( (p, c) : Big => p.plus(c) , Big(0));
-//     const measures= [capacities.none, capacities.uploading, capacities.synced];
-//     const warningMarker = capacities.none.add(capacities.uploading).add(capacities.synced).mul(0.8);
-//
-//     return [{
-//         id: 'capacity',
-//         title: <div/>,
-//         ranges,
-//         measures,
-//         markers: [warningMarker]
-//     }]
-// }
+
+function calculateTotal(props: CapacityChartProps): string {
+    const {subscriptions} = props;
+
+    const sumBytes = subscriptions
+        .reduce((p: Big, c: Big): Big => p.plus(c), Big(0));
+
+    return scaleBigToNumber({value: sumBytes, fix: 'M'}).toString();
+}
+
+interface UsedResult {
+    absolute: string,
+    relative: string
+}
+
+function calculateUsed(props: CapacityChartProps): UsedResult {
+    return {
+        absolute: '0',
+        relative: '0 %'
+    }
+}
+
+function mapChartData(props: CapacityChartProps): BulletData[] {
+
+    const convert = (value: Big): number => scaleBigToNumber({value, fix: 'M'}).n;
+
+    const ranges = stackNumericArray(props.subscriptions).map(convert);
+    const measures = stackNumericArray([props.capacities.none, props.capacities.uploading,props.capacities.synced]).map(convert)
+
+    return [{
+        id: 'capacity',
+        title: <div/>,
+        ranges,
+        measures,
+        markers: []
+    }]
+}
 
 export const CapacityChart: React.FC<CapacityChartProps> = (props) => {
     const classes = useStyles();
+
+    const subscriptionCount = props.subscriptions.length;
+    const total = calculateTotal(props);
+    const used = calculateUsed(props);
+    const chartData = mapChartData(props);
+
     return (
         <div className={classes.root}>
             <div className={classes.title}>
                 <Typography variant="h5">
                     <FormattedMessage id="dashboard.capacity.title"/>
                 </Typography>
+                <Typography variant="caption">
+                    <FormattedMessage
+                        id="dashboard.capacity.caption"
+                        values={{
+                            subscriptionCount,
+                            total,
+                            usedAbs: used.absolute,
+                            usedRel: used.relative
+                        }}
+                    />
+                </Typography>
             </div>
             <div className={classes.chart}>
                 <ResponsiveBullet
-                    data={MockData}
+                    data={chartData}
                     margin={{top: 0, right: 30, bottom: 20, left: 40}}
                     rangeColors="brown_blueGreen"
                     measureColors="yellow_orange_red"
                     markerColors="red"
+                    isInteractive={false}
                     animate
                 />
             </div>
