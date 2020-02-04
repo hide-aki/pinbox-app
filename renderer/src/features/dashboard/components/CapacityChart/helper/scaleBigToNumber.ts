@@ -18,13 +18,15 @@ export class ScaleBigToNumberResult {
 export interface ScaleBigToNumberParams {
     value: Big,
     fix?: Unit,
-    divider?: number | Big
+    divider?: number | Big,
+    dp?: number,
 }
 
 export function scaleBigToNumber({
                                 value,
                                 fix,
                                 divider = 1000,
+                                dp = 3
                             }: ScaleBigToNumberParams): ScaleBigToNumberResult {
     const units = ['', 'K', 'M', 'G', 'T', 'P'];
     let b = value;
@@ -36,5 +38,5 @@ export function scaleBigToNumber({
         if(!fix && (b.lt(divider) || i > units.length)) break;
     }
     // @ts-ignore
-    return new ScaleBigToNumberResult(+(b.toString()), units[i])
+    return new ScaleBigToNumberResult(+(b.toFixed(dp)), units[i])
 }

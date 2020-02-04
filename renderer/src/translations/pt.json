@@ -66,6 +66,7 @@
   "dashboard.filetree.nofiles" : "Nenhum arquivo ainda",
   "dashboard.filetree.title" : "Seus arquivos",
   "dashboard.capacity.title" : "Sua capacidade de armazenamento",
+  "dashboard.capacity.caption": "{subscriptionCount} assinatura(s) no total de {total}. {usedAbsolute} utilizados ({usedRelative})",
   "dropbox.drop_here": "Drag and drop your files or folders in this area",
   "input.enter_passphrase": "Digitar Frase Secreta",
   "input.enter_pin": "Digitar PIN",

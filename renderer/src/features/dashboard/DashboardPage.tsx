@@ -1,10 +1,9 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Grid, Paper} from '@material-ui/core';
 import {FileTree} from './components/FileTree';
 import {ElectronContext} from '../../components/contexts/ElectronContext';
 import {ElectronService} from '../../services/ElectronService';
 import {Page} from '../../components/Page';
-import {dashboardSlice} from './slice'
 import {FileTreeAction} from './components/FileTree/typings/fileTreeAction';
 import {useSelector} from 'react-redux';
 import {capacitySelector, ifsSelector} from './selectors';
@@ -14,8 +13,6 @@ import {isEmptyString} from '../../utils/isEmptyString';
 import {FileDropMessage, RenameFileMessage} from '../ipcMessaging/outgoing/providers';
 import {CapacityChart} from './components/CapacityChart';
 import Big from 'big.js'
-
-const {actions} = dashboardSlice;
 
 const dispatchFileDropMessage = (service: ElectronService) => (files: FileList | null, nodePath: string): void => {
     if (files === null) return;
@@ -86,7 +83,7 @@ export const DashboardPage: React.FC = () => {
                         {ifs && (
                             <React.Fragment>
                                 <CapacityChart capacities={capacities}
-                                               subscriptions={[Big(400000)]}
+                                               subscriptions={[Big(400000), Big(50000000)]}
                                 />
                             </React.Fragment>
                         )
@@ -103,8 +100,7 @@ export const DashboardPage: React.FC = () => {
                                     onDrop={handleDrop}
                                 />
                             </React.Fragment>
-                        )
-                        }
+                        )}
                     </Paper>
                 </Grid>
                 <Grid item xs={4}>
@@ -113,8 +109,7 @@ export const DashboardPage: React.FC = () => {
                             <React.Fragment>
                                 <h2>Details</h2>
                             </React.Fragment>
-                        )
-                        }
+                        )}
                     </Paper>
                 </Grid>
             </Grid>

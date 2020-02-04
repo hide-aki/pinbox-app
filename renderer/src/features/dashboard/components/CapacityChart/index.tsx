@@ -5,7 +5,7 @@ import {makeStyles} from '@material-ui/core';
 import Big from 'big.js';
 import Typography from '@material-ui/core/Typography';
 import {FormattedMessage} from 'react-intl';
-import {scaleBigToNumber} from './helper/scaleBigToNumber';
+import {scaleBigToNumber, ScaleBigToNumberParams, Unit} from './helper/scaleBigToNumber';
 import {stackNumericArray} from './helper/stackNumericArray';
 
 const useStyles = makeStyles(theme => ({
@@ -44,34 +44,25 @@ interface CapacityChartProps {
     }
 }
 
+const getScalerParameters = (value: Big): ScaleBigToNumberParams => ({value, fix: 'M', divider: 1024, dp: 3});
+const mapUnit = (u: Unit): string => {
+    const map = {K: 'Kilo', M: 'Mega', G: 'Giga', T: 'Tera', P: 'Peta'};
+    // @ts-ignore
+    return u === '' ? 'Byte' : `${map[u]}byte`
+};
 
-function calculateTotal(props: CapacityChartProps): string {
-    const {subscriptions} = props;
-
-    const sumBytes = subscriptions
-        .reduce((p: Big, c: Big): Big => p.plus(c), Big(0));
-
-    return scaleBigToNumber({value: sumBytes, fix: 'M'}).toString();
-}
-
-interface UsedResult {
-    absolute: string,
-    relative: string
-}
-
-function calculateUsed(): UsedResult {
-    return {
-        absolute: '0',
-        relative: '0 %'
-    }
+function calculateUsed(total: Big, {capacities: {uploading, synced, none}}: CapacityChartProps): string[] {
+    const sumUsed = none.plus(uploading.plus(synced));
+    const absolute = scaleBigToNumber(getScalerParameters(sumUsed)).toString(mapUnit);
+    const relative = `${sumUsed.div(total).mul(100).toFixed(2)} %`;
+    return [absolute, relative]
 }
 
 function mapChartData(props: CapacityChartProps): BulletData[] {
 
-    const convert = (value: Big): number => scaleBigToNumber({value, fix: 'M'}).n;
-
+    const convert = (value: Big): number => scaleBigToNumber(getScalerParameters(value)).n;
     const ranges = stackNumericArray(props.subscriptions).map(convert);
-    const measures = stackNumericArray([props.capacities.none, props.capacities.uploading,props.capacities.synced]).map(convert)
+    const measures = stackNumericArray([props.capacities.none, props.capacities.uploading, props.capacities.synced]).map(convert)
 
     return [{
         id: 'capacity',
@@ -84,11 +75,13 @@ function mapChartData(props: CapacityChartProps): BulletData[] {
 
 export const CapacityChart: React.FC<CapacityChartProps> = (props) => {
     const classes = useStyles();
-
-    const subscriptionCount = props.subscriptions.length;
-    const total = calculateTotal(props);
-    const used = calculateUsed();
+    const {capacities, subscriptions} = props;
+    const subscriptionCount = subscriptions.length;
+    const total = subscriptions.reduce((p, c) => p.plus(c), Big(0));
+    const [absolute, relative] = calculateUsed(total, props);
     const chartData = mapChartData(props);
+
+    const totalText = scaleBigToNumber(getScalerParameters(total)).toString(mapUnit);
 
     return (
         <div className={classes.root}>
@@ -101,9 +94,9 @@ export const CapacityChart: React.FC<CapacityChartProps> = (props) => {
                         id="dashboard.capacity.caption"
                         values={{
                             subscriptionCount,
-                            total,
-                            usedAbs: used.absolute,
-                            usedRel: used.relative
+                            total: totalText,
+                            usedAbsolute: absolute,
+                            usedRelative: relative
                         }}
                     />
                 </Typography>

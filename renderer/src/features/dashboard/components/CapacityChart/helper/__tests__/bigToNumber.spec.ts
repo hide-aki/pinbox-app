@@ -56,6 +56,10 @@ describe('bigToNumber', () => {
         expect(result.u).toEqual('G');
 
         result = scaleBigToNumber({value: Big('125345000000'), fix: 'T'});
+        expect(result.n).toEqual(0.125);
+        expect(result.u).toEqual('T');
+
+        result = scaleBigToNumber({value: Big('125345000000'), fix: 'T', dp:6});
         expect(result.n).toEqual(0.125345);
         expect(result.u).toEqual('T');
     });

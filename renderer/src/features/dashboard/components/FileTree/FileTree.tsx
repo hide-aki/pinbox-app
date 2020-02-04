@@ -46,7 +46,7 @@ export const FileTree = (props: FileTreeProps) => {
     return (
         <div className={classes.root}>
             <div className={classes.title}>
-                <Typography variant="h4">
+                <Typography variant="h5">
                     <FormattedMessage id={`dashboard.filetree.${hasFiles ? 'title' : 'nofiles'}`}/>
                 </Typography>
             </div>
