@@ -45,6 +45,6 @@
     "allowElevation": false,
     "packElevateHelper": false,
     "perMachine": false,
-    "artifactName": "${os}-pinbox.${version}.${ext}"
+    "artifactName": "${os}-pinbox.${version}.setup.${ext}"
   }
 }

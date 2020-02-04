@@ -30,8 +30,8 @@
     "publish": "bump --commit --tag \"v\" --push ./package.json ./package-lock.json ../renderer/package-lock.json ../renderer/package.json",
     "publish:alpha": "bump prerelease --commit --tag \"v\" --push --preid alpha",
     "publish:electron": "electron-builder -p 'always' -wml --config electron-builder.json",
-    "start": "npm run build && cross-env NODE_ENV=dev electron ./out/electron.js",
-    "start:fast": "npm run compile && cross-env NODE_ENV=dev electron ./out/electron.js",
+    "start:full": "npm run build && cross-env NODE_ENV=dev electron ./out/electron.js",
+    "start": "npm run compile && cross-env NODE_ENV=dev electron ./out/electron.js",
     "test": "npm run build && jest"
   },
   "devDependencies": {

@@ -83,7 +83,8 @@ export const DashboardPage: React.FC = () => {
                         {ifs && (
                             <React.Fragment>
                                 <CapacityChart capacities={capacities}
-                                               subscriptions={[Big(400000), Big(50000000)]}
+                                               subscriptions={                                                   [Big(400000),
+                                                   Big(5000000)]}
                                 />
                             </React.Fragment>
                         )
