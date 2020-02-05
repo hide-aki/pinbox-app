@@ -66,6 +66,7 @@
   "dashboard.filetree.nofiles" : "No files yet",
   "dashboard.filetree.title" : "Your files",
   "dashboard.capacity.title" : "Your space",
+  "dashboard.capacity.subtitle" : "See your available and used space at a glance",
   "dashboard.capacity.caption": "{subscriptionCount} subscription(s) totalling {total}. {usedAbsolute} used ({usedRelative})",
   "dashboard.capacity.actions.openSubscriptions": "See Details",
   "dashboard.capacity.actions.newSubscription": "New Subscription",

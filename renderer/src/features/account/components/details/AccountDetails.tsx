@@ -11,13 +11,8 @@ import {
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMoreTwoTone'
 import {useIntl} from 'react-intl';
-import {useSelector} from 'react-redux';
-import {useHistory} from 'react-router';
 import {LabeledTextField} from './LabeledTextField';
 import {formattingService} from '../../../../services/FormattingService';
-import {selectCurrentPool} from '../../../pools/selectors';
-import {RoutePaths} from '../../../../routing/routes';
-import {BrowserLink} from '../../../../components/BrowserLink';
 import {BurstAccount} from '../../../../typings/BurstAccount';
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -56,18 +51,12 @@ interface IProps {
 export const AccountDetails: React.FC<IProps> =
     ({account}) => {
         const classes = useStyles();
-        const history = useHistory();
-        const currentPool = useSelector(selectCurrentPool);
         const intl = useIntl();
         const t = (id: string) => intl.formatMessage({id});
 
         // @ts-ignore
         const {account: accountId, accountRS, publicKey} = account;
         const balance = formattingService.formatBurstBalance(account);
-
-        const gotoPools = () => {
-            history.push(RoutePaths.Pools)
-        };
 
         return (
             <div className={classes.root}>
@@ -100,15 +89,6 @@ export const AccountDetails: React.FC<IProps> =
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
                 <div className={classes.vspacing}/>
-                <LabeledTextField label={t("account.details.pool_current")} size='large'>
-                    <div className={classes.pool}>
-                        <BrowserLink url={currentPool ? currentPool.url : ''}>
-                            {currentPool ? currentPool.name : ''}
-                        </BrowserLink>
-                        {/*<Button className={classes.normalFont}*/}
-                        {/*        onClick={gotoPools}>{t("account.details.select_pool")}</Button>*/}
-                    </div>
-                </LabeledTextField>
             </div>
         )
     };

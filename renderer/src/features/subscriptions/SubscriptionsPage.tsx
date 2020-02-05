@@ -1,7 +1,7 @@
 import React from 'react';
 import {Page} from '../../components/Page';
 import {makeStyles, Theme} from '@material-ui/core';
-import PoolsBackgroundImage from '../../images/background3.png';
+import PoolsBackgroundImage from '../../images/background4.png';
 
 const useStyle = makeStyles((theme: Theme) => ({
     root: {

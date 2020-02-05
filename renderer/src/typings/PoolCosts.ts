@@ -1,4 +1,7 @@
+import {Unit} from './Unit';
+
 export interface PoolCosts {
     burstPlanck: string
-    unit: 'K' | 'M' | 'G'
+    periodSecs: number
+    unit: Unit
 }

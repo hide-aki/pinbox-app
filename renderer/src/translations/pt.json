@@ -66,6 +66,7 @@
   "dashboard.filetree.nofiles" : "Nenhum arquivo ainda",
   "dashboard.filetree.title" : "Seus arquivos",
   "dashboard.capacity.title" : "Sua capacidade de armazenamento",
+  "dashboard.capacity.subtitle" : "Veja o seu espaço disponível e usado num só relance",
   "dashboard.capacity.caption": "{subscriptionCount} assinatura(s) no total de {total}. {usedAbsolute} utilizados ({usedRelative})",
   "dashboard.capacity.actions.openSubscriptions": "Vide detalhes",
   "dashboard.capacity.actions.newSubscription": "Nova assinatura",

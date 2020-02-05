@@ -67,6 +67,7 @@
   "dashboard.filetree.nofiles" : "Noch keine Dateien",
   "dashboard.filetree.title" : "Deine Dateien",
   "dashboard.capacity.title" : "Deine Kapazität",
+  "dashboard.capacity.subtitle" : "Dein genutzter und verfügbarer Platz auf einem Blick",
   "dashboard.capacity.caption": "{subscriptionCount} Abonnement(s) mit insgesamt {total}. {usedAbsolute} verwendet ({usedRelative})",
   "dashboard.capacity.actions.openSubscriptions": "Öffne Details",
   "dashboard.capacity.actions.newSubscription": "Neues Abonnement",

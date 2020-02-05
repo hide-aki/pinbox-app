@@ -1,6 +1,6 @@
 import Big from 'big.js';
+import {Unit} from '../../../../../typings/Unit';
 
-export type Unit = '' | 'K' | 'M' | 'G' | 'T' | 'P'
 
 export class ScaleBigToNumberResult {
     constructor(

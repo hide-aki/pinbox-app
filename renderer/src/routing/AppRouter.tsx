@@ -21,7 +21,6 @@ export const AppRouter: React.FC = () =>
                 <Route path={RoutePaths.Settings} exact component={SettingsPage}/>
                 <RequiresAccount>
                     <Route path={RoutePaths.Account} component={AccountPage}/>
-                    {/*<Route path={RoutePaths.Pools} component={PoolsPage}/>*/}
                     <Route path={RoutePaths.Index} exact component={DashboardPage}/>
                     <Route path={RoutePaths.Dashboard} exact component={DashboardPage}/>
                     <Route path={RoutePaths.Subscriptions} exact component={SubscriptionsPage}/>

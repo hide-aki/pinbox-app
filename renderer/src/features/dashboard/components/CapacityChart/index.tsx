@@ -5,8 +5,9 @@ import {makeStyles} from '@material-ui/core';
 import Big from 'big.js';
 import Typography from '@material-ui/core/Typography';
 import {FormattedMessage} from 'react-intl';
-import {scaleBigToNumber, ScaleBigToNumberParams, Unit} from './helper/scaleBigToNumber';
+import {scaleBigToNumber, ScaleBigToNumberParams} from './helper/scaleBigToNumber';
 import {stackNumericArray} from './helper/stackNumericArray';
+import {Unit} from '../../../../typings/Unit';
 
 const useStyles = makeStyles(theme => ({
         title: {

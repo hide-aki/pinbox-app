@@ -31,7 +31,7 @@ export const CapacityWidget: React.FC<CapacityWidgetProps> = (props) => {
     return (
         <Widget
             title={intl.formatMessage({id: "dashboard.capacity.title"})}
-            subtitle={'See your available and used space at a glance'}
+            subtitle={intl.formatMessage({id: "dashboard.capacity.subtitle"})}
             actions={actions}
             onActionClick={handleAction}
         >
