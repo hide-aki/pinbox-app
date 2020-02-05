@@ -11,8 +11,7 @@ import {ActionNames} from './components/FileTree/StyledTreeItem/actions';
 import {RenameFileDialog} from './components/RenameFileDialog';
 import {isEmptyString} from '../../utils/isEmptyString';
 import {FileDropMessage, RenameFileMessage} from '../ipcMessaging/outgoing/providers';
-import {CapacityChart} from './components/CapacityChart';
-import Big from 'big.js'
+import {CapacityWidget} from './widgets/capacity/CapacityWidget';
 
 const dispatchFileDropMessage = (service: ElectronService) => (files: FileList | null, nodePath: string): void => {
     if (files === null) return;
@@ -36,7 +35,6 @@ export const DashboardPage: React.FC = () => {
     const [renameDialogOpen, setRenameDialogOpen] = useState(false);
     const [selectedNode, setSelectedNode] = useState(null);
     const ifs = useSelector(ifsSelector);
-    const capacities = useSelector(capacitySelector);
 
     const handleDrop = (files: FileList | null, nodePath: string): any => {
         dispatchFileDropMessage(electronService)(files, nodePath)
@@ -79,17 +77,7 @@ export const DashboardPage: React.FC = () => {
                 spacing={2}
             >
                 <Grid item xs={12}>
-                    <Paper>
-                        {ifs && (
-                            <React.Fragment>
-                                <CapacityChart capacities={capacities}
-                                               subscriptions={                                                   [Big(400000),
-                                                   Big(5000000)]}
-                                />
-                            </React.Fragment>
-                        )
-                        }
-                    </Paper>
+                    {ifs && <CapacityWidget/>}
                 </Grid>
                 <Grid item xs={8}>
                     <Paper>

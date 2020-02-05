@@ -9,20 +9,13 @@ import {scaleBigToNumber, ScaleBigToNumberParams, Unit} from './helper/scaleBigT
 import {stackNumericArray} from './helper/stackNumericArray';
 
 const useStyles = makeStyles(theme => ({
-        root: {
-            padding: theme.spacing(4),
-        },
         title: {
             textAlign: 'center',
             marginBottom: theme.spacing(2)
         },
         chart: {
-            height: "48px"
+            height: "48px",
         },
-        chartContainer: {
-            display: "flex",
-            flexDirection: "row"
-        }
     })
 );
 
@@ -75,7 +68,7 @@ function mapChartData(props: CapacityChartProps): BulletData[] {
 
 export const CapacityChart: React.FC<CapacityChartProps> = (props) => {
     const classes = useStyles();
-    const {capacities, subscriptions} = props;
+    const {subscriptions} = props;
     const subscriptionCount = subscriptions.length;
     const total = subscriptions.reduce((p, c) => p.plus(c), Big(0));
     const [absolute, relative] = calculateUsed(total, props);
@@ -84,11 +77,8 @@ export const CapacityChart: React.FC<CapacityChartProps> = (props) => {
     const totalText = scaleBigToNumber(getScalerParameters(total)).toString(mapUnit);
 
     return (
-        <div className={classes.root}>
+        <React.Fragment>
             <div className={classes.title}>
-                <Typography variant="h5">
-                    <FormattedMessage id="dashboard.capacity.title"/>
-                </Typography>
                 <Typography variant="caption">
                     <FormattedMessage
                         id="dashboard.capacity.caption"
@@ -112,6 +102,6 @@ export const CapacityChart: React.FC<CapacityChartProps> = (props) => {
                     animate
                 />
             </div>
-        </div>
+        </React.Fragment>
     )
 };

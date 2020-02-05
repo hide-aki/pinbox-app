@@ -7,6 +7,8 @@ export const RoutePaths = {
     AccountNew: '/account/new',
     AccountSet: '/account/set',
     Settings: '/settings',
+    Subscriptions: '/subscriptions'
+
 };
 
 export const RouteProviders = {
@@ -18,5 +20,6 @@ export const RouteProviders = {
     NewAccount: () => RoutePaths.AccountNew,
     SetAccount: () => RoutePaths.AccountSet,
     Settings: () => RoutePaths.Settings,
+    Subscriptions: () => RoutePaths.Subscriptions,
 };
 

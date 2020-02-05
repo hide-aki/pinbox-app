@@ -9,6 +9,7 @@ import {RequiresAccount} from './guards/RequiresAccount';
 import {LoginPage} from '../app/LoginPage';
 import {AccountPage} from '../features/account/AccountPage';
 import {SettingsPage} from '../features/settings/SettingsPage';
+import {SubscriptionsPage} from '../features/subscriptions/SubscriptionsPage';
 
 export const AppRouter: React.FC = () =>
     <Router>
@@ -23,6 +24,7 @@ export const AppRouter: React.FC = () =>
                     {/*<Route path={RoutePaths.Pools} component={PoolsPage}/>*/}
                     <Route path={RoutePaths.Index} exact component={DashboardPage}/>
                     <Route path={RoutePaths.Dashboard} exact component={DashboardPage}/>
+                    <Route path={RoutePaths.Subscriptions} exact component={SubscriptionsPage}/>
                 </RequiresAccount>
             </Switch>
         </Layout>

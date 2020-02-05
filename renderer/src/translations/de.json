@@ -68,6 +68,8 @@
   "dashboard.filetree.title" : "Deine Dateien",
   "dashboard.capacity.title" : "Deine Kapazität",
   "dashboard.capacity.caption": "{subscriptionCount} Abonnement(s) mit insgesamt {total}. {usedAbsolute} verwendet ({usedRelative})",
+  "dashboard.capacity.actions.openSubscriptions": "Öffne Details",
+  "dashboard.capacity.actions.newSubscription": "Neues Abonnement",
   "dropbox.drop_here": "Ziehe Deine Dateien oder Ordner in diesen Bereich",
   "input.enter_passphrase": "Passphrase eingeben",
   "input.enter_pin": "PIN eingeben",
