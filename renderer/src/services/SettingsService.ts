@@ -7,6 +7,7 @@ const ItemKey = 'settings';
 export interface ISettings {
     readonly language: string
     readonly peer: string
+    readonly inactivityTimeout: number
 }
 
 export class SettingsService {

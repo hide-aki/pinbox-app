@@ -13,6 +13,8 @@ import {applicationSlice} from '../../slice';
 import {SecureKeyService} from '../../../services/SecureKeyService';
 import {ForgotPinPanel} from './ForgotPinPanel';
 import {makeStyles} from '@material-ui/core/styles';
+import {RoutePaths} from '../../../routing/routes';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
         aligned: {
@@ -22,7 +24,7 @@ const useStyles = makeStyles(theme => ({
             justifyContent: 'space-between'
         },
     })
-)
+);
 
 function validatePin(pin: string): boolean {
     const secureKeyService = new SecureKeyService();
@@ -41,6 +43,7 @@ interface PinLockProps {
 export const PinLock: React.FC<PinLockProps> = (props) => {
     const intl = useIntl();
     const classes = useStyles();
+    const history = useHistory();
     const dispatch = useDispatch();
     const [valid, setValid] = useState(true);
     const [pin, setPin] = useState('');
@@ -66,6 +69,7 @@ export const PinLock: React.FC<PinLockProps> = (props) => {
 
     const handleReset = () => {
         dispatch(applicationSlice.actions.reset());
+        history.replace(RoutePaths.Login)
     };
 
     return (

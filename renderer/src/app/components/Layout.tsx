@@ -40,7 +40,6 @@ export const Layout: React.FC = ({children}) => {
     const location = useLocation();
     const hasEnteredPin = useSelector(selectHasEnteredPin);
     const isPinLockShown = electronService.isDevelopment ? false : showPinLock(hasEnteredPin, location.pathname);
-
     return (
         <div className={isPinLockShown ? classes.blurred : classes.normal}>
             <PinLock open={isPinLockShown}/>

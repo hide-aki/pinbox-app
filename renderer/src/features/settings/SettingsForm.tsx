@@ -70,7 +70,6 @@ export const SettingsForm: React.FC = () => {
         }
     };
 
-
     const reset = () => {
         dispatch(applicationSlice.actions.reset());
         dispatch(poolThunks.fetchAvailablePools());
