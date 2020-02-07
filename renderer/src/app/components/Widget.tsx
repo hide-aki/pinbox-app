@@ -8,24 +8,25 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 
 const useStyles = makeStyles(theme => ({
         root: {
-            padding: theme.spacing(1)
+            // @ts-ignore
+            opacity: ({transparent = true}) => transparent ? 0.95 : 1.0
         }
     })
 );
-
 
 interface WidgetProps {
     title: string,
     subtitle?: string,
     actions?: MenuAction[],
-    onActionClick?: OnEventFn<MenuAction>
+    onActionClick?: OnEventFn<MenuAction>,
+    transparent?: boolean,
 }
 
 export const Widget: React.FC<WidgetProps> = (props) => {
-    const classes = useStyles();
+    const classes = useStyles(props);
     const {children, title, actions = [], subtitle = '', onActionClick = voidFn} = props;
     return (
-        <Card>
+        <Card className={classes.root}>
             <CardHeader
                 action={
                     <ActionMenu actions={actions} onAction={onActionClick}/>

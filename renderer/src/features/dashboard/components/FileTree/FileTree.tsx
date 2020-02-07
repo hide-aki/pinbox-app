@@ -11,17 +11,12 @@ import {OnActionFn} from './typings/onActionFn';
 
 const useStyles = makeStyles(theme => ({
         root: {
-            padding: theme.spacing(4),
-            minHeight: "50vh",
-        },
-        title: {
-            textAlign: 'center'
         },
         treeView: {
             overflowY: 'auto',
             overflowX: 'hidden',
-            minHeight: "55vh",
-            maxHeight: "55vh",
+            minHeight: "49vh",
+            maxHeight: "49vh",
             padding: theme.spacing(1),
         }
     })
@@ -45,11 +40,6 @@ export const FileTree = (props: FileTreeProps) => {
 
     return (
         <div className={classes.root}>
-            <div className={classes.title}>
-                <Typography variant="h5">
-                    <FormattedMessage id={`dashboard.filetree.${hasFiles ? 'title' : 'nofiles'}`}/>
-                </Typography>
-            </div>
             <div className={classes.treeView}>
                 <TreeView
                     defaultCollapseIcon={<ExpandMoreIcon color="primary"/>}

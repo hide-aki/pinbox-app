@@ -6,7 +6,7 @@ import {FormattedMessage} from 'react-intl';
 import AccountBackgroundImage from '../../images/background2.png';
 import {AccountDetails} from './components/details/AccountDetails';
 import {useSelector} from 'react-redux';
-import {selectCurrentAccount} from './selectors';
+import {currentAccountSelector} from './selectors';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const AccountPage: React.FC = () => {
     const classes = useStyles();
-    const account = useSelector(selectCurrentAccount);
+    const account = useSelector(currentAccountSelector);
     return (
         <Page backgroundImage={AccountBackgroundImage}>
             <Paper className={classes.paper}>

@@ -10,7 +10,7 @@ import AccountIcon from '@material-ui/icons/AccountBoxTwoTone';
 import SettingsIcon from '@material-ui/icons/SettingsApplicationsTwoTone';
 import {SearchBar} from './SearchBar';
 import {useSelector} from 'react-redux';
-import {selectCurrentAccount} from '../../features/account/selectors';
+import {currentAccountSelector} from '../../features/account/selectors';
 import {RoutePaths} from '../../routing/routes';
 import {useHistory, useLocation} from 'react-router';
 import {Link} from 'react-router-dom';
@@ -45,7 +45,7 @@ export const PinboxAppBar: React.FC = () => {
     const history = useHistory();
     const {pathname} = useLocation();
     const classes = useStyles();
-    const account = useSelector(selectCurrentAccount);
+    const account = useSelector(currentAccountSelector);
     const isIpfsReady = useSelector(selectIsIpfsReady);
     const intl = useIntl();
     const t = (id: string): string => intl.formatMessage({id});

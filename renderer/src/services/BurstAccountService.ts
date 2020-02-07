@@ -4,6 +4,7 @@ import {Api, ApiSettings, composeApi} from '@burstjs/core';
 import {SettingsService} from './SettingsService';
 import {defaultPeer} from '../app/burstPeers';
 import {BurstAccount} from '../typings/BurstAccount';
+import {BurstService} from './BurstService';
 
 interface IAccountIdentifierType {
     publicKey: string,
@@ -18,15 +19,7 @@ export enum AccountState {
     NotFound
 }
 
-export class BurstAccountService {
-
-    private api: Api;
-
-    constructor() {
-        const settings = new SettingsService().getSettings();
-        const peer = settings ? settings.peer : defaultPeer;
-        this.api = composeApi(new ApiSettings(peer))
-    }
+export class BurstAccountService extends BurstService{
 
     public getAccountIdentifiers(passphrase: string): IAccountIdentifierType {
         if (!passphrase || !passphrase.length) {

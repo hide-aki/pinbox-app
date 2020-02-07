@@ -37,8 +37,11 @@ export const CapacityWidget: React.FC<CapacityWidgetProps> = (props) => {
         >
             <CapacityChart
                 capacities={capacities}
-                subscriptions={[Big(400000),
-                    Big(5000000)]}
+                subscriptions={[
+                    Big(400000),
+                    Big(5000000),
+                    Big(15000000)
+                ]}
             />
         </Widget>
     )

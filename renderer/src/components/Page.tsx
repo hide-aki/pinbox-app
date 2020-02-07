@@ -1,17 +1,21 @@
 import React from 'react';
-import {makeStyles} from '@material-ui/core';
+import {makeStyles, Theme} from '@material-ui/core';
 
-const useStyles = makeStyles({
-    // @ts-ignore
-    root: ({backgroundImage}) => ({
-        display: 'flex',
-        justifyContent: 'center',
-        padding: '2rem',
-        minHeight: 'calc(100vh - 4rem - 64px)',
-        background: `#f5f5f5 url(${backgroundImage}) no-repeat center`,
-        backgroundSize: 'contain'
-    }),
-});
+const useStyles = makeStyles((theme: Theme) => ({
+        // @ts-ignore
+        root: ({backgroundImage}) => ({
+            display: 'flex',
+            justifyContent: 'center',
+            padding: '2rem',
+            minHeight: 'calc(100vh - 4rem - 64px)',
+            background: `#f5f5f5 url(${backgroundImage}) no-repeat center`,
+            backgroundSize: 'contain',
+            [theme.breakpoints.down('sm')]: {
+                padding: '2rem 0 0 0'
+            },
+        }),
+    })
+);
 
 interface PageProps {
     backgroundImage?: string

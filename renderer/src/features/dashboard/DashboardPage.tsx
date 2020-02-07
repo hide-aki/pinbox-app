@@ -1,108 +1,30 @@
-import React, {useContext, useState} from 'react';
-import {Grid, Paper} from '@material-ui/core';
-import {FileTree} from './components/FileTree';
-import {ElectronContext} from '../../components/contexts/ElectronContext';
-import {ElectronService} from '../../services/ElectronService';
+import React from 'react';
+import {Grid} from '@material-ui/core';
 import {Page} from '../../components/Page';
-import {FileTreeAction} from './components/FileTree/typings/fileTreeAction';
-import {useSelector} from 'react-redux';
-import {capacitySelector, ifsSelector} from './selectors';
-import {ActionNames} from './components/FileTree/StyledTreeItem/actions';
-import {RenameFileDialog} from './components/RenameFileDialog';
-import {isEmptyString} from '../../utils/isEmptyString';
-import {FileDropMessage, RenameFileMessage} from '../ipcMessaging/outgoing/providers';
 import {CapacityWidget} from './widgets/capacity/CapacityWidget';
+import {Widget} from '../../app/components/Widget';
+import {FileStructureWidget} from './widgets/ifs/FileStructureWidget';
 
-const dispatchFileDropMessage = (service: ElectronService) => (files: FileList | null, nodePath: string): void => {
-    if (files === null) return;
-
-    let filePaths = new Array<string>();
-    for (let i = 0; i < files.length; ++i) {
-        const fileItem = files.item(i);
-        if (fileItem) {
-            filePaths.push(fileItem.path)
-        }
-    }
-    service.sendMessage(FileDropMessage(nodePath, filePaths))
-};
-
-const dispatchRenameFileMessage = (service: ElectronService) => (nodeId: string, newName: string): void => {
-    service.sendMessage(RenameFileMessage(nodeId, newName))
-};
-
-export const DashboardPage: React.FC = () => {
-    const electronService = useContext(ElectronContext);
-    const [renameDialogOpen, setRenameDialogOpen] = useState(false);
-    const [selectedNode, setSelectedNode] = useState(null);
-    const ifs = useSelector(ifsSelector);
-
-    const handleDrop = (files: FileList | null, nodePath: string): any => {
-        dispatchFileDropMessage(electronService)(files, nodePath)
-    };
-
-    const handleAction = (action: FileTreeAction): void => {
-        switch (action.name) {
-            case ActionNames.Rename:
-                setSelectedNode(action.context);
-                setRenameDialogOpen(true);
-                break;
-            case ActionNames.Remove:
-                break;
-            default:
-                console.warn('Unknown action:', action.name)
-        }
-    };
-
-    const handleRenameClose = (newName: string | null): void => {
-        if (selectedNode && !isEmptyString(newName)) {
-            // @ts-ignore
-            dispatchRenameFileMessage(electronService)(selectedNode, newName)
-        }
-        setSelectedNode(null);
-        setRenameDialogOpen(false);
-    };
-
-    return (
+export const DashboardPage: React.FC = () =>
+    (
         <Page>
-            <RenameFileDialog
-                isOpen={renameDialogOpen}
-                nodeId={selectedNode}
-                onClose={handleRenameClose}
-            />
             <Grid
                 container
                 direction='row'
-                justify='space-between'
-                alignItems='center'
                 spacing={2}
             >
                 <Grid item xs={12}>
-                    {ifs && <CapacityWidget/>}
+                    <CapacityWidget/>
                 </Grid>
                 <Grid item xs={8}>
-                    <Paper>
-                        {ifs && (
-                            <React.Fragment>
-                                <FileTree
-                                    tree={ifs.records}
-                                    onAction={handleAction}
-                                    onDrop={handleDrop}
-                                />
-                            </React.Fragment>
-                        )}
-                    </Paper>
+                    <FileStructureWidget/>
                 </Grid>
                 <Grid item xs={4}>
-                    <Paper>
-                        {ifs && (
-                            <React.Fragment>
-                                <h2>Details</h2>
-                            </React.Fragment>
-                        )}
-                    </Paper>
+                    <Widget title="Details" subtitle="Some details here">
+                        <h2>Details</h2>
+                    </Widget>
                 </Grid>
             </Grid>
         </Page>
-    )
-};
+    );
 

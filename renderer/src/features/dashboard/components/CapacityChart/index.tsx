@@ -8,6 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import {scaleBigToNumber, ScaleBigToNumberParams} from './helper/scaleBigToNumber';
 import {stackNumericArray} from './helper/stackNumericArray';
 import {Unit} from '../../../../typings/Unit';
+import {mapUnitToCapacity} from '../../../../utils/mapUnitToCapacity';
 
 const useStyles = makeStyles(theme => ({
         title: {
@@ -39,15 +40,10 @@ interface CapacityChartProps {
 }
 
 const getScalerParameters = (value: Big): ScaleBigToNumberParams => ({value, fix: 'M', divider: 1024, dp: 3});
-const mapUnit = (u: Unit): string => {
-    const map = {K: 'Kilo', M: 'Mega', G: 'Giga', T: 'Tera', P: 'Peta'};
-    // @ts-ignore
-    return u === '' ? 'Byte' : `${map[u]}byte`
-};
 
 function calculateUsed(total: Big, {capacities: {uploading, synced, none}}: CapacityChartProps): string[] {
     const sumUsed = none.plus(uploading.plus(synced));
-    const absolute = scaleBigToNumber(getScalerParameters(sumUsed)).toString(mapUnit);
+    const absolute = scaleBigToNumber(getScalerParameters(sumUsed)).toString(mapUnitToCapacity);
     const relative = `${sumUsed.div(total).mul(100).toFixed(2)} %`;
     return [absolute, relative]
 }
@@ -75,7 +71,7 @@ export const CapacityChart: React.FC<CapacityChartProps> = (props) => {
     const [absolute, relative] = calculateUsed(total, props);
     const chartData = mapChartData(props);
 
-    const totalText = scaleBigToNumber(getScalerParameters(total)).toString(mapUnit);
+    const totalText = scaleBigToNumber(getScalerParameters(total)).toString(mapUnitToCapacity);
 
     return (
         <React.Fragment>
