@@ -14,9 +14,10 @@ import {currentAccountSelector} from '../../features/account/selectors';
 import {RoutePaths} from '../../routing/routes';
 import {useHistory, useLocation} from 'react-router';
 import {Link} from 'react-router-dom';
-import {formattingService} from '../../services/FormattingService';
+import {FormattingService} from '../../services/FormattingService';
 import {IpfsIcon} from './IpfsIcon';
 import {selectIsIpfsReady} from '../selectors';
+import {translate} from '../../utils/translate';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -48,7 +49,8 @@ export const PinboxAppBar: React.FC = () => {
     const account = useSelector(currentAccountSelector);
     const isIpfsReady = useSelector(selectIsIpfsReady);
     const intl = useIntl();
-    const t = (id: string): string => intl.formatMessage({id});
+    const t = translate(intl);
+    const formattingService = new FormattingService(intl)
 
     function isAccountVisible() {
         return pathname !== RoutePaths.Login &&
@@ -82,7 +84,7 @@ export const PinboxAppBar: React.FC = () => {
                     {isAccountVisible() &&
                     <Tooltip title={t("tooltip.account")}>
                       <Link className={classes.account} to={RoutePaths.Account}>
-                        <h4>{`${formattingService.formatBurstBalance(account)} BURST`}</h4>
+                        <h4>{`${formattingService.formatBurstValue(account.balanceNQT)} BURST`}</h4>
                         <AccountIcon/>
                       </Link>
                     </Tooltip>

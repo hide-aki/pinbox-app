@@ -5,10 +5,14 @@ import {convertNumberToNQTString} from '@burstjs/util';
 import {BurstService} from './BurstService';
 import {SubscriptionOrder} from '../typings/SubscriptionOrder';
 import {SecondsPerDay} from '../utils/constants';
+import {isAttachmentVersion, Transaction, TransactionArbitrarySubtype, TransactionType} from '@burstjs/core';
 
 const ItemKey = 'pool';
 // TODO: make this configurable
-const PoolAddress = 'BURST-1234';
+const PoolAccountId = '8670031239301854975';
+const PoolAccountAddress = 'BURST-2XRZ-H9T4-VVF5-95KNJ';
+
+
 
 export class PoolService extends BurstService {
     constructor(private persistenceService: IPersistenceService = new PersistenceService()) {
@@ -24,22 +28,32 @@ export class PoolService extends BurstService {
     }
 
     async fetchPoolInformation(): Promise<PoolInformation> {
-        // TODO: connect to pool and get the messages
-        // use Address of Pool and get from message from Blockchain
-        return Promise.resolve({
-            costs: {
-                burstPlanck: convertNumberToNQTString(1),
-                unit: 'M',
-                capacity: 1,
-                periodSecs: SecondsPerDay
-            },
-            description: 'Mocked Pool',
-            name: 'Pool Number One',
-            url: 'https://pool.pinbox.space',
+
+        const transactionList = await this.api.account.getAccountTransactions({
+            accountId: PoolAccountId,
+            subtype: TransactionArbitrarySubtype.Message,
+            type: TransactionType.Arbitrary,
         });
+
+        const getMessageText = (transaction: Transaction) =>
+            isAttachmentVersion(transaction, 'Message') ? transaction.attachment.message : null
+
+        const poolInformationMessage = transactionList.transactions
+            .map(t => <{sender:string, message:string}>({
+                sender: t.sender,
+                message: getMessageText(t),
+            }))
+            .filter(({sender, message}) => sender === PoolAccountId && message)
+            [0];
+
+        if(!poolInformationMessage){
+            throw new Error(`Could not find any message of Pool ${PoolAccountId}`)
+        }
+
+        return JSON.parse(poolInformationMessage.message) as PoolInformation;
     }
 
-    async commitSubscriptionOrder(order: SubscriptionOrder) : Promise<void> {
+    async commitSubscriptionOrder(order: SubscriptionOrder): Promise<void> {
         // TODO: implement subscriptions in BurstJS and call it here
         return new Promise((resolve => {
             setTimeout(resolve, 1000)

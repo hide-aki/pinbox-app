@@ -17,7 +17,7 @@ const DayToSecs = 60 * 60 * 24;
 export function calculateSubscriptionCosts(poolCosts: PoolCosts, order: SubscriptionOrder): Big {
     const {capacity, unit, burstPlanck, periodSecs} = poolCosts;
     const conversionFactor = getUnitConversionFactor(order.unit, unit);
-    const normalizedOrderCapacity = Big(order.capacity).mul(conversionFactor);
+    const normalizedOrderCapacity = Big(order.capacity).mul(conversionFactor).mul(capacity);
     if(order.periodSecs < periodSecs) throw new Error('Order period must not be less than Pool period')
     const periodFactor = Big(order.periodSecs).div(periodSecs);
     return normalizedOrderCapacity.mul(burstPlanck).mul(periodFactor)

@@ -12,8 +12,10 @@ import {
 import ExpandMoreIcon from '@material-ui/icons/ExpandMoreTwoTone'
 import {useIntl} from 'react-intl';
 import {LabeledTextField} from './LabeledTextField';
-import {formattingService} from '../../../../services/FormattingService';
+import {FormattingService} from '../../../../services/FormattingService';
 import {BurstAccount} from '../../../../typings/BurstAccount';
+import {translate} from '../../../../utils/translate';
+import {BurstReadonlyField} from '../../../../app/components/BurstReadonlyField';
 
 const useStyles = makeStyles((theme: Theme) => ({
         root: {},
@@ -52,27 +54,18 @@ export const AccountDetails: React.FC<IProps> =
     ({account}) => {
         const classes = useStyles();
         const intl = useIntl();
-        const t = (id: string) => intl.formatMessage({id});
+        const t = translate(intl);
 
         // @ts-ignore
         const {account: accountId, accountRS, publicKey} = account;
-        const balance = formattingService.formatBurstBalance(account);
 
         return (
             <div className={classes.root}>
                 <div className={classes.balance}>
-                    <TextField
-                        variant="outlined"
+                    <BurstReadonlyField
                         label={t("account.info.balance")}
-                        fullWidth
-                        disabled
-                        defaultValue={balance}
-                        InputProps={{
-                            endAdornment: <InputAdornment position="end">BURST</InputAdornment>,
-                            inputProps: {
-                                style: {fontSize: "2em", color: "black"}
-                            }
-                        }}
+                        planck={account.balanceNQT}
+                        size="large"
                     />
                 </div>
                 <LabeledTextField label={t("account.info.burst_address")} size='large'>{accountRS}</LabeledTextField>
