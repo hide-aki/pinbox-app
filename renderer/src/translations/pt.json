@@ -89,7 +89,7 @@
   "settings.reset" : "Reset",
   "settings.reset_explanation" : "By resetting Pinbox, you remove your account information and further local data. You won't delete your pinned files. These can always be restored.",
   "settings.title" : "Configuração do Aplicativo",
-  "subscription.costs.text" : "{capacity} {unit} de espaço custa {burst} BURST por dia",
+  "subscription.costs.text" : "{capacity} {unit} de espaço custa {burst} BURST por mês",
   "subscription.form.label.unit": "Unidade",
   "subscription.form.label.period": "Período",
   "subscription.form.label.capacity": "Quantidade",

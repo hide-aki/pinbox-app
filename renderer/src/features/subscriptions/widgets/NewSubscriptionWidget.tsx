@@ -10,7 +10,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import {Unit} from '../../../typings/Unit';
 import {thunks} from '../../pool/slice';
 import {SubscriptionOrder} from '../../../typings/SubscriptionOrder';
-import {calculateSubscriptionCosts} from '../helpers/calculateCosts';
+import {calculateSubscriptionCosts, getCostsPerDay, getCostsPerMonth} from '../helpers/calculateCosts';
 import {currentAccountSelector} from '../../account/selectors';
 import {SecondsPerDay} from '../../../utils/constants';
 import {BurstReadonlyField} from '../../../app/components/BurstReadonlyField';
@@ -59,7 +59,6 @@ export const NewSubscriptionWidget: React.FC = () => {
     const account = useSelector(currentAccountSelector);
     const isOrdering = useSelector(isOrderingSelector);
     const intl = useIntl();
-    // const t = (id: string, values?: Record<string, any>): string => intl.formatMessage({id}, values);
     const t = translate(intl);
     const [formData, setFormData] = useState({
         period: '1',
@@ -79,13 +78,10 @@ export const NewSubscriptionWidget: React.FC = () => {
     if (!poolInfo) return null; // use skeleton just for the case it's needed
 
     const {costs} = poolInfo;
-    const burst = convertNQTStringToNumber(costs.burstPlanck);
-    const unit = mapUnitToCapacity(costs.unit);
-    const capacity = costs.capacity;
     const subtitle = intl.formatMessage({id: "subscription.costs.text"}, {
-        burst,
-        unit,
-        capacity
+        burst: intl.formatNumber(convertNQTStringToNumber(getCostsPerMonth(poolInfo.costs).toString())),
+        unit: mapUnitToCapacity(costs.unit),
+        capacity: costs.capacity
     });
 
     function createOrder(): SubscriptionOrder {

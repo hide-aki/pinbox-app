@@ -2,6 +2,8 @@ import {PoolCosts} from '../../../typings/PoolCosts';
 import {Unit} from '../../../typings/Unit';
 import {SubscriptionOrder} from '../../../typings/SubscriptionOrder';
 import Big from 'big.js'
+import {FeeQuantNQT} from '@burstjs/core';
+import {SecondsPerDay} from '../../../utils/constants';
 
 const getUnitConversionFactor = (srcUnit: Unit, destUnit: Unit): number => {
     const Positions = {K: 0, M: 1, G: 2, T: 3, P: 4};
@@ -12,13 +14,23 @@ const getUnitConversionFactor = (srcUnit: Unit, destUnit: Unit): number => {
     return src === dest ? 1 : 1024 ** (src - dest);
 };
 
-const DayToSecs = 60 * 60 * 24;
+export function getCostsPerDay(costs: PoolCosts): Big {
+    const f = costs.periodSecs / SecondsPerDay;
+    return Big(costs.burstPlanck).div(f);
+}
+
+export function getCostsPerMonth(costs: PoolCosts): Big {
+    return getCostsPerDay(costs).mul(30);
+}
 
 export function calculateSubscriptionCosts(poolCosts: PoolCosts, order: SubscriptionOrder): Big {
-    const {capacity, unit, burstPlanck, periodSecs} = poolCosts;
+    const {capacity, unit, burstPlanck} = poolCosts;
+    if (Big(burstPlanck).lte(FeeQuantNQT)) throw new Error(`Pool costs must be greater than lowest fee (${FeeQuantNQT})`)
+    if (order.periodSecs < SecondsPerDay) throw new Error(`Order period must not be less than a day (${SecondsPerDay})`)
+
     const conversionFactor = getUnitConversionFactor(order.unit, unit);
     const normalizedOrderCapacity = Big(order.capacity).mul(conversionFactor).mul(capacity);
-    if(order.periodSecs < periodSecs) throw new Error('Order period must not be less than Pool period')
-    const periodFactor = Big(order.periodSecs).div(periodSecs);
-    return normalizedOrderCapacity.mul(burstPlanck).mul(periodFactor)
+    const costsPerDay = getCostsPerDay(poolCosts);
+    const days =  Big(order.periodSecs).div(SecondsPerDay);
+    return normalizedOrderCapacity.mul(costsPerDay).mul(days)
 }

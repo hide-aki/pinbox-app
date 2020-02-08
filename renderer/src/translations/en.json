@@ -88,7 +88,7 @@
   "settings.label.peer": "Burst Peer",
   "settings.reset" : "Reset",
   "settings.reset_explanation" : "By resetting Pinbox, you remove your account information and further local data. You won't delete your pinned files. These can always be restored.",
-  "subscription.costs.text" : "{capacity} {unit} of space costs {burst} BURST per day",
+  "subscription.costs.text" : "{capacity} {unit} of space costs {burst} BURST per month",
   "subscription.form.label.unit": "Unit",
   "subscription.form.label.period": "Period",
   "subscription.form.label.capacity": "Capacity",

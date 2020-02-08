@@ -90,7 +90,7 @@
   "settings.reset" : "Zurücksetzen",
   "settings.reset_explanation" : "Mit dem Zurücksetzen von Pinbox werden alle deine lokalen Daten, wie z.B. Kontodaten gelöscht. Deine gepinnten Dateien bleiben erhalten und können jederzeit wieder hergestellt werden",
   "settings.title" : "Anwendungskonfiguration",
-  "subscription.costs.text" : "{capacity} {unit} Platz kostet {burst} BURST pro Tag",
+  "subscription.costs.text" : "{capacity} {unit} Platz kostet {burst} BURST pro Monat",
   "subscription.form.label.unit": "Einheit",
   "subscription.form.label.period": "Zeitraum",
   "subscription.form.label.capacity": "Menge",

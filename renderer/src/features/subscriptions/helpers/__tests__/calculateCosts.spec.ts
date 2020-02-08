@@ -16,7 +16,7 @@ describe('calculateCosts', () => {
 
     it('should correctly calculate the subscription costs - 1Burst / 1MB / 1Day', () => {
 
-        const order : SubscriptionOrder = {
+        const order: SubscriptionOrder = {
             periodSecs: SecondsPerDay,
             capacity: 1,
             unit: 'M'
@@ -29,7 +29,7 @@ describe('calculateCosts', () => {
     });
 
     it('should correctly calculate the subscription costs - 1Burst / 5GB / 1Month', () => {
-        const order : SubscriptionOrder = {
+        const order: SubscriptionOrder = {
             periodSecs: SecondsPerDay * 30,
             capacity: 5,
             unit: 'G'
@@ -41,28 +41,44 @@ describe('calculateCosts', () => {
     });
 
     it('should correctly calculate the subscription costs - 1Burst / 100KB / 1Month', () => {
-        const order : SubscriptionOrder = {
+        const order: SubscriptionOrder = {
             periodSecs: SecondsPerDay * 30,
             capacity: 100,
             unit: 'K'
         };
 
-        const expected = Big(convertNumberToNQTString(100 * (1/1024) * 30));
+        const expected = Big(convertNumberToNQTString(100 * (1 / 1024) * 30));
         const result = calculateSubscriptionCosts(Costs, order);
         expect(result.eq(expected)).toBeTruthy()
     });
 
     it('should throw error if order period is less than pool period', () => {
-        const order : SubscriptionOrder = {
+        const order: SubscriptionOrder = {
             periodSecs: 100,
             capacity: 5,
             unit: 'G'
         };
-        try{
-           calculateSubscriptionCosts(Costs, order);
+        try {
+            calculateSubscriptionCosts(Costs, order);
             expect('Should throw exception').toBeFalsy()
-        }catch(e){
-            expect(e.message).toContain('Order period must not be less than Pool period')
+        } catch (e) {
+            expect(e.message).toContain('Order period must not be less than a day')
+        }
+    });
+
+    it('should throw error if pool costs its too low', () => {
+        const order: SubscriptionOrder = {
+            periodSecs: SecondsPerDay * 10,
+            capacity: 5,
+            unit: 'G'
+        };
+        const testCosts = {...Costs, burstPlanck: '1000'};
+
+        try {
+            calculateSubscriptionCosts(testCosts, order);
+            expect('Should throw exception').toBeFalsy()
+        } catch (e) {
+            expect(e.message).toContain('Pool costs must be greater than lowest fee ')
         }
     })
 });

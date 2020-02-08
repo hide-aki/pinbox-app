@@ -32,7 +32,6 @@ const fetchPoolInformation = (): Thunk => async dispatch => {
         const poolInformation = await poolService.fetchPoolInformation();
         dispatch(poolSlice.actions.setPool(poolInformation))
     } catch (err) {
-        console.log('err', err.message);
         dispatch(applicationSlice.actions.showErrorMessage(err.toString()))
     }
 };
