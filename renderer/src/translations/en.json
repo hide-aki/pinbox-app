@@ -72,6 +72,8 @@
   "dashboard.capacity.caption": "{subscriptionCount} subscription(s) totalling {total}. {usedAbsolute} used ({usedRelative})",
   "dashboard.capacity.actions.openSubscriptions": "See Details",
   "dashboard.capacity.actions.newSubscription": "New Subscription",
+  "dashboard.claim_space.title": "Welcome to Pinbox",
+  "dashboard.claim_space.subtitle": "Claim your free space",
   "dropbox.drop_here": "Drag and drop your files or folders in this area",
   "error.insufficient_balance": "Insufficient Balance",
   "input.enter_passphrase": "Enter Passphrase",

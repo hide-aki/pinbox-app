@@ -16,7 +16,7 @@ const persistenceService = new PersistenceService();
 export const accountSlice = createSlice({
     name: 'account',
     initialState: {
-        account: {}
+        account: {} // BurstAccount type
     },
     reducers: {
         setAccount: (state, action) => {
@@ -29,6 +29,11 @@ export const accountSlice = createSlice({
 
             persistenceService.storeJsonObject(ACC_KEY, state.account);
             return state
+        },
+        setHasClaimedFreeSpace: (state, action) => {
+            // @ts-ignore
+            state.account.hasClaimedFreeSpace = action.payload;
+            persistenceService.storeJsonObject(ACC_KEY, state.account);
         }
     }
 });
@@ -37,9 +42,9 @@ const fetchBurstAccountInfo = (accountIdent: string = '', publicKey: string = ''
     try {
         let accountId = accountIdent;
         let pubKey = publicKey;
-        if(!accountId.length){
-            const a =  persistenceService.getJsonObject(ACC_KEY) as BurstAccount;
-            if(a){
+        if (!accountId.length) {
+            const a = persistenceService.getJsonObject(ACC_KEY) as BurstAccount;
+            if (a) {
                 accountId = a.account;
                 pubKey = a.publicKey;
             }
@@ -60,10 +65,14 @@ const fetchBurstAccountInfo = (accountIdent: string = '', publicKey: string = ''
 
         dispatch(accountSlice.actions.setAccount(account));
 
-        if(!isEmptyString(pubKey)){
+        if (!isEmptyString(pubKey)) {
             const electronService = new ElectronService();
             electronService.sendMessage(AccountReadyMessage(pubKey))
         }
+
+        const hasClaimed = await accountService.verifyHasClaimedFreeSpace(accountId);
+        dispatch(accountSlice.actions.setHasClaimedFreeSpace(hasClaimed));
+
     } catch (err) {
         dispatch(applicationSlice.actions.showErrorMessage(err.toString()))
     }

@@ -1,12 +1,18 @@
 import React from 'react';
 import {Grid} from '@material-ui/core';
 import {Page} from '../../components/Page';
-import {CapacityWidget} from './widgets/capacity/CapacityWidget';
 import {Widget} from '../../app/components/Widget';
+import {useSelector} from 'react-redux';
+import {currentAccountSelector} from '../account/selectors';
+import {CapacityWidget} from './widgets/capacity/CapacityWidget';
 import {FileStructureWidget} from './widgets/ifs/FileStructureWidget';
+import {ClaimFreeSpaceWidget} from './widgets/claimFreeSpace/ClaimFreeSpaceWidget';
 
-export const DashboardPage: React.FC = () =>
-    (
+export const DashboardPage: React.FC = () =>{
+    const account = useSelector(currentAccountSelector);
+    let TopWidget = account.hasClaimedFreeSpace ? CapacityWidget : ClaimFreeSpaceWidget;
+
+    return (
         <Page>
             <Grid
                 container
@@ -14,7 +20,7 @@ export const DashboardPage: React.FC = () =>
                 spacing={2}
             >
                 <Grid item xs={12}>
-                    <CapacityWidget/>
+                    <TopWidget/>
                 </Grid>
                 <Grid item xs={8}>
                     <FileStructureWidget/>
@@ -27,4 +33,5 @@ export const DashboardPage: React.FC = () =>
             </Grid>
         </Page>
     );
+}
 

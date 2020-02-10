@@ -72,6 +72,8 @@
   "dashboard.capacity.caption": "{subscriptionCount} assinatura(s) no total de {total}. {usedAbsolute} utilizados ({usedRelative})",
   "dashboard.capacity.actions.openSubscriptions": "Vide detalhes",
   "dashboard.capacity.actions.newSubscription": "Nova assinatura",
+  "dashboard.claim_space.title": "Bem-vindo ao Pinbox",
+  "dashboard.claim_space.subtitle": "Ganha a sua capacidade de armazenamento grátis já",
   "dropbox.drop_here": "Drag and drop your files or folders in this area",
   "error.insufficient_balance": "Saldo insuficiente",
   "input.enter_passphrase": "Digitar Frase Secreta",

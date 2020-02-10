@@ -1,10 +1,9 @@
 import {generateMasterKeys, getAccountIdFromPublicKey} from '@burstjs/crypto';
 import {convertNumericIdToAddress} from '@burstjs/util';
-import {Api, ApiSettings, composeApi} from '@burstjs/core';
-import {SettingsService} from './SettingsService';
-import {defaultPeer} from '../app/burstPeers';
 import {BurstAccount} from '../typings/BurstAccount';
 import {BurstService} from './BurstService';
+import {TransactionRewardRecipientSubtype, TransactionType} from '@burstjs/core';
+import {PoolAccountId} from '../utils/constants';
 
 interface IAccountIdentifierType {
     publicKey: string,
@@ -19,7 +18,7 @@ export enum AccountState {
     NotFound
 }
 
-export class BurstAccountService extends BurstService{
+export class BurstAccountService extends BurstService {
 
     public getAccountIdentifiers(passphrase: string): IAccountIdentifierType {
         if (!passphrase || !passphrase.length) {
@@ -51,5 +50,37 @@ export class BurstAccountService extends BurstService{
     public async fetchAccount(accountId: string): Promise<BurstAccount> {
         return await this.api.account.getAccount(accountId) as BurstAccount;
     }
+
+    async verifyHasClaimedFreeSpace(accountId: string): Promise<boolean> {
+        try {
+            const {transactions} = await this.api.account.getAccountTransactions({
+                accountId,
+                subtype: TransactionRewardRecipientSubtype.RewardRecipientAssignment,
+                type: TransactionType.RewardRecipient,
+            });
+            const {unconfirmedTransactions} = await this.api.account.getUnconfirmedAccountTransactions(
+                accountId,
+            );
+            const unconfirmedRewardAssignments = unconfirmedTransactions
+                .filter(t =>
+                    t.type === TransactionType.RewardRecipient &&
+                    t.subtype === TransactionRewardRecipientSubtype.RewardRecipientAssignment
+                ) ;
+            transactions.push(...unconfirmedRewardAssignments);
+            // TODO: Consider older messages, if tx count > 500
+
+            return transactions
+                .some(({recipient}) => recipient === PoolAccountId);
+        } catch (e) {
+            return false;
+        }
+    }
+
+
+    async claimFreeSpace(account: BurstAccount): Promise<void> {
+        // sends a reward assignment to pool
+        return Promise.resolve()
+    }
+
 }
 
