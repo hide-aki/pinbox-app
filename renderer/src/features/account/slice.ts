@@ -7,7 +7,7 @@ import {Thunk} from '../../typings/Thunk';
 import {ElectronService} from '../../services/ElectronService';
 import {AccountReadyMessage} from '../ipcMessaging/outgoing/providers';
 import {isEmptyString} from '../../utils/isEmptyString';
-import {BurstAccount} from '../../typings/BurstAccount';
+import {BurstAccount, ClaimState} from '../../typings/BurstAccount';
 
 const ACC_KEY = 'acc';
 
@@ -30,9 +30,9 @@ export const accountSlice = createSlice({
             persistenceService.storeJsonObject(ACC_KEY, state.account);
             return state
         },
-        setHasClaimedFreeSpace: (state, action) => {
+        setClaimSpaceState: (state, action) => {
             // @ts-ignore
-            state.account.hasClaimedFreeSpace = action.payload;
+            state.account.claimSpaceState = action.payload;
             persistenceService.storeJsonObject(ACC_KEY, state.account);
         }
     }
@@ -40,6 +40,7 @@ export const accountSlice = createSlice({
 
 const fetchBurstAccountInfo = (accountIdent: string = '', publicKey: string = ''): Thunk => async dispatch => {
     try {
+        let claimSpaceState = ClaimState.NotClaimedYet;
         let accountId = accountIdent;
         let pubKey = publicKey;
         if (!accountId.length) {
@@ -47,8 +48,10 @@ const fetchBurstAccountInfo = (accountIdent: string = '', publicKey: string = ''
             if (a) {
                 accountId = a.account;
                 pubKey = a.publicKey;
+                claimSpaceState = a.claimSpaceState;
             }
         }
+
         const accountService = new BurstAccountService();
         let account = null;
         let accountState = await accountService.verifyAccount(accountId);
@@ -57,7 +60,8 @@ const fetchBurstAccountInfo = (accountIdent: string = '', publicKey: string = ''
                 account: accountId,
                 accountRS: convertNumericIdToAddress(accountId),
                 balanceNQT: '0',
-                publicKey: pubKey
+                publicKey: pubKey,
+                claimSpaceState,
             };
         } else {
             account = await accountService.fetchAccount(accountId);
@@ -65,13 +69,16 @@ const fetchBurstAccountInfo = (accountIdent: string = '', publicKey: string = ''
 
         dispatch(accountSlice.actions.setAccount(account));
 
+        // TODO: memoize this to avoid permanent IFS reloads
         if (!isEmptyString(pubKey)) {
             const electronService = new ElectronService();
             electronService.sendMessage(AccountReadyMessage(pubKey))
         }
 
-        const hasClaimed = await accountService.verifyHasClaimedFreeSpace(accountId);
-        dispatch(accountSlice.actions.setHasClaimedFreeSpace(hasClaimed));
+        if(claimSpaceState === ClaimState.ClaimPending){
+            const hasClaimed = await accountService.verifyHasClaimedFreeSpace(accountId);
+            dispatch(accountSlice.actions.setClaimSpaceState(hasClaimed ? ClaimState.Claimed : claimSpaceState ));
+        }
 
     } catch (err) {
         dispatch(applicationSlice.actions.showErrorMessage(err.toString()))

@@ -1,10 +1,11 @@
 import {createSlice} from '@reduxjs/toolkit';
+import {MessageType} from '../typings/NotificationMessage';
 
 export const applicationSlice = createSlice({
     name: 'application',
     initialState: {
         message: {
-            type: 'NONE',
+            type: MessageType.None,
             text: ''
         },
         isIpfsReady: false,
@@ -12,7 +13,7 @@ export const applicationSlice = createSlice({
         userInactive: false,
     },
     reducers: {
-        updateIpfsStatus: (state,action) =>{
+        updateIpfsStatus: (state, action) => {
             state.isIpfsReady = action.payload;
         },
         setHasEnteredPin: (state, action) => {
@@ -20,7 +21,7 @@ export const applicationSlice = createSlice({
         },
         setUserInactive: (state, action) => {
             state.userInactive = action.payload;
-            if(state.userInactive){
+            if (state.userInactive) {
                 state.hasEnteredPin = false;
             }
         },
@@ -29,11 +30,19 @@ export const applicationSlice = createSlice({
             state.message = {type, text}
         },
         showErrorMessage: (state, action) => {
-            const {text} = action.payload;
-            state.message = {type: 'ERROR', text}
+            const text = action.payload;
+            state.message = {type: MessageType.Error, text}
+        },
+        showSuccessMessage: (state, action) => {
+            const text = action.payload;
+            state.message = {type: MessageType.Success, text}
+        },
+        showInfoMessage: (state, action) => {
+            const text = action.payload;
+            state.message = {type: MessageType.Information, text}
         },
         hideMessage: (state, action) => {
-            state.message = {type: 'NONE', text: ''}
+            state.message = {type: MessageType.None, text: ''}
         },
         // application/reset will be handled on root reducer level (store.ts)
         reset: state => state

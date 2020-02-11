@@ -6,15 +6,16 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import LockTwoTone from '@material-ui/icons/LockTwoTone';
+import SecurityTwoToneIcon from '@material-ui/icons/SecurityTwoTone';
 import {FormattedHTMLMessage, FormattedMessage, useIntl} from 'react-intl';
 import {useDispatch} from 'react-redux';
 import {applicationSlice} from '../../slice';
 import {SecureKeyService} from '../../../services/SecureKeyService';
-import {ForgotPinPanel} from '../ForgotPinPanel';
 import {makeStyles} from '@material-ui/core/styles';
 import {RoutePaths} from '../../../routing/routes';
 import {useHistory} from 'react-router-dom';
+import {OnEventFn} from '../../../typings/OnEventFn';
+import {ForgotPinPanel} from '../ForgotPinPanel';
 
 const useStyles = makeStyles(theme => ({
         aligned: {
@@ -36,11 +37,12 @@ function validatePin(pin: string): boolean {
     return false;
 }
 
-interface PinLockProps {
-    open: boolean
+interface AskForPinDialogProps {
+    open: boolean,
+    onClose: OnEventFn<string|null>
 }
 
-export const PinLock: React.FC<PinLockProps> = (props) => {
+export const AskForPinDialog: React.FC<AskForPinDialogProps> = (props) => {
     const intl = useIntl();
     const classes = useStyles();
     const history = useHistory();
@@ -52,7 +54,9 @@ export const PinLock: React.FC<PinLockProps> = (props) => {
         const isValidPin = validatePin(pin);
         setValid(isValidPin);
         setPin('');
-        dispatch(applicationSlice.actions.setHasEnteredPin(isValidPin))
+        if(isValidPin){
+            props.onClose(pin);
+        }
     };
 
     const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -60,6 +64,11 @@ export const PinLock: React.FC<PinLockProps> = (props) => {
             e.preventDefault();
             handleConfirm();
         }
+    };
+
+    const handleCancel = () => {
+        setPin('');
+        props.onClose(null);
     };
 
     const handleChange = (e: React.ChangeEvent) => {
@@ -84,23 +93,23 @@ export const PinLock: React.FC<PinLockProps> = (props) => {
             >
                 <DialogTitle id="form-dialog-title">
                     <div className={classes.aligned}>
-                        <FormattedMessage id="app.pinlock.enter_pin.title"/>
-                        <LockTwoTone fontSize={'large'}/>
+                        <FormattedMessage id="app.dialog.enter_pin.title"/>
+                        <SecurityTwoToneIcon fontSize={'large'}/>
                     </div>
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText>
                         <FormattedHTMLMessage
-                            id="app.pinlock.enter_pin.description"
+                            id="app.dialog.enter_pin.description"
                         />
                     </DialogContentText>
                     <TextField
                         autoFocus
                         error={!valid}
-                        helperText={!valid && intl.formatMessage({id: 'app.pinlock.enter_pin.invalid_pin'})}
+                        helperText={!valid && intl.formatMessage({id: 'app.dialog.enter_pin.invalid_pin'})}
                         margin="dense"
                         id="pin"
-                        label={intl.formatMessage({id: 'app.pinlock.enter_pin.label'})}
+                        label={intl.formatMessage({id: 'app.dialog.enter_pin.label'})}
                         type="password"
                         fullWidth
                         value={pin}
@@ -109,8 +118,11 @@ export const PinLock: React.FC<PinLockProps> = (props) => {
                     <ForgotPinPanel onConfirm={handleReset}/>
                 </DialogContent>
                 <DialogActions>
+                    <Button onClick={handleCancel} variant='text'>
+                        <FormattedMessage id="button.cancel"/>
+                    </Button>
                     <Button onClick={handleConfirm} color="primary">
-                        <FormattedMessage id="button.apply"/>
+                        <FormattedMessage id="button.confirm"/>
                     </Button>
                 </DialogActions>
             </Dialog>

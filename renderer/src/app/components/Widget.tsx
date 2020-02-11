@@ -9,7 +9,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 const useStyles = makeStyles(theme => ({
         root: {
             // @ts-ignore
-            opacity: ({transparent = true}) => transparent ? 0.95 : 1.0
+            opacity: ({transparent = true}) => transparent ? 0.95 : 1.0,
         }
     })
 );

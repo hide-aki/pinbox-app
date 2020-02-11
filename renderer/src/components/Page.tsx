@@ -4,10 +4,11 @@ import {makeStyles, Theme} from '@material-ui/core';
 const useStyles = makeStyles((theme: Theme) => ({
         // @ts-ignore
         root: ({backgroundImage}) => ({
+            position:'relative',
             display: 'flex',
             justifyContent: 'center',
             padding: '2rem',
-            minHeight: 'calc(100vh - 4rem - 64px)',
+            // minHeight: 'calc(100vh - 4rem - 64px)',
             background: `#f5f5f5 url(${backgroundImage}) no-repeat center`,
             backgroundSize: 'contain',
             [theme.breakpoints.down('sm')]: {

@@ -47,10 +47,6 @@ export class BurstAccountService extends BurstService {
         }
     }
 
-    public async fetchAccount(accountId: string): Promise<BurstAccount> {
-        return await this.api.account.getAccount(accountId) as BurstAccount;
-    }
-
     async verifyHasClaimedFreeSpace(accountId: string): Promise<boolean> {
         try {
             const {transactions} = await this.api.account.getAccountTransactions({
@@ -65,7 +61,7 @@ export class BurstAccountService extends BurstService {
                 .filter(t =>
                     t.type === TransactionType.RewardRecipient &&
                     t.subtype === TransactionRewardRecipientSubtype.RewardRecipientAssignment
-                ) ;
+                );
             transactions.push(...unconfirmedRewardAssignments);
             // TODO: Consider older messages, if tx count > 500
 
@@ -76,10 +72,8 @@ export class BurstAccountService extends BurstService {
         }
     }
 
-
-    async claimFreeSpace(account: BurstAccount): Promise<void> {
-        // sends a reward assignment to pool
-        return Promise.resolve()
+    public async fetchAccount(accountId: string): Promise<BurstAccount> {
+        return await this.api.account.getAccount(accountId) as BurstAccount;
     }
 
 }

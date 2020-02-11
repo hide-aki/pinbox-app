@@ -1,6 +1,8 @@
 import {makeStyles} from '@material-ui/core/styles';
 import {Button, ButtonProps, CircularProgress, Theme} from '@material-ui/core';
 import React from 'react';
+import clsx from 'clsx';
+
 
 const useStyle = makeStyles((theme: Theme) => ({
         root: {
@@ -23,9 +25,9 @@ interface ProgressButtonProps extends ButtonProps {
 
 export const ProgressButton: React.FC<ProgressButtonProps> = (props) => {
     const classes = useStyle();
-    const {isProgressing, children, disabled = false, ...others} = props;
+    const {isProgressing, children, disabled = false, className, ...others} = props;
     return (
-        <div className={classes.root}>
+        <div className={clsx(classes.root, className)}>
             <Button
                 disabled={isProgressing || disabled}
                 {...others}

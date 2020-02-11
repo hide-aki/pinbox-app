@@ -7,10 +7,11 @@ import {currentAccountSelector} from '../account/selectors';
 import {CapacityWidget} from './widgets/capacity/CapacityWidget';
 import {FileStructureWidget} from './widgets/ifs/FileStructureWidget';
 import {ClaimFreeSpaceWidget} from './widgets/claimFreeSpace/ClaimFreeSpaceWidget';
+import {ClaimState} from '../../typings/BurstAccount';
 
 export const DashboardPage: React.FC = () =>{
     const account = useSelector(currentAccountSelector);
-    let TopWidget = account.hasClaimedFreeSpace ? CapacityWidget : ClaimFreeSpaceWidget;
+    let TopWidget = account.claimSpaceState !== ClaimState.Claimed ? ClaimFreeSpaceWidget : CapacityWidget;
 
     return (
         <Page>

@@ -62,6 +62,7 @@ async function createWindow() {
         height: 800,
         webPreferences: {
             devTools: isDev,
+            webSecurity: false,
             nodeIntegration: true,
             // must be .js as it gets compiled to it!
             preload: path.join(__dirname, 'preload.js')

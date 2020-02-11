@@ -22,3 +22,11 @@ code {
   border-radius: 2px;
   background-color: lightgray;
 }
+
+
+/* animations */
+
+@keyframes pulse {
+  from { transform: scale(1.0); }
+  to { transform: scale(1.1); }
+}

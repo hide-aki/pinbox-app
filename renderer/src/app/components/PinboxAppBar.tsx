@@ -50,7 +50,7 @@ export const PinboxAppBar: React.FC = () => {
     const isIpfsReady = useSelector(selectIsIpfsReady);
     const intl = useIntl();
     const t = translate(intl);
-    const formattingService = new FormattingService(intl)
+    const formattingService = new FormattingService(intl);
 
     function isAccountVisible() {
         return pathname !== RoutePaths.Login &&
@@ -67,36 +67,34 @@ export const PinboxAppBar: React.FC = () => {
     }
 
     return (
-        <div className={classes.root}>
-            <AppBar position="static">
-                <Toolbar>
-                    <Tooltip title={t("tooltip.home")}>
-                        <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu"
-                                    onClick={gotoHome}>
-                            <HomeIcon/>
-                        </IconButton>
-                    </Tooltip>
-                    <Tooltip title={t((isIpfsReady ? "tooltip.ipfsUp" : "tooltip.ipfsDown"))}>
-                        <IpfsIcon isUp={isIpfsReady}/>
-                    </Tooltip>
-                    <SearchBar/>
-                    <div className={classes.grow}/>
-                    {isAccountVisible() &&
-                    <Tooltip title={t("tooltip.account")}>
-                      <Link className={classes.account} to={RoutePaths.Account}>
-                        <h4>{`${formattingService.formatBurstValue(account.balanceNQT)} BURST`}</h4>
-                        <AccountIcon/>
-                      </Link>
-                    </Tooltip>
-                    }
-                    <Tooltip title={t("tooltip.settings")}>
-                        <IconButton className={classes.menuButton} color="inherit" aria-label="settings"
-                                    onClick={gotoSettings}>
-                            <SettingsIcon/>
-                        </IconButton>
-                    </Tooltip>
-                </Toolbar>
-            </AppBar>
-        </div>
+        <AppBar position="sticky">
+            <Toolbar>
+                <Tooltip title={t("tooltip.home")}>
+                    <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu"
+                                onClick={gotoHome}>
+                        <HomeIcon/>
+                    </IconButton>
+                </Tooltip>
+                <Tooltip title={t((isIpfsReady ? "tooltip.ipfsUp" : "tooltip.ipfsDown"))}>
+                    <IpfsIcon isUp={isIpfsReady}/>
+                </Tooltip>
+                <SearchBar/>
+                <div className={classes.grow}/>
+                {isAccountVisible() &&
+                <Tooltip title={t("tooltip.account")}>
+                  <Link className={classes.account} to={RoutePaths.Account}>
+                    <h4>{`${formattingService.formatBurstValue(account.balanceNQT)} BURST`}</h4>
+                    <AccountIcon/>
+                  </Link>
+                </Tooltip>
+                }
+                <Tooltip title={t("tooltip.settings")}>
+                    <IconButton className={classes.menuButton} color="inherit" aria-label="settings"
+                                onClick={gotoSettings}>
+                        <SettingsIcon/>
+                    </IconButton>
+                </Tooltip>
+            </Toolbar>
+        </AppBar>
     );
 };
