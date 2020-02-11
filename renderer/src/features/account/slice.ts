@@ -61,12 +61,13 @@ const fetchBurstAccountInfo = (accountIdent: string = '', publicKey: string = ''
                 accountRS: convertNumericIdToAddress(accountId),
                 balanceNQT: '0',
                 publicKey: pubKey,
-                claimSpaceState,
             };
         } else {
             account = await accountService.fetchAccount(accountId);
         }
 
+        // @ts-ignore
+        account.claimSpaceState = claimSpaceState;
         dispatch(accountSlice.actions.setAccount(account));
 
         // TODO: memoize this to avoid permanent IFS reloads

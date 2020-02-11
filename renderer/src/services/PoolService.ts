@@ -86,7 +86,7 @@ export class PoolService extends BurstService {
                 // convertNumberToNQTString(0.1),
                 '0.05',
                 keys.publicKey,
-                keys.agreementPrivateKey
+                keys.signPrivateKey,
             ))
 
     }
