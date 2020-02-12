@@ -13,7 +13,7 @@ const useTreeItemStyles = makeStyles(theme => ({
         '&:focus > $content': {
             backgroundColor: theme.palette.primary.light,
             color: theme.palette.primary.contrastText,
-            borderRadius: '2px'
+            borderRadius: '4px'
         },
     },
 }));

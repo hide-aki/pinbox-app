@@ -1,6 +1,5 @@
-import {Capacity} from './Capacity';
+import {TimedCapacity} from './TimedCapacity';
 
-export interface PoolCosts extends Capacity {
+export interface PoolCosts extends TimedCapacity {
     burstPlanck: string
-    periodSecs: number
 }

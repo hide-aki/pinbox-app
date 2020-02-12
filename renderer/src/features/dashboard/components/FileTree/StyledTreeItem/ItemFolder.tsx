@@ -39,6 +39,7 @@ const useTreeItemStyles = makeStyles(theme => ({
     draggedOver: {
         backgroundColor: theme.palette.primary.main,
         color: theme.palette.primary.contrastText,
+        borderRadius: '2px',
         transition: "all 0.3s",
     }
 }));

@@ -1,13 +1,11 @@
 import {PoolCosts} from './PoolCosts';
-import {Capacity} from './Capacity';
+import {TimedCapacity} from './TimedCapacity';
 
 export interface PoolInformation {
     url: string,
     name: string,
     description: string,
     costs: PoolCosts,
-    freeSpace: Capacity,
+    gift: TimedCapacity
 }
-
-
 
