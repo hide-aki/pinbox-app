@@ -1,8 +1,6 @@
-import {Unit} from './Unit';
+import {Capacity} from './Capacity';
 
-export interface PoolCosts {
+export interface PoolCosts extends Capacity {
     burstPlanck: string
     periodSecs: number
-    unit: Unit
-    capacity: number
 }

@@ -41,6 +41,7 @@
   "account.state.inactive.description": "Your account has no public key yet. To fully secure your account you should execute a transaction",
   "account.state.notfound": "Desconhecido",
   "account.state.notfound.description": "Your account was not found in the blockchain. Are you really sure using that account?",
+  "account.activate.success": "Sua conta está sendo ativada. Isso pode demorar uns instantes",
   "app.pinlock.enter_pin.description": "Digite o seu PIN para desbloquear Pinbox",
   "app.pinlock.enter_pin.invalid_pin": "PIN inválido",
   "app.pinlock.enter_pin.label": "Digite PIN",
@@ -52,6 +53,7 @@
   "app.forgot_pin_panel.description": "Se você esqueceu seu PIN, você pode resetar a aplicação, entrar novamente com sua conta existente e redefinir o seu PIN. Você vai precisar da sua frase secreta",
   "app.forgot_pin_panel.title": "Esqueceu PIN?",
   "btn.reset": "Resetar",
+  "button.activate_account": "Ativar Conta",
   "button.apply": "Aplicar",
   "button.cancel": "Cancelar",
   "button.confirm": "Confirmar",
@@ -83,6 +85,11 @@
   "dashboard.claim_space.subtitle": "Ganha a sua capacidade de armazenamento grátis já",
   "dashboard.claim_space.caption": "Pode demorar alguns instantes até que o espaço esteja concedido.",
   "dashboard.claim_space.description:html": "Com Pinbox você pode salvar seus arquivos de forma <em>segura</em> e <em>distribuída</em> na Internet sem que terceiros possam acessá-los e/ou usá-los.\nObtenha seu espaço de armazenamento gratuito para que você possa experimentar Pinbox imediatamente. Para saber mais sobre Pinbox basta visitar <a href=\"https://pinbox.space\">https://pinbox.space</a>",
+  "dashboard.activating.title": "Ativação de conta",
+  "dashboard.activating.subtitle": "Só um instante. Sua conta está sendo ativada",
+  "dashboard.activating.description:html": "Sabia que a sua conta foi criada no <a  target='_blank' rel='noreferrer noopener' href='https://www.burst-coin.org/'>Burst Blockchain</a>? Para que você possa utilizar a conta por completo, ela deve ser validada pela rede. Isto vai demorar alguns momentos. Tempo para um café, chá ☕ ou uma cervejinha \uD83C\uDF7A.",
+  "dashboard.activating.subtitle.notactivatedyet": "Oh, your account needs to be activated",
+  "dashboard.activating.description.notactivatedyet:html": "Na verdade sua conta já deve estar ativada?!<br/>Apenas com uma conta ativada você pode usar o Pinbox. Por favor, ative já a sua conta. Isso pode levar um momento, pois a conta tem que ser validada pela rede descentralizada.",
   "dropbox.drop_here": "Drag and drop your files or folders in this area",
   "error.insufficient_balance": "Saldo insuficiente",
   "error.incorrect_pin": "PIN errado",
@@ -113,5 +120,6 @@
   "tooltip.home": "Principal",
   "tooltip.ipfsDown": "IPFS não está em pé ainda",
   "tooltip.ipfsUp": "IPFS está em pé",
-  "tooltip.settings": "Configuração do Aplicativo"
+  "tooltip.settings": "Configuração do Aplicativo",
+  "tooltip.activating": "Ativação de conta está em andamento..."
 }

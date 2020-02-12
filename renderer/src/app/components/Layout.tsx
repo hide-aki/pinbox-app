@@ -1,18 +1,15 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext} from 'react';
 import {PinboxAppBar} from './PinboxAppBar';
 import {PinLock} from './PinLock';
-import {makeStyles, Portal, Snackbar, Theme} from '@material-ui/core';
+import {makeStyles, Theme} from '@material-ui/core';
 import {useSelector} from 'react-redux';
-import {messageSelector, selectHasEnteredPin} from '../selectors';
+import {selectHasEnteredPin} from '../selectors';
 import {RoutePaths} from '../../routing/routes';
 import {useLocation} from 'react-router-dom';
 import {ElectronContext} from '../../components/contexts/ElectronContext';
 import {ElectronService} from '../../services/ElectronService';
-import {MessageType} from '../../typings/NotificationMessage';
-import {useIntl} from 'react-intl';
-import {translate} from '../../utils/translate';
-import {Alert} from '@material-ui/lab';
 import clsx from 'clsx';
+import {Notification} from './Notification';
 
 const useStyles = makeStyles((theme: Theme) => ({
         root: {},
@@ -27,11 +24,6 @@ const useStyles = makeStyles((theme: Theme) => ({
         content: {
             position: 'relative',
         },
-        snackbar: {
-            // position: 'sticky',
-            // transform: 'none',
-            top: '80px',
-        }
     })
 );
 
@@ -49,51 +41,18 @@ function showPinLock(hasEnteredPin: boolean, location: string): boolean {
     return !hasEnteredPin;
 }
 
-type SeverityType = 'success' | 'info' | 'error' | 'warning'
-
 export const Layout: React.FC = ({children}) => {
-    const electronService = useContext<ElectronService>(ElectronContext);
     const classes = useStyles();
-    const intl = useIntl();
+    const electronService = useContext<ElectronService>(ElectronContext);
     const location = useLocation();
     const hasEnteredPin = useSelector(selectHasEnteredPin);
-    const message = useSelector(messageSelector);
-    const [showSnackbar, setShowSnackbar] = useState(false);
-    useEffect(() => {
-        setShowSnackbar(message.type !== MessageType.None);
-    }, [message]);
-
-    const severity = message.type.toString() as SeverityType;
-    console.log(message.type, message.text);
-    const notificationText = message.type === MessageType.Error ? translate(intl)(message.text) : message.text
-
-    function handleCloseSnackbar() {
-        setShowSnackbar(false);
-    }
-
     const isPinLockShown = electronService.isDevelopment ? false : showPinLock(hasEnteredPin, location.pathname);
 
     return (
         <div className={clsx(isPinLockShown ? classes.blurred : classes.normal, classes.root)}>
             <PinboxAppBar/>
             <PinLock open={isPinLockShown}/>
-            <Portal>
-                <Snackbar className={classes.snackbar}
-                          anchorOrigin={{vertical: 'top', horizontal: 'center'}}
-                          open={showSnackbar}
-                          onClose={handleCloseSnackbar}
-                          autoHideDuration={5 * 1000}
-                >
-                    <Alert
-                        variant='filled'
-                        elevation={3}
-                        onClose={handleCloseSnackbar}
-                        severity={severity}
-                    >
-                        {notificationText}
-                    </Alert>
-                </Snackbar>
-            </Portal>
+            <Notification/>
             <div className={classes.content}>
                 {children}
             </div>

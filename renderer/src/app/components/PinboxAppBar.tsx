@@ -10,7 +10,7 @@ import AccountIcon from '@material-ui/icons/AccountBoxTwoTone';
 import SettingsIcon from '@material-ui/icons/SettingsApplicationsTwoTone';
 import {SearchBar} from './SearchBar';
 import {useSelector} from 'react-redux';
-import {currentAccountSelector} from '../../features/account/selectors';
+import {activationStateSelector, currentAccountSelector} from '../../features/account/selectors';
 import {RoutePaths} from '../../routing/routes';
 import {useHistory, useLocation} from 'react-router';
 import {Link} from 'react-router-dom';
@@ -18,6 +18,8 @@ import {FormattingService} from '../../services/FormattingService';
 import {IpfsIcon} from './IpfsIcon';
 import {selectIsIpfsReady} from '../selectors';
 import {translate} from '../../utils/translate';
+import {Tristate} from '../../typings/Tristate';
+import {green} from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -38,6 +40,11 @@ const useStyles = makeStyles((theme: Theme) =>
             "& h4": {
                 marginRight: theme.spacing(1)
             }
+        },
+        accountState:{
+            marginRight: theme.spacing(3),
+            color: green[500],
+            animation: '1.9s ease-in-out 0s infinite alternate pulse',
         }
     }),
 );
@@ -48,6 +55,7 @@ export const PinboxAppBar: React.FC = () => {
     const classes = useStyles();
     const account = useSelector(currentAccountSelector);
     const isIpfsReady = useSelector(selectIsIpfsReady);
+    const accountActivationState = useSelector(activationStateSelector);
     const intl = useIntl();
     const t = translate(intl);
     const formattingService = new FormattingService(intl);
@@ -80,13 +88,20 @@ export const PinboxAppBar: React.FC = () => {
                 </Tooltip>
                 <SearchBar/>
                 <div className={classes.grow}/>
-                {isAccountVisible() &&
-                <Tooltip title={t("tooltip.account")}>
-                  <Link className={classes.account} to={RoutePaths.Account}>
-                    <h4>{`${formattingService.formatBurstValue(account.balanceNQT)} BURST`}</h4>
-                    <AccountIcon/>
-                  </Link>
-                </Tooltip>
+                {
+                    accountActivationState === Tristate.Pending &&
+                    <Tooltip title={t('tooltip.activating')}>
+                      <h4 className={classes.accountState}>Activating</h4>
+                    </Tooltip>
+                }
+                {
+                    isAccountVisible() &&
+                    <Tooltip title={t("tooltip.account")}>
+                      <Link className={classes.account} to={RoutePaths.Account}>
+                        <h4>{`${formattingService.formatBurstValue(account.balanceNQT)} BURST`}</h4>
+                        <AccountIcon/>
+                      </Link>
+                    </Tooltip>
                 }
                 <Tooltip title={t("tooltip.settings")}>
                     <IconButton className={classes.menuButton} color="inherit" aria-label="settings"

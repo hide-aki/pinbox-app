@@ -1,4 +1,4 @@
-import {app, BrowserWindow, ipcMain} from 'electron';
+import {app, BrowserWindow, ipcMain, shell} from 'electron';
 import * as path from 'path'
 import {handleMessage} from './features/ipcMessaging/incoming';
 import {createIpfsNode} from './features/ipfs/createIpfsNode';
@@ -84,6 +84,11 @@ async function createWindow() {
     logger.debug(`Using url: ${url}`);
 
     mainWindow.on("closed", () => (mainWindow.destroy()));
+    mainWindow.webContents.on('new-window', function(event, url){
+        event.preventDefault();
+        shell.openExternal(url, {activate:true})
+    });
+
 
     ipcMain.on(IpcChannelName, (event, msg: IpcMessage<any>) => {
         handleMessage(msg)
@@ -93,6 +98,7 @@ async function createWindow() {
     mainWindow.maximize();
     mainWindow.show();
 }
+
 
 app.on("ready", async () => {
     await createWindow();

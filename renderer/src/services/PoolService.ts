@@ -29,9 +29,9 @@ export class PoolService extends BurstService {
         return this.persistenceService.getJsonObject(ItemKey) as PoolInformation;
     }
 
-    async fetchPoolInformation(): Promise<PoolInformation|void> {
+    async fetchPoolInformation(): Promise<PoolInformation | void> {
 
-        return await this.withApi<PoolInformation|void>(async api => {
+        return await this.withApi<PoolInformation | void>(async api => {
 
             const transactionList = await this.api.account.getAccountTransactions({
                 accountId: PoolAccountId,
@@ -78,7 +78,6 @@ export class PoolService extends BurstService {
         } catch (e) {
             throw new Error('error.incorrect_pin')
         }
-
         await this.withApi<TransactionId>(api =>
             api.account.setRewardRecipient(
                 PoolAccountId,
@@ -87,10 +86,9 @@ export class PoolService extends BurstService {
                 '0.05',
                 keys.publicKey,
                 keys.signPrivateKey,
-            ))
-
+            )
+        )
     }
-
 
 }
 

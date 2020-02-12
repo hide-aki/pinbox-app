@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Button, Checkbox, FormControlLabel, Grid, makeStyles, Paper, Theme} from '@material-ui/core';
 import PublicTwoTone from '@material-ui/icons/PublicTwoTone';
 import SecurityTwoTone from '@material-ui/icons/SecurityTwoTone';
@@ -83,6 +83,9 @@ export const AccountInformationStep: React.FC<IProps> =
         const classes = useStyles();
         const intl = useIntl();
         const {burstAddress, publicKey, accountId} = burstAccountService.getAccountIdentifiers(passphrase);
+        useEffect(() => {
+            onReady(false)
+        }, []);
         return (
             <div className={classes.root}>
                 <Paper className={classes.certificate}>

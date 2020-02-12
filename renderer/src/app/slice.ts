@@ -31,6 +31,7 @@ export const applicationSlice = createSlice({
         },
         showErrorMessage: (state, action) => {
             const text = action.payload;
+            console.log('text', text)
             state.message = {type: MessageType.Error, text}
         },
         showSuccessMessage: (state, action) => {

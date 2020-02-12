@@ -3,15 +3,20 @@ import {Grid} from '@material-ui/core';
 import {Page} from '../../components/Page';
 import {Widget} from '../../app/components/Widget';
 import {useSelector} from 'react-redux';
-import {currentAccountSelector} from '../account/selectors';
-import {CapacityWidget} from './widgets/capacity/CapacityWidget';
+import {activationStateSelector, currentAccountSelector} from '../account/selectors';
 import {FileStructureWidget} from './widgets/ifs/FileStructureWidget';
+import {Tristate} from '../../typings/Tristate';
+import {WaitingForActivationWidget} from './widgets/activate/WaitingForActivationWidget';
 import {ClaimFreeSpaceWidget} from './widgets/claimFreeSpace/ClaimFreeSpaceWidget';
-import {ClaimState} from '../../typings/BurstAccount';
+import {CapacityWidget} from './widgets/capacity/CapacityWidget';
 
-export const DashboardPage: React.FC = () =>{
+export const DashboardPage: React.FC = () => {
     const account = useSelector(currentAccountSelector);
-    let TopWidget = account.claimSpaceState !== ClaimState.Claimed ? ClaimFreeSpaceWidget : CapacityWidget;
+    const activationState = useSelector(activationStateSelector);
+    let TopWidget = WaitingForActivationWidget;
+    if(activationState === Tristate.Finished){
+        TopWidget = account.claimSpaceState !== Tristate.Finished ? ClaimFreeSpaceWidget : CapacityWidget;
+    }
 
     return (
         <Page>

@@ -41,6 +41,7 @@
   "account.state.inactive.description": "Dein Konto existiert, hat aber noch keinen öffentlichen Schlüssel. Um es richtig abzusichern, solltest Du mindestens eine Transaktion ausführen",
   "account.state.notfound": "Unbekannt",
   "account.state.notfound.description": "Dein Konto ist nicht in der Blockchain. Bist Du sicher, dass Du dieses Konto verwenden willst?",
+  "account.activate.success": "Dein Konto wird aktiviert. Das kann einen Moment dauern",
   "app.pinlock.enter_pin.description": "Gib Deine PIN ein um Pinbox freizugeben",
   "app.pinlock.enter_pin.invalid_pin": "Falsche PIN",
   "app.pinlock.enter_pin.label": "PIN eingeben",
@@ -52,6 +53,7 @@
   "app.forgot_pin_panel.description": "Wenn Du Deine PIN vergessen hast, musst Du die Anwendung zurücksetzen, Dich mit deinem existierenden Konto neu anmelden und die PIN neu definieren. Dazu benötigst Du Deine Passphrase",
   "app.forgot_pin_panel.title": "Ich habe meine PIN vergessen",
   "btn.reset": "Zurücksetzen",
+  "button.activate_account": "Konto aktivieren",
   "button.apply": "Anwenden",
   "button.cancel": "Abbrechen",
   "button.confirm": "Bestätigen",
@@ -83,6 +85,11 @@
   "dashboard.claim_space.subtitle": "Fordere Dir gleich Deinen Gratis-Speicherplatz an",
   "dashboard.claim_space.caption": "Es kann einen Moment dauern, bis der Platz zur Verfügung steht.",
   "dashboard.claim_space.description:html": "Mit Pinbox kannst Du Deine Dateien <em>sicher</em> und <em>verteilt</em> im Internet abspeichern, ohne dass Dritte auf diese zugreifen und/oder verwerten können.\nHole Dir Deinen Gratis-Speicherplatz, damit Du Pinbox gleich ausprobieren kannst. Um mehr über Pinbox zu erfahren besuche einfach <a href=\"https://pinbox.space\">https://pinbox.space</a>\n",
+  "dashboard.activating.title": "Kontoaktivierung",
+  "dashboard.activating.subtitle": "Einen Moment bitte. Dein Konto wird gerade aktiviert",
+  "dashboard.activating.description:html": "Wusstest Du, dass Dein Konto in der <a  target='_blank' rel='noreferrer noopener' href='https://www.burst-coin.org/'>Burst Blockchain</a> erzeugt wurde? Damit Du das Konto vollständig nutzen kannst, muss dieses durch das Netzwerk validiert werden. Dies dauert einen kleinen Moment. Zeit für einen Kaffee, Tee ☕ oder ein auch Bierchen \uD83C\uDF7A.",
+  "dashboard.activating.subtitle.notactivatedyet": "Ué, a sua conta ainda precisa de ser ativada",
+  "dashboard.activating.description.notactivatedyet:html": "Eigentlich sollte Dein Konto bereits aktiviert sein?!<br/>Nur mit einem aktivierten Konto kannst Du Pinbox nutzen. Bitte aktiviere Dein Konto jetzt. Dies kann einen Moment dauern, da das Konto durch das dezentrale Netzwerk validiert werden muss.",
   "dropbox.drop_here": "Ziehe Deine Dateien oder Ordner in diesen Bereich",
   "error.insufficient_balance": "Saldo nicht ausreichend",
   "error.incorrect_pin": "Falsche PIN",
@@ -113,5 +120,6 @@
   "tooltip.home": "Hauptseite",
   "tooltip.ipfsDown": "IPFS ist noch nicht bereit",
   "tooltip.ipfsUp": "IPFS läuft",
-  "tooltip.settings": "Anwendungskonfiguration"
+  "tooltip.settings": "Anwendungskonfiguration",
+  "tooltip.activating": "Kontoaktivierung läuft..."
 }

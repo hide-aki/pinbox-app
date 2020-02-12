@@ -5,6 +5,11 @@ import VerifiedTwoTone from '@material-ui/icons/VerifiedUserTwoTone';
 import HelpTwoTone from '@material-ui/icons/HelpTwoTone';
 import {FormattedHTMLMessage, FormattedMessage, useIntl} from 'react-intl';
 import {AccountState, BurstAccountService} from '../../../../../services/BurstAccountService';
+import {green, grey, red} from '@material-ui/core/colors';
+import {ProgressButton} from '../../../../../app/components/ProgressButton';
+import {useDispatch} from 'react-redux';
+import {applicationSlice} from '../../../../../app/slice';
+import {translate} from '../../../../../utils/translate';
 
 const useStyles = makeStyles((theme: Theme) => ({
         root: {
@@ -45,53 +50,86 @@ const burstAccountService = new BurstAccountService();
 interface IStateView {
     labelId: string,
     description: string,
-    icon: React.ReactElement | undefined
+    icon: React.ReactElement | undefined,
+    chipColor: string
 }
 
 const getStateViews = (accountState: AccountState): IStateView => {
     let labelId = '';
     let description = '';
     let icon = undefined;
+    let chipColor = grey[500];
+    const iconStyle = {color: 'white'};
     switch (accountState) {
         case AccountState.Active:
             labelId = 'account.state.active';
             description = 'account.state.active.description';
-            icon = <VerifiedTwoTone/>;
+            icon = <VerifiedTwoTone style={iconStyle}/>;
+            chipColor = green[500];
             break;
         case AccountState.Inactive:
             labelId = 'account.state.inactive';
             description = 'account.state.inactive.description';
-            icon = <DoneTwoTone/>;
+            icon = <DoneTwoTone style={iconStyle}/>;
             break;
         case AccountState.NotFound:
             labelId = 'account.state.notfound';
             description = 'account.state.notfound.description';
-            icon = <HelpTwoTone/>;
+            icon = <HelpTwoTone style={iconStyle}/>;
+            chipColor = red[500];
             break;
     }
     return {
         labelId,
         icon,
         description,
+        chipColor,
     }
 };
 
+enum ActivationState {
+    NotActivatedYet,
+    Activating,
+    Activated
+}
+
 export const VerifyAccountStep: React.FC<IProps> =
-    ({passphrase}) => {
+    ({passphrase, onReady}) => {
         const accountInfo = burstAccountService.getAccountIdentifiers(passphrase);
         const intl = useIntl();
+        const dispatch = useDispatch();
         const classes = useStyles();
-        const [accountState, setAccountState] = useState<AccountState>(AccountState.Undefined);
+        const [accountState, setAccountState] = useState(AccountState.Undefined);
+        const [activationState, setActivationState] = useState(ActivationState.NotActivatedYet);
 
         useEffect(() => {
             const fetchAccountState = async () => {
                 const state = await burstAccountService.verifyAccount(accountInfo.accountId);
                 setAccountState(state);
+                onReady(state === AccountState.Active)
             };
             fetchAccountState()
+            onReady(false)
         }, [accountInfo.accountId]);
 
-        const {labelId, description, icon} = getStateViews(accountState);
+        const handleActivate = async () => {
+            setActivationState(ActivationState.Activating);
+            try {
+                await burstAccountService.activateAccount(accountInfo.publicKey);
+                dispatch(applicationSlice.actions.showSuccessMessage(translate(intl)('account.activate.success')));
+                setActivationState(ActivationState.Activated);
+            } catch (e) {
+                dispatch(applicationSlice.actions.showErrorMessage(translate(intl)('error.activation_failed')));
+                setActivationState(ActivationState.NotActivatedYet);
+            } finally {
+                onReady(true)
+            }
+        };
+
+        const {labelId, description, icon, chipColor} = getStateViews(accountState);
+
+        const showActivationButton = (accountState === AccountState.Inactive || accountState === AccountState.NotFound)
+            && (activationState !== ActivationState.Activated);
 
         return (
             <div className={classes.root}>
@@ -99,23 +137,38 @@ export const VerifyAccountStep: React.FC<IProps> =
                     <FormattedMessage id={'account.set.verify_account.your_address_is'}/>
                     <h2>{accountInfo.burstAddress}</h2>
                 </div>
+                <div>
+                    {
+                        accountState === AccountState.Undefined
+                            ? (
+                                <div className={classes.verifying}>
+                                    <LinearProgress/>
+                                    <FormattedMessage id={'account.set.verify_account.verifying'}/>
+                                </div>
+                            )
+                            :
+                            (
+                                <div className={classes.chip}>
+                                    <Chip
+                                        label={intl.formatMessage({id: labelId})}
+                                        icon={icon}
+                                        style={{backgroundColor: chipColor, color: 'white'}}
+                                    />
+                                    <FormattedHTMLMessage id={description}/>
+                                </div>
+                            )
+                    }
+                </div>
                 {
-                    accountState === AccountState.Undefined
-                        ? (
-                            <div className={classes.verifying}>
-                                <LinearProgress/>
-                                <FormattedMessage id={'account.set.verify_account.verifying'}/>
-                            </div>
-                        )
-                        :
-                        (
-                            <div className={classes.chip}>
-                                <Chip color="secondary"
-                                      label={intl.formatMessage({id: labelId})}
-                                      icon={icon}/>
-                                <FormattedHTMLMessage id={description}/>
-                            </div>
-                        )
+                    showActivationButton &&
+                    <ProgressButton
+                      variant='contained'
+                      color='secondary'
+                      isProgressing={activationState === ActivationState.Activating}
+                      onClick={handleActivate}
+                    >
+                      <FormattedMessage id='button.activate_account'/>
+                    </ProgressButton>
                 }
             </div>
         )

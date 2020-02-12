@@ -3,7 +3,8 @@ import {convertNumericIdToAddress} from '@burstjs/util';
 import {BurstAccount} from '../typings/BurstAccount';
 import {BurstService} from './BurstService';
 import {TransactionRewardRecipientSubtype, TransactionType} from '@burstjs/core';
-import {PoolAccountId} from '../utils/constants';
+import {ActivatorUrl, PoolAccountId} from '../utils/constants';
+import {HttpImpl} from '@burstjs/http';
 
 interface IAccountIdentifierType {
     publicKey: string,
@@ -37,6 +38,17 @@ export class BurstAccountService extends BurstService {
             accountId,
         }
     };
+
+    public async activateAccount(publickey: string): Promise<void> {
+        const account = getAccountIdFromPublicKey(publickey);
+        const http = new HttpImpl(ActivatorUrl);
+        try {
+            await http.post('api/activate', {account, publickey});
+        } catch (e) {
+            const errObj = e.data;
+            throw new Error(errObj.message)
+        }
+    }
 
     public async verifyAccount(accountId: string): Promise<AccountState> {
         try {

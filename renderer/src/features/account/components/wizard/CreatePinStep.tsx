@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {makeStyles, TextField, Theme} from '@material-ui/core';
 import {FormattedHTMLMessage, useIntl} from 'react-intl';
 
@@ -30,6 +30,11 @@ export const CreatePinStep: React.FC<IProps> =
     ({onReady, onPinChanged}) => {
         const classes = useStyles();
         const intl = useIntl();
+
+        useEffect(() => {
+            onReady(false)
+        }, []);
+
         const handleChange = ({target}: any): void => {
             const isMinLength = target.value.length >= MIN_PIN_LENGTH;
             onReady(isMinLength);

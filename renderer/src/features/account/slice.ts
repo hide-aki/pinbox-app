@@ -7,7 +7,10 @@ import {Thunk} from '../../typings/Thunk';
 import {ElectronService} from '../../services/ElectronService';
 import {AccountReadyMessage} from '../ipcMessaging/outgoing/providers';
 import {isEmptyString} from '../../utils/isEmptyString';
-import {BurstAccount, ClaimState} from '../../typings/BurstAccount';
+import {BurstAccount} from '../../typings/BurstAccount';
+import {Tristate} from '../../typings/Tristate';
+import {OnEventFn} from '../../typings/OnEventFn';
+import {voidFn} from '../../utils/voidFn';
 
 const ACC_KEY = 'acc';
 
@@ -16,31 +19,39 @@ const persistenceService = new PersistenceService();
 export const accountSlice = createSlice({
     name: 'account',
     initialState: {
+        accountIsReady: false,
+        activationState: Tristate.NotStartedYet,
         account: {} // BurstAccount type
     },
     reducers: {
         setAccount: (state, action) => {
             state.account = action.payload;
             persistenceService.storeJsonObject(ACC_KEY, state.account);
-            return state
         },
         clearAccount: (state, action) => {
             state.account = {};
-
             persistenceService.storeJsonObject(ACC_KEY, state.account);
-            return state
         },
         setClaimSpaceState: (state, action) => {
             // @ts-ignore
             state.account.claimSpaceState = action.payload;
             persistenceService.storeJsonObject(ACC_KEY, state.account);
-        }
+        },
+        setActivationState: (state, action) => {
+            // @ts-ignore
+            state.activationState = action.payload;
+            persistenceService.storeJsonObject(ACC_KEY, state.account);
+        },
+        setAccountIsReady: (state, action) => {
+            // @ts-ignore
+            state.accountIsReady = action.payload;
+        },
     }
 });
 
-const fetchBurstAccountInfo = (accountIdent: string = '', publicKey: string = ''): Thunk => async dispatch => {
+const fetchBurstAccountInfo = (accountIdent: string = '', publicKey: string = ''): Thunk => async (dispatch, getState) => {
     try {
-        let claimSpaceState = ClaimState.NotClaimedYet;
+        let claimSpaceState = Tristate.NotStartedYet;
         let accountId = accountIdent;
         let pubKey = publicKey;
         if (!accountId.length) {
@@ -52,10 +63,11 @@ const fetchBurstAccountInfo = (accountIdent: string = '', publicKey: string = ''
             }
         }
 
+        let account: BurstAccount;
         const accountService = new BurstAccountService();
-        let account = null;
         let accountState = await accountService.verifyAccount(accountId);
         if (accountState === AccountState.NotFound) {
+            // @ts-ignore
             account = {
                 account: accountId,
                 accountRS: convertNumericIdToAddress(accountId),
@@ -66,26 +78,43 @@ const fetchBurstAccountInfo = (accountIdent: string = '', publicKey: string = ''
             account = await accountService.fetchAccount(accountId);
         }
 
-        // @ts-ignore
         account.claimSpaceState = claimSpaceState;
         dispatch(accountSlice.actions.setAccount(account));
 
-        // TODO: memoize this to avoid permanent IFS reloads
-        if (!isEmptyString(pubKey)) {
+        if (accountState === AccountState.Active) {
+            dispatch(accountSlice.actions.setActivationState(Tristate.Finished));
+        }
+
+        if (!getState().account.accountIsReady && !isEmptyString(pubKey)) {
             const electronService = new ElectronService();
-            electronService.sendMessage(AccountReadyMessage(pubKey))
+            electronService.sendMessage(AccountReadyMessage(pubKey));
+            accountSlice.actions.setAccountIsReady(true);
         }
 
-        if(claimSpaceState === ClaimState.ClaimPending){
+        if (claimSpaceState === Tristate.Pending) {
             const hasClaimed = await accountService.verifyHasClaimedFreeSpace(accountId);
-            dispatch(accountSlice.actions.setClaimSpaceState(hasClaimed ? ClaimState.Claimed : claimSpaceState ));
+            dispatch(accountSlice.actions.setClaimSpaceState(hasClaimed ? Tristate.Finished : claimSpaceState));
         }
 
-    } catch (err) {
-        dispatch(applicationSlice.actions.showErrorMessage(err.toString()))
+    } catch (e) {
+        dispatch(applicationSlice.actions.showErrorMessage(e.message || e.toString()))
     }
 };
 
-export const thunks = {
-    fetchBurstAccountInfo
+const activateBurstAccount = (publicKey: string = '', onRequestFinished: OnEventFn<boolean> = voidFn): Thunk => async dispatch => {
+    try {
+        const accountService = new BurstAccountService();
+        await accountService.activateAccount(publicKey);
+        dispatch(accountSlice.actions.setActivationState(Tristate.Pending));
+        onRequestFinished(true);
+    } catch (e) {
+        console.log('here', JSON.stringify(e))
+        dispatch(applicationSlice.actions.showErrorMessage(e.message));
+        onRequestFinished(false);
+    }
+};
+
+export const accountThunks = {
+    fetchBurstAccountInfo,
+    activateBurstAccount,
 };

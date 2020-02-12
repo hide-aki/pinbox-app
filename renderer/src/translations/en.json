@@ -36,11 +36,12 @@
   "account.set.verify_account.verifying": "Verifying...",
   "account.set.verify_account.your_address_is": "Your accounts address is",
   "account.state.active": "Active",
-  "account.state.active.description": "Your account is activated and fully secured",
+  "account.state.active.description": "Your account is active and fully secured",
   "account.state.inactive": "Inactive",
   "account.state.inactive.description": "Your account has no public key yet. To fully secure your account you should execute a transaction",
   "account.state.notfound": "Not found",
   "account.state.notfound.description": "Your account was not found in the blockchain. Are you really sure using that account?",
+  "account.activate.success": "Your account is being activated. This may take a few moments",
   "app.pinlock.enter_pin.description": "Enter your PIN to unlock Pinbox",
   "app.pinlock.enter_pin.invalid_pin": "Incorrect PIN",
   "app.pinlock.enter_pin.label": "Enter PIN",
@@ -52,6 +53,7 @@
   "app.forgot_pin_panel.description": "If you have forgotten your PIN, you can reset the application, log in again with your existing account, and redefine your PIN. You will need your passphrase ",
   "app.forgot_pin_panel.title": "Forgot PIN?",
   "btn.reset": "Reset",
+  "button.activate_account": "Activate Account",
   "button.apply": "Apply",
   "button.confirm": "Confirm",
   "button.cancel": "Cancel",
@@ -83,6 +85,11 @@
   "dashboard.claim_space.claimed": "Just a moment please. Your free space is being prepared.",
   "dashboard.claim_space.caption": "It may take a tiny moment until the space is available",
   "dashboard.claim_space.description:html": "With Pinbox you can save your files <em>secure</em> and <em> distributed</em> on the Internet without third parties being able to access and/or use them.\nGet your free storage space so you can try Pinbox right away. To learn more about Pinbox just visit <a href=\"https://pinbox.space\">https://pinbox.space</a>",
+  "dashboard.activating.title": "Account Activation",
+  "dashboard.activating.subtitle": "Just a moment, your account is being activated",
+  "dashboard.activating.description:html": "Did you know that your account was created in the <a target='_blank' rel='noreferrer noopener' href='https://www.burst-coin.org/'>Burst Blockchain</a>? In order for you to be able to use the account fully, it must be validated by the network. This will take a few moments. Time for a coffee, tea ☕ or a beer \uD83C\uDF7A.",
+  "dashboard.activating.subtitle.notactivatedyet": "Oh, your account needs to be activated",
+  "dashboard.activating.description.notactivatedyet:html": "Actually your account should already be activated?!<br/>Only with an activated account you can use Pinbox. Please activate your account now. This may take a moment, as the account has to be validated by the decentralized network.",
   "dropbox.drop_here": "Drag and drop your files or folders in this area",
   "error.insufficient_balance": "Insufficient Balance",
   "error.incorrect_pin": "Incorrect PIN",
@@ -113,6 +120,7 @@
   "tooltip.home": "Home",
   "tooltip.ipfsDown": "IPFS not ready yet",
   "tooltip.ipfsUp": "IPFS is running",
-  "tooltip.settings": "Application Settings"
+  "tooltip.settings": "Application Settings",
+  "tooltip.activating": "Account activation is pending..."
 }
 

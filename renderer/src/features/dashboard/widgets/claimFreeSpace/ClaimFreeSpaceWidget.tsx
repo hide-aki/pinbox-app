@@ -11,10 +11,10 @@ import {isOrderingSelector} from '../../../pool/selectors';
 import {Chip, Typography} from '@material-ui/core';
 import ClaimImage from '../../../../images/claimspace.png';
 import clsx from 'clsx';
-import {ClaimState} from '../../../../typings/BurstAccount';
 import DoneIcon from '@material-ui/icons/Done'
 import {green} from '@material-ui/core/colors';
 import {AskForPinDialog} from '../../../../app/components/AskForPinDialog';
+import {Tristate} from '../../../../typings/Tristate';
 
 const useStyle = makeStyles((theme: Theme) => ({
         root: {
@@ -67,7 +67,7 @@ export const ClaimFreeSpaceWidget: React.FC = () => {
         }
     };
 
-    const hasClaimed = claimSpaceState !== ClaimState.NotClaimedYet;
+    const hasClaimed = claimSpaceState !== Tristate.NotStartedYet;
 
     return (
         <div className={classes.root}>

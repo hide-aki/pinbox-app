@@ -10,7 +10,7 @@ import {EnterPassphraseStep} from './EnterPassphraseStep';
 import {VerifyAccountStep} from './VerifyAccountStep';
 import {useDispatch} from 'react-redux';
 import {BurstAccountService} from '../../../../../services/BurstAccountService';
-import {thunks} from '../../../slice';
+import {accountThunks} from '../../../slice';
 import {ElectronContext} from '../../../../../components/contexts/ElectronContext';
 import {NewAccountMessage} from '../../../../ipcMessaging/outgoing/providers';
 import {applicationSlice} from '../../../../../app/slice';
@@ -110,7 +110,7 @@ export const AccountSetter: React.FC = (props: any) => {
         electronService.sendMessage(NewAccountMessage(passphrase));
         const burstAccountService = new BurstAccountService();
         const {accountId, publicKey} = burstAccountService.getAccountIdentifiers(passphrase);
-        dispatch(thunks.fetchBurstAccountInfo(accountId, publicKey));
+        dispatch(accountThunks.fetchBurstAccountInfo(accountId, publicKey));
         history.push(RoutePaths.Index)
     };
 

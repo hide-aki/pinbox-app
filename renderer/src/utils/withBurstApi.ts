@@ -9,8 +9,6 @@ export const withBurstApi = (burstService: BurstService) => async <T>(withApiFn:
     try {
         return await withApiFn(burstService.api)
     } catch (e) {
-        console.log('is instance', e instanceof HttpError)
-
         let error = e instanceof HttpError
             ? new Error(burstService.getTranslationIdForError(e))
             : e;

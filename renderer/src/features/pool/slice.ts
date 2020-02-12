@@ -1,10 +1,10 @@
-import {createSlice, Action} from '@reduxjs/toolkit';
+import {createSlice} from '@reduxjs/toolkit';
 import {applicationSlice} from '../../app/slice';
 import {PoolService} from '../../services/PoolService';
 import {Thunk} from '../../typings/Thunk';
 import {SubscriptionOrder} from '../../typings/SubscriptionOrder';
 import {accountSlice} from '../account/slice';
-import {ClaimState} from '../../typings/BurstAccount';
+import {Tristate} from '../../typings/Tristate';
 
 const poolService = new PoolService();
 export const poolSlice = createSlice({
@@ -43,7 +43,7 @@ const orderSubscription = (order: SubscriptionOrder): Thunk => async dispatch =>
         await poolService.commitSubscriptionOrder(order);
     } catch (err) {
         dispatch(applicationSlice.actions.showErrorMessage(err.toString()))
-    }finally {
+    } finally {
         dispatch(poolSlice.actions.setIsOrdering(false))
     }
 };
@@ -52,10 +52,10 @@ const claimFreeSpace = (pin: string): Thunk => async dispatch => {
     try {
         dispatch(poolSlice.actions.setIsOrdering(true));
         await poolService.claimFreeSpace(pin);
-        dispatch(accountSlice.actions.setClaimSpaceState(ClaimState.ClaimPending));
+        dispatch(accountSlice.actions.setClaimSpaceState(Tristate.Pending));
     } catch (err) {
         dispatch(applicationSlice.actions.showErrorMessage(err.message))
-    }finally {
+    } finally {
         dispatch(poolSlice.actions.setIsOrdering(false))
     }
 };
