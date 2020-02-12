@@ -1,7 +1,6 @@
 import React from 'react';
 import {createStyles, makeStyles, Paper, Theme} from '@material-ui/core';
 import {Page} from '../../components/Page';
-import {FormattedMessage} from 'react-intl';
 
 import AccountBackgroundImage from '../../images/background2.png';
 import {AccountDetails} from './components/details/AccountDetails';
@@ -26,8 +25,6 @@ export const AccountPage: React.FC = () => {
     return (
         <Page backgroundImage={AccountBackgroundImage}>
             <Paper className={classes.paper}>
-                <h1><FormattedMessage id="account.details.title"/></h1>
-                <p><FormattedMessage id="account.details.description"/></p>
                 <AccountDetails account={account}/>
             </Paper>
         </Page>
