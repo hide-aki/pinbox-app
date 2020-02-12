@@ -20,7 +20,9 @@ const useTreeItemStyles = makeStyles(theme => ({
         '& > .file-drop-target': {
             display: 'flex',
             flexDirection: 'row',
-            alignItems: 'center'
+            alignItems: 'center',
+            height: '32px',
+
         }
     },
     folderIcon: {
@@ -32,6 +34,7 @@ const useTreeItemStyles = makeStyles(theme => ({
     },
     labelText: {
         flexGrow: 1,
+        fontWeight: 700,
     },
     draggedOver: {
         backgroundColor: theme.palette.primary.main,

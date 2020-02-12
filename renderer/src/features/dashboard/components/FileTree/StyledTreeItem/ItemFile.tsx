@@ -20,6 +20,7 @@ const useTreeItemStyles = makeStyles(theme => ({
         display: 'flex',
         alignItems: 'center',
         padding: theme.spacing(0.5, 0),
+        height: '24px',
     },
     fileIcon: {
         color: theme.palette.grey[700],

@@ -42,11 +42,6 @@ const useStyles = makeStyles((theme: Theme) => ({
             justifyContent: "space-between",
             alignItems: "center",
         },
-        normalFont: {
-            fontFamily: theme.typography.fontFamily,
-            fontSize: theme.typography.fontSize,
-            fontWeight: 400,
-        },
         expand: {
             display: "flex",
             flexDirection: "column"
@@ -54,7 +49,6 @@ const useStyles = makeStyles((theme: Theme) => ({
         vspacing: {
             margin: theme.spacing(4, 0)
         },
-        reset: {}
     })
 );
 
