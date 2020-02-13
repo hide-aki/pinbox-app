@@ -1,33 +1,34 @@
 import Big from 'big.js';
-import {Unit} from '../../../../../typings/Unit';
+import {Unit} from '../typings/Unit';
+import {Capacity} from '../typings/Capacity';
 
-
-export class ScaleBigToNumberResult {
+export class EnhancedCapacity implements Capacity{
     constructor(
-        public n: number = 0,
-        public u: Unit = ''
+        public value: number = 0,
+        public unit: Unit = ''
     ) {
+
     }
 
     toString(unitMapperFn?: (unit: Unit) => string) {
-        const unit = unitMapperFn ? unitMapperFn(this.u) : this.u;
-        return unit.length ? `${this.n} ${unit}` : `${this.n}`
+        const unit = unitMapperFn ? unitMapperFn(this.unit) : this.unit;
+        return unit.length ? `${this.value} ${unit}` : `${this.value}`
     }
 }
 
-export interface ScaleBigToNumberParams {
+export interface ConvertBigToCapacityArgs {
     value: Big,
     fix?: Unit,
     divider?: number | Big,
     dp?: number,
 }
 
-export function scaleBigToNumber({
+export function convertBigToCapacity({
                                 value,
                                 fix,
                                 divider = 1000,
                                 dp = 3
-                            }: ScaleBigToNumberParams): ScaleBigToNumberResult {
+                            }: ConvertBigToCapacityArgs): EnhancedCapacity {
     const units = ['', 'K', 'M', 'G', 'T', 'P'];
     let b = value;
     let i = 0;
@@ -38,5 +39,5 @@ export function scaleBigToNumber({
         if(!fix && (b.lt(divider) || i > units.length)) break;
     }
     // @ts-ignore
-    return new ScaleBigToNumberResult(+(b.toFixed(dp)), units[i])
+    return new EnhancedCapacity(+(b.toFixed(dp)), units[i])
 }

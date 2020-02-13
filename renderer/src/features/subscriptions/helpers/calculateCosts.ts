@@ -24,12 +24,12 @@ export function getCostsPerMonth(costs: PoolCosts): Big {
 }
 
 export function calculateSubscriptionCosts(poolCosts: PoolCosts, order: SubscriptionOrder): Big {
-    const {capacity, unit, burstPlanck} = poolCosts;
+    const {value, unit, burstPlanck} = poolCosts;
     if (Big(burstPlanck).lte(FeeQuantPlanck)) throw new Error(`Pool costs must be greater than lowest fee (${FeeQuantPlanck})`)
     if (order.periodSecs < SecondsPerDay) throw new Error(`Order period must not be less than a day (${SecondsPerDay})`);
 
     const conversionFactor = getUnitConversionFactor(order.unit, unit);
-    const normalizedOrderCapacity = Big(order.capacity).mul(conversionFactor).mul(capacity);
+    const normalizedOrderCapacity = Big(order.capacity).mul(conversionFactor).mul(value);
     const costsPerDay = getCostsPerDay(poolCosts);
     const days = Big(order.periodSecs).div(SecondsPerDay);
     return normalizedOrderCapacity.mul(costsPerDay).mul(days)

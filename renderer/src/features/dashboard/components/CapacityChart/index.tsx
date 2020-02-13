@@ -5,10 +5,9 @@ import {makeStyles} from '@material-ui/core';
 import Big from 'big.js';
 import Typography from '@material-ui/core/Typography';
 import {FormattedMessage} from 'react-intl';
-import {scaleBigToNumber, ScaleBigToNumberParams} from './helper/scaleBigToNumber';
+import {convertBigToCapacity, ConvertBigToCapacityArgs} from '../../../../utils/convertBigToCapacity';
 import {stackNumericArray} from './helper/stackNumericArray';
-import {Unit} from '../../../../typings/Unit';
-import {mapUnitToCapacity} from '../../../../utils/mapUnitToCapacity';
+import {mapUnitToCapacityString} from '../../../../utils/mapUnitToCapacityString';
 
 const useStyles = makeStyles(theme => ({
         title: {
@@ -39,18 +38,21 @@ interface CapacityChartProps {
     }
 }
 
-const getScalerParameters = (value: Big): ScaleBigToNumberParams => ({value, fix: 'M', divider: 1024, dp: 3});
+const getScalerParameters = (value: Big): ConvertBigToCapacityArgs => ({value, fix: 'M', divider: 1024, dp: 3});
 
 function calculateUsed(total: Big, {capacities: {uploading, synced, none}}: CapacityChartProps): string[] {
     const sumUsed = none.plus(uploading.plus(synced));
-    const absolute = scaleBigToNumber(getScalerParameters(sumUsed)).toString(mapUnitToCapacity);
+    const absolute = convertBigToCapacity(getScalerParameters(sumUsed)).toString(mapUnitToCapacityString);
+    if(total.eq(0)){
+        return [absolute, '∞ %' ]
+    }
     const relative = `${sumUsed.div(total).mul(100).toFixed(2)} %`;
     return [absolute, relative]
 }
 
 function mapChartData(props: CapacityChartProps): BulletData[] {
 
-    const convert = (value: Big): number => scaleBigToNumber(getScalerParameters(value)).n;
+    const convert = (value: Big): number => convertBigToCapacity(getScalerParameters(value)).value;
     const ranges = stackNumericArray(props.subscriptions).map(convert);
     const measures = stackNumericArray([props.capacities.none, props.capacities.uploading, props.capacities.synced]).map(convert)
 
@@ -71,7 +73,7 @@ export const CapacityChart: React.FC<CapacityChartProps> = (props) => {
     const [absolute, relative] = calculateUsed(total, props);
     const chartData = mapChartData(props);
 
-    const totalText = scaleBigToNumber(getScalerParameters(total)).toString(mapUnitToCapacity);
+    const totalText = convertBigToCapacity(getScalerParameters(total)).toString(mapUnitToCapacityString);
 
     return (
         <React.Fragment>

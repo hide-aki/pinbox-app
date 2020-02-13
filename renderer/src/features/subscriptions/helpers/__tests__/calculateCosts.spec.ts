@@ -8,7 +8,7 @@ import Big from 'big.js';
 const Costs: PoolCosts = {
     burstPlanck: convertNumberToNQTString(1),
     unit: 'M',
-    capacity: 1,
+    value: 1,
     periodSecs: SecondsPerDay
 };
 

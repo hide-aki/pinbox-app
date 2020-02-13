@@ -5,6 +5,9 @@ import {Thunk} from '../../typings/Thunk';
 import {SubscriptionOrder} from '../../typings/SubscriptionOrder';
 import {accountSlice} from '../account/slice';
 import {Tristate} from '../../typings/Tristate';
+import {OnEventFn} from '../../typings/OnEventFn';
+import {voidFn} from '../../utils/voidFn';
+import {Subscription} from '../../typings/Subscription';
 
 const poolService = new PoolService();
 export const poolSlice = createSlice({
@@ -12,7 +15,7 @@ export const poolSlice = createSlice({
     initialState: {
         info: poolService.getPoolInfo(),
         isOrdering: false,
-        subscriptions: [],
+        subscriptions: poolService.getSubscriptions() || [],
     },
     reducers: {
         setPool: (state, {payload: poolInfo}) => {
@@ -20,6 +23,7 @@ export const poolSlice = createSlice({
             state.info = poolInfo;
         },
         setSubscriptions: (state, {payload: subscriptions}) => {
+            poolService.storeSubscriptions(subscriptions);
             state.subscriptions = subscriptions;
         },
         setIsOrdering: (state, {payload: isOrdering}) => {
@@ -48,6 +52,19 @@ const orderSubscription = (order: SubscriptionOrder): Thunk => async dispatch =>
     }
 };
 
+
+const fetchSubscriptions = (onRequestFinished:OnEventFn<boolean> = voidFn): Thunk => async (dispatch, getState) => {
+    try {
+        const subscriptions = await poolService.fetchSubscriptions();
+        dispatch(poolSlice.actions.setSubscriptions(subscriptions));
+        onRequestFinished(true);
+    } catch (err) {
+        dispatch(applicationSlice.actions.showErrorMessage(err.toString()));
+        onRequestFinished(false);
+    } finally {
+    }
+};
+
 const claimFreeSpace = (pin: string): Thunk => async dispatch => {
     try {
         dispatch(poolSlice.actions.setIsOrdering(true));
@@ -61,9 +78,10 @@ const claimFreeSpace = (pin: string): Thunk => async dispatch => {
 };
 
 
-export const thunks = {
-    fetchPoolInformation,
-    orderSubscription,
+export const poolThunks = {
     claimFreeSpace,
+    fetchPoolInformation,
+    fetchSubscriptions,
+    orderSubscription,
 };
 

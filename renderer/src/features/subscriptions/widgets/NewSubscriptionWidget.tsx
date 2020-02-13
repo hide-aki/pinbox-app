@@ -3,12 +3,12 @@ import {Widget} from '../../../app/components/Widget';
 import {useDispatch, useSelector} from 'react-redux';
 import {isOrderingSelector, poolInfoSelector} from '../../pool/selectors';
 import {convertNQTStringToNumber} from '@burstjs/util';
-import {mapUnitToCapacity} from '../../../utils/mapUnitToCapacity';
+import {mapUnitToCapacityString} from '../../../utils/mapUnitToCapacityString';
 import {FormattedMessage, FormattedPlural, useIntl} from 'react-intl';
 import {FormControl, Grid, InputLabel, MenuItem, Select, TextField, Theme, Typography} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 import {Unit} from '../../../typings/Unit';
-import {thunks} from '../../pool/slice';
+import {poolThunks} from '../../pool/slice';
 import {SubscriptionOrder} from '../../../typings/SubscriptionOrder';
 import {calculateSubscriptionCosts, getCostsPerDay, getCostsPerMonth} from '../helpers/calculateCosts';
 import {currentAccountSelector} from '../../account/selectors';
@@ -80,8 +80,8 @@ export const NewSubscriptionWidget: React.FC = () => {
     const {costs} = poolInfo;
     const subtitle = intl.formatMessage({id: "subscription.costs.text"}, {
         burst: intl.formatNumber(convertNQTStringToNumber(getCostsPerMonth(poolInfo.costs).toString())),
-        unit: mapUnitToCapacity(costs.unit),
-        capacity: costs.capacity
+        unit: mapUnitToCapacityString(costs.unit),
+        capacity: costs.value
     });
 
     function createOrder(): SubscriptionOrder {
@@ -108,7 +108,7 @@ export const NewSubscriptionWidget: React.FC = () => {
     function handleOrder() {
         if (orderInvalid) return;
         const order = createOrder();
-        dispatch(thunks.orderSubscription(order))
+        dispatch(poolThunks.orderSubscription(order))
     }
 
     return (
@@ -151,7 +151,7 @@ export const NewSubscriptionWidget: React.FC = () => {
                                     }}
                                 >{
                                     ['M', 'G', 'T'].map(u =>
-                                        <MenuItem key={u} value={u}>{mapUnitToCapacity(u as Unit)}</MenuItem>
+                                        <MenuItem key={u} value={u}>{mapUnitToCapacityString(u as Unit)}</MenuItem>
                                     )
                                 }
                                 </Select>
@@ -200,6 +200,7 @@ export const NewSubscriptionWidget: React.FC = () => {
                     variant="contained"
                     color="secondary"
                     onClick={handleOrder}
+                    disabled={orderInvalid}
                 >
                     <FormattedMessage id="button.order"/>
                 </ProgressButton>

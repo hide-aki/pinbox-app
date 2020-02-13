@@ -5,7 +5,7 @@ import {FormattedHTMLMessage, FormattedMessage, useIntl} from 'react-intl';
 import {makeStyles, Theme} from '@material-ui/core/styles';
 import {ProgressButton} from '../../../../app/components/ProgressButton';
 import {useDispatch, useSelector} from 'react-redux';
-import {thunks} from '../../../pool/slice';
+import {poolThunks} from '../../../pool/slice';
 import {currentAccountSelector} from '../../../account/selectors';
 import {isOrderingSelector} from '../../../pool/selectors';
 import {Chip, Typography} from '@material-ui/core';
@@ -63,7 +63,7 @@ export const ClaimFreeSpaceWidget: React.FC = () => {
     const handleDialogClosed = (pin:string|null): void => {
         setDialogOpen(false);
         if(pin !== null){
-            dispatch(thunks.claimFreeSpace(pin));
+            dispatch(poolThunks.claimFreeSpace(pin));
         }
     };
 

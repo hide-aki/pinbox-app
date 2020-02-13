@@ -1,7 +1,5 @@
-import {Unit} from './Unit';
+import {Capacity} from './Capacity';
 
-export interface TimedCapacity {
-    unit: Unit
-    capacity: number,
+export interface TimedCapacity extends Capacity{
     periodSecs: number
 }

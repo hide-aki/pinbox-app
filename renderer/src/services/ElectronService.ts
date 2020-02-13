@@ -1,7 +1,7 @@
 import * as Electron from 'electron';
-import {ElectronWindow} from '../typings/electron.window';
 import {IpcMessage} from '../../../main/src/sharedTypings/IpcMessage';
 import {IpcMessageProvider} from '../../../main/src/features/ipcMessaging/outgoing/MessageSendService';
+import {ElectronWindow} from '../typings/ElectronWindow';
 
 declare let window: ElectronWindow;
 

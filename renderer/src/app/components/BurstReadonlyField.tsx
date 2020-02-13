@@ -11,8 +11,8 @@ interface BurstReadonlyFieldProps {
 }
 
 export const BurstReadonlyField: React.FC<BurstReadonlyFieldProps> = (props) => {
-    const {label, planck, size = 'normal',  digits = 4} = props;
-    const burst = new FormattingService(useIntl()).formatBurstValue(planck);
+    const {label, planck, size = 'normal',  digits = 3} = props;
+    const burst = new FormattingService(useIntl()).formatBurstValue(planck, digits);
     return (
         <TextField
             variant="outlined"

@@ -8,7 +8,6 @@ import {useIntl} from 'react-intl';
 import {applicationSlice} from '../../app/slice';
 import {RoutePaths} from '../../routing/routes';
 import {useHistory} from 'react-router';
-import {poolSlice, thunks as poolThunks} from '../pool/slice';
 
 const {actions} = settingsSlice;
 

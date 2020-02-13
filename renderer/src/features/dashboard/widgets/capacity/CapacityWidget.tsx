@@ -9,6 +9,10 @@ import {ActionNames, createActions} from './actions';
 import {MenuAction} from '../../../../typings/MenuAction';
 import { useHistory } from 'react-router-dom';
 import {RouteProviders} from '../../../../routing/routes';
+import {subscriptionsSelector} from '../../../pool/selectors';
+import {convertBigToCapacity, EnhancedCapacity} from '../../../../utils/convertBigToCapacity';
+import {mapUnitToCapacityString} from '../../../../utils/mapUnitToCapacityString';
+import {convertCapacityToBig} from '../../../../utils/convertCapacityToBig';
 
 interface CapacityWidgetProps {
 }
@@ -19,6 +23,7 @@ export const CapacityWidget: React.FC<CapacityWidgetProps> = (props) => {
     const intl = useIntl();
     const history = useHistory();
     const capacities = useSelector(capacitySelector);
+    const subscriptions = useSelector(subscriptionsSelector);
 
     function handleAction(action: MenuAction) : void {
         switch(action.name){
@@ -27,6 +32,8 @@ export const CapacityWidget: React.FC<CapacityWidgetProps> = (props) => {
                 history.push(RouteProviders.Subscriptions())
         }
     }
+
+    const subscriptionsCapacities = subscriptions.map( s => convertCapacityToBig({capacity: s}) );
 
     return (
         <Widget
@@ -37,11 +44,7 @@ export const CapacityWidget: React.FC<CapacityWidgetProps> = (props) => {
         >
             <CapacityChart
                 capacities={capacities}
-                subscriptions={[
-                    Big(400000),
-                    Big(5000000),
-                    Big(15000000)
-                ]}
+                subscriptions={subscriptionsCapacities}
             />
         </Widget>
     )

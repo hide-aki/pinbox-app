@@ -13,8 +13,10 @@ import {
 import {PoolAccountId} from '../utils/constants';
 import {SecureKeyService} from './SecureKeyService';
 import {Keys} from '@burstjs/crypto';
+import {Subscription} from '../typings/Subscription';
 
-const ItemKey = 'pool';
+const ItemKeyPool = 'pool';
+const ItemKeySubscriptions = 'subscriptions';
 
 export class PoolService extends BurstService {
     constructor(private persistenceService: IPersistenceService = new PersistenceService()) {
@@ -22,11 +24,19 @@ export class PoolService extends BurstService {
     }
 
     storePoolInfo(poolInformation: PoolInformation) {
-        this.persistenceService.storeJsonObject(ItemKey, poolInformation);
+        this.persistenceService.storeJsonObject(ItemKeyPool, poolInformation);
     }
 
     getPoolInfo(): PoolInformation | null {
-        return this.persistenceService.getJsonObject(ItemKey) as PoolInformation;
+        return this.persistenceService.getJsonObject(ItemKeyPool) as PoolInformation;
+    }
+
+    storeSubscriptions(subscriptions: Subscription[]) {
+        this.persistenceService.storeJsonObject(ItemKeySubscriptions, subscriptions);
+    }
+
+    getSubscriptions(): Subscription[] | null {
+        return this.persistenceService.getJsonObject(ItemKeySubscriptions) as Subscription[];
     }
 
     async fetchPoolInformation(): Promise<PoolInformation | void> {
@@ -48,6 +58,7 @@ export class PoolService extends BurstService {
                 .map(t => <{ sender: string, message: string }>({
                     sender: t.sender,
                     message: getMessageText(t),
+                    // timestamp: convertBurstTimeToDate()
                 }))
                 .filter(({sender, message}) => sender === PoolAccountId && message)
                 [0];
@@ -58,7 +69,8 @@ export class PoolService extends BurstService {
                 throw new Error(`Could not find any message of Pool ${PoolAccountId}`)
             }
 
-            return JSON.parse(poolInformationMessage.message) as PoolInformation;
+            const poolInformation = JSON.parse(poolInformationMessage.message) as PoolInformation;
+            return poolInformation;
         })
     }
 
@@ -81,7 +93,7 @@ export class PoolService extends BurstService {
         await this.withApi<TransactionId>(api =>
             api.account.setRewardRecipient(
                 PoolAccountId,
-                // TODO: consider a fixed version of setRewardRecipient
+                // TODO: consider the fixed version of setRewardRecipient
                 // convertNumberToNQTString(0.1),
                 '0.05',
                 keys.publicKey,
@@ -90,5 +102,46 @@ export class PoolService extends BurstService {
         )
     }
 
+    private async fetchGiftSubscription(): Promise<Subscription> {
+        // const {gift} = this.getPoolInfo();
+
+        // TODO: implement real fetch
+        return Promise.resolve({
+            ordered: new Date(),
+            value: 1,
+            unit: 'G',
+            validThru: new Date(),
+            cancelable: false,
+        })
+    }
+
+    private async fetchUserSubscriptions(): Promise<Subscription[]> {
+
+        // TODO: implement real fetch
+        return Promise.resolve([{
+            ordered: new Date(),
+            value: 5,
+            unit: 'G',
+            validThru: new Date(),
+            cancelable: true,
+        }])
+    }
+
+
+    async fetchSubscriptions(): Promise<Subscription[]> {
+
+        const [gift, own] = await Promise.all([
+            this.fetchGiftSubscription(),
+            this.fetchUserSubscriptions(),
+        ]);
+
+        // TODO: implement subscriptions in BurstJS and call it here
+        return new Promise((resolve => {
+                setTimeout(() => {
+                    resolve([gift, ...own])
+                }, 1000)
+            })
+        );
+    }
 }
 

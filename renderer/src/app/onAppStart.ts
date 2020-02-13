@@ -8,7 +8,7 @@ export async function onAppStart(store: EnhancedStore) {
         // @ts-ignore
         store.dispatch(account.accountThunks.fetchBurstAccountInfo());
         // @ts-ignore
-        store.dispatch(pool.thunks.fetchPoolInformation());
+        store.dispatch(pool.poolThunks.fetchPoolInformation());
     };
 
     pollableCode();

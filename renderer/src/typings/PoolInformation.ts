@@ -6,6 +6,7 @@ export interface PoolInformation {
     name: string,
     description: string,
     costs: PoolCosts,
-    gift: TimedCapacity
+    gift: TimedCapacity,
+    lastModified: number
 }
 

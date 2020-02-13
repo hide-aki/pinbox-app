@@ -108,7 +108,6 @@ const activateBurstAccount = (publicKey: string = '', onRequestFinished: OnEvent
         dispatch(accountSlice.actions.setActivationState(Tristate.Pending));
         onRequestFinished(true);
     } catch (e) {
-        console.log('here', JSON.stringify(e))
         dispatch(applicationSlice.actions.showErrorMessage(e.message));
         onRequestFinished(false);
     }
