@@ -97,6 +97,7 @@
   "error.incorrect_pin": "Incorrect PIN",
   "error.brs.unknown_account": "Unknown Account",
   "error.brs.unknown_error": "Ah, snap! An unknown error occurred",
+  "error.no_pool_info": "No Pool Information available. Please contact the support!",
   "input.enter_passphrase": "Enter Passphrase",
   "input.enter_pin": "Enter PIN",
   "language.de": "German",

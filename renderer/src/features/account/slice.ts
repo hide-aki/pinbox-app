@@ -11,6 +11,8 @@ import {BurstAccount} from '../../typings/BurstAccount';
 import {Tristate} from '../../typings/Tristate';
 import {OnEventFn} from '../../typings/OnEventFn';
 import {voidFn} from '../../utils/voidFn';
+import * as pool from '../pool/slice';
+import {poolSlice} from '../pool/slice';
 
 const ACC_KEY = 'acc';
 
@@ -91,10 +93,12 @@ const fetchBurstAccountInfo = (accountIdent: string = '', publicKey: string = ''
             accountSlice.actions.setAccountIsReady(true);
         }
 
-        if (claimSpaceState === Tristate.Pending) {
+        if (claimSpaceState !== Tristate.Finished) {
             const hasClaimed = await accountService.verifyHasClaimedFreeSpace(accountId);
             dispatch(accountSlice.actions.setClaimSpaceState(hasClaimed ? Tristate.Finished : claimSpaceState));
         }
+
+        dispatch(fetchSubscriptions(accountId));
 
     } catch (e) {
         dispatch(applicationSlice.actions.showErrorMessage(e.message || e.toString()))
@@ -113,7 +117,24 @@ const activateBurstAccount = (publicKey: string = '', onRequestFinished: OnEvent
     }
 };
 
+
+const fetchSubscriptions = (accountId: string, onRequestFinished:OnEventFn<boolean> = voidFn): Thunk => async (dispatch, getState) => {
+    try {
+        const accountService = new BurstAccountService();
+        const subscriptions = await accountService.fetchSubscriptions(accountId);
+        dispatch(poolSlice.actions.setSubscriptions(subscriptions));
+        onRequestFinished(true);
+    } catch (err) {
+        dispatch(applicationSlice.actions.showErrorMessage(err.toString()));
+        onRequestFinished(false);
+    } finally {
+    }
+};
+
+
+
 export const accountThunks = {
     fetchBurstAccountInfo,
     activateBurstAccount,
+    fetchSubscriptions,
 };

@@ -97,6 +97,7 @@
   "error.incorrect_pin": "Falsche PIN",
   "error.brs.unknown_account": "Unbekanntes Konto",
   "error.brs.unknown_error": "Schade! Ein unbekannter Fehler ist aufgetreten",
+  "error.no_pool_info": "Keine Pool-Information verfügbar. Bitte kontaktiere den Support!",
   "input.enter_passphrase": "Passphrase eingeben",
   "input.enter_pin": "PIN eingeben",
   "language.de": "Deutsch",

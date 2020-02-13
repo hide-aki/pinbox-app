@@ -97,6 +97,7 @@
   "error.incorrect_pin": "PIN errado",
   "error.brs.unknown_account": "Conta desconhecida",
   "error.brs.unknown_error": "Eita! Ocorreu um erro desconhecido.",
+  "error.no_pool_info": "Não há informação disponível sobre o pool. Por favor, entre em contato com o suporte!",
   "input.enter_passphrase": "Digitar Frase Secreta",
   "input.enter_pin": "Digitar PIN",
   "language.de": "Alemão",

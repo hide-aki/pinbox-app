@@ -1,7 +1,7 @@
 import {Capacity} from './Capacity';
 
 export interface Subscription extends Capacity{
-    ordered: Date,
-    validThru: Date,
+    orderDate: number,
+    validThru: number,
     cancelable: boolean,
 }

@@ -10,7 +10,7 @@ export const withBurstApi = (burstService: BurstService) => async <T>(withApiFn:
         return await withApiFn(burstService.api)
     } catch (e) {
         let error = e instanceof HttpError
-            ? new Error(burstService.getTranslationIdForError(e))
+            ? new Error(burstService.getTranslationIdForBrsError(e))
             : e;
         if (onError) {
             onError(error)
