@@ -11,10 +11,10 @@ import {BurstAccount} from '../../typings/BurstAccount';
 import {Tristate} from '../../typings/Tristate';
 import {OnEventFn} from '../../typings/OnEventFn';
 import {voidFn} from '../../utils/voidFn';
-import * as pool from '../pool/slice';
-import {poolSlice} from '../pool/slice';
+import {Subscription} from '../../typings/Subscription';
 
-const ACC_KEY = 'acc';
+const ItemKeyAccount = 'acc';
+const ItemKeySubscriptions = 'subscriptions';
 
 const persistenceService = new PersistenceService();
 
@@ -23,26 +23,31 @@ export const accountSlice = createSlice({
     initialState: {
         accountIsReady: false,
         activationState: Tristate.NotStartedYet,
-        account: {} // BurstAccount type
+        account: persistenceService.getJsonObject(ItemKeyAccount) as BurstAccount | null,
+        subscriptions: persistenceService.getJsonObject(ItemKeySubscriptions) as Subscription[]
     },
     reducers: {
         setAccount: (state, action) => {
             state.account = action.payload;
-            persistenceService.storeJsonObject(ACC_KEY, state.account);
+            persistenceService.storeJsonObject(ItemKeyAccount, state.account || {});
         },
         clearAccount: (state, action) => {
-            state.account = {};
-            persistenceService.storeJsonObject(ACC_KEY, state.account);
+            state.account = null;
+            persistenceService.removeItem(ItemKeyAccount);
+        },
+        setSubscriptions: (state, action) => {
+            state.subscriptions = action.payload;
+            persistenceService.storeJsonObject(ItemKeySubscriptions, state.subscriptions);
         },
         setClaimSpaceState: (state, action) => {
             // @ts-ignore
             state.account.claimSpaceState = action.payload;
-            persistenceService.storeJsonObject(ACC_KEY, state.account);
+            persistenceService.storeJsonObject(ItemKeyAccount, state.account || {});
         },
         setActivationState: (state, action) => {
             // @ts-ignore
             state.activationState = action.payload;
-            persistenceService.storeJsonObject(ACC_KEY, state.account);
+            persistenceService.storeJsonObject(ItemKeyAccount, state.account || {});
         },
         setAccountIsReady: (state, action) => {
             // @ts-ignore
@@ -57,7 +62,7 @@ const fetchBurstAccountInfo = (accountIdent: string = '', publicKey: string = ''
         let accountId = accountIdent;
         let pubKey = publicKey;
         if (!accountId.length) {
-            const a = persistenceService.getJsonObject(ACC_KEY) as BurstAccount;
+            const a = persistenceService.getJsonObject(ItemKeyAccount) as BurstAccount;
             if (a) {
                 accountId = a.account;
                 pubKey = a.publicKey;
@@ -85,6 +90,7 @@ const fetchBurstAccountInfo = (accountIdent: string = '', publicKey: string = ''
 
         if (accountState === AccountState.Active) {
             dispatch(accountSlice.actions.setActivationState(Tristate.Finished));
+            dispatch(fetchSubscriptions(accountId));
         }
 
         if (!getState().account.accountIsReady && !isEmptyString(pubKey)) {
@@ -98,10 +104,9 @@ const fetchBurstAccountInfo = (accountIdent: string = '', publicKey: string = ''
             dispatch(accountSlice.actions.setClaimSpaceState(hasClaimed ? Tristate.Finished : claimSpaceState));
         }
 
-        dispatch(fetchSubscriptions(accountId));
 
     } catch (e) {
-        dispatch(applicationSlice.actions.showErrorMessage(e.message || e.toString()))
+        dispatch(applicationSlice.actions.showErrorMessage(e.message))
     }
 };
 
@@ -122,10 +127,10 @@ const fetchSubscriptions = (accountId: string, onRequestFinished:OnEventFn<boole
     try {
         const accountService = new BurstAccountService();
         const subscriptions = await accountService.fetchSubscriptions(accountId);
-        dispatch(poolSlice.actions.setSubscriptions(subscriptions));
+        dispatch(accountSlice.actions.setSubscriptions(subscriptions));
         onRequestFinished(true);
     } catch (err) {
-        dispatch(applicationSlice.actions.showErrorMessage(err.toString()));
+        dispatch(applicationSlice.actions.showErrorMessage(err.message));
         onRequestFinished(false);
     } finally {
     }

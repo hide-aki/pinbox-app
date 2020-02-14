@@ -76,7 +76,7 @@ export const ClaimFreeSpaceWidget: React.FC = () => {
                 title={t('dashboard.claim_space.title')}
                 subtitle={t('dashboard.claim_space.subtitle')}
             >
-                <img src={ClaimImage} alt="Claim Free Space Image"/>
+                <img src={ClaimImage} alt="Claim Free Space"/>
                 <div className={classes.body}>
                     <Typography variant='body1' className={classes.paragraph}>
                         <FormattedHTMLMessage id='dashboard.claim_space.description:html'/>

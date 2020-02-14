@@ -9,8 +9,8 @@ export interface ConvertCapacityToBigArgs {
 export const convertCapacityToBig = ({capacity, multiplier= 1000}: ConvertCapacityToBigArgs): Big => {
     const unitOrder = ['','K','M','G','T','P'];
 
-    let i = unitOrder.indexOf(capacity.unit);
-    let big = Big(capacity.value);
+    let i = unitOrder.indexOf(capacity?.unit || '');
+    let big = Big(capacity?.value || 0);
     while(i > 0){
         big = big.mul(multiplier);
         --i;

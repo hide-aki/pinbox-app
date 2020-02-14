@@ -38,7 +38,7 @@ interface CapacityChartProps {
     }
 }
 
-const getScalerParameters = (value: Big): ConvertBigToCapacityArgs => ({value, fix: 'M', divider: 1024, dp: 3});
+const getScalerParameters = (value: Big): ConvertBigToCapacityArgs => ({value, fix: 'M', dp: 3});
 
 function calculateUsed(total: Big, {capacities: {uploading, synced, none}}: CapacityChartProps): string[] {
     const sumUsed = none.plus(uploading.plus(synced));

@@ -1,16 +1,12 @@
 import {generateMasterKeys, getAccountIdFromPublicKey} from '@burstjs/crypto';
-import {convertNumericIdToAddress} from '@burstjs/util';
+import {convertBurstTimeToEpochTime, convertNumericIdToAddress} from '@burstjs/util';
 import {BurstAccount} from '../typings/BurstAccount';
 import {BurstService} from './BurstService';
-import {
-    Transaction,
-    TransactionArbitrarySubtype,
-    TransactionRewardRecipientSubtype,
-    TransactionType
-} from '@burstjs/core';
+import {Transaction, TransactionRewardRecipientSubtype, TransactionType} from '@burstjs/core';
 import {ActivatorUrl, PoolAccountId} from '../utils/constants';
 import {HttpImpl} from '@burstjs/http';
 import {Subscription} from '../typings/Subscription';
+import {PoolService} from './PoolService';
 
 interface IAccountIdentifierType {
     publicKey: string,
@@ -25,14 +21,8 @@ export enum AccountState {
     NotFound
 }
 
-const sortByHeightAsc = (a: Transaction, b: Transaction) => {
-    if (a.height === b.height) {
-        return 0
-    }
-    // @ts-ignore
-    return a.height < b.height ? -1 : 1
-};
-
+// @ts-ignore
+const sortByTimestampAsc = (a: Transaction, b: Transaction) => a.blockTimestamp - b.blockTimestamp;
 
 export class BurstAccountService extends BurstService {
 
@@ -103,64 +93,67 @@ export class BurstAccountService extends BurstService {
         return await this.api.account.getAccount(accountId) as BurstAccount;
     }
 
-    private async fetchGiftSubscription(accountId: string): Promise<Subscription> {
-        // get first reward recipient message for pool account
-        const {transactions} = await this.api.account.getAccountTransactions({
-            accountId,
-            subtype: TransactionRewardRecipientSubtype.RewardRecipientAssignment,
-            type: TransactionType.RewardRecipient,
-        });
+    private async fetchGiftSubscription(accountId: string): Promise<Subscription | null> {
+        return this.withBrsErrorTranslation(async (): Promise<Subscription | null> => {
+            const [poolInformations, poolRewardAssignments] = await Promise.all([
+                new PoolService().fetchAllPoolInformationMessages(),
+                this.api.account.getAccountTransactions({
+                    accountId,
+                    subtype: TransactionRewardRecipientSubtype.RewardRecipientAssignment,
+                    type: TransactionType.RewardRecipient,
+                })
+            ]);
 
-        const orderedByHeight = transactions
-            .filter(({recipient}) => recipient === PoolAccountId)
-            .sort(sortByHeightAsc);
+            // get first reward recipient message for pool account
+            const orderedByHeight = poolRewardAssignments.transactions
+                .filter(({recipient}) => recipient === PoolAccountId)
+                .sort(sortByTimestampAsc);
 
-        console.log(orderedByHeight);
-        //
-        // // find the closest pool info message below that blockheight
-        // const {transactions} = await this.api.account.getAccountTransactions({
-        //     accountId: PoolAccountId,
-        //     subtype: TransactionArbitrarySubtype.Message,
-        //     type: TransactionType.Arbitrary,
-        // });
+            if (orderedByHeight.length === 0) {
+                return null;
+            }
+            const firstRewardMessage = orderedByHeight[0];
+            const startBurstTimestamp = (firstRewardMessage.timestamp || 0);
+            const relevantPoolInfo = poolInformations
+                .filter(p => p.timestamp <= startBurstTimestamp)
+                .sort(sortByTimestampAsc)[0];
 
-        // TODO: implement real fetch
-        return Promise.resolve({
-            orderDate: Date.now(),
-            value: 1,
-            unit: 'G',
-            validThru: Date.now() + 3600 * 7,
-            cancelable: false,
+            const startTimestamp = convertBurstTimeToEpochTime(startBurstTimestamp);
+            const endTimestamp = startTimestamp + relevantPoolInfo.gift.periodSecs;
+            return {
+                version: 1,
+                unit: relevantPoolInfo.gift.unit,
+                value: relevantPoolInfo.gift.value,
+                cancelable: false,
+                startTimestamp,
+                endTimestamp,
+            };
         })
     }
 
-    private async fetchOrderedSubscriptions(accountId: string): Promise<Subscription[]> {
+    private async fetchOrderedSubscriptions(accountId: string): Promise<Subscription[] | null> {
 
         // TODO: implement real fetch
-        return Promise.resolve([{
-            orderDate: Date.now(),
-            value: 5,
-            unit: 'G',
-            validThru: Date.now() + 3600 * 7,
-            cancelable: true,
-        }])
+        return Promise.resolve(null)
+        //     [{
+        //     // startTimestamp: Date.now(),
+        //     // endTimestamp: Date.now() + 3600 * 7,
+        //     // value: 5,
+        //     // unit: 'G',
+        //     // cancelable: true,
+        //     // version: 1,
+        // }])
     }
 
 
     async fetchSubscriptions(accountId: string): Promise<Subscription[]> {
 
-        const [gift, own] = await Promise.all([
+        const [gift, ordered] = await Promise.all([
             this.fetchGiftSubscription(accountId),
             this.fetchOrderedSubscriptions(accountId),
         ]);
-
-        // TODO: implement subscriptions in BurstJS and call it here
-        return new Promise((resolve => {
-                setTimeout(() => {
-                    resolve([gift, ...own])
-                }, 1000)
-            })
-        );
+        let subscriptions = ordered || [];
+        return gift ? subscriptions.concat(gift) : subscriptions;
     }
 
 

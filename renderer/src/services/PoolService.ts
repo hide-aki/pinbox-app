@@ -12,12 +12,11 @@ import {isEmptyString} from '../utils/isEmptyString';
 import {convertBurstTimeToEpochTime} from '@burstjs/util';
 
 const ItemKeyPool = 'pool';
-const ItemKeySubscriptions = 'subscriptions';
 
 interface PoolMessage {
     sender: string,
     message: string,
-    blockTimestamp: number,
+    timestamp: number,
 }
 
 export class PoolService extends BurstService {
@@ -33,14 +32,6 @@ export class PoolService extends BurstService {
         return this.persistenceService.getJsonObject(ItemKeyPool) as PoolInformation;
     }
 
-    storeSubscriptions(subscriptions: Subscription[]) {
-        this.persistenceService.storeJsonObject(ItemKeySubscriptions, subscriptions);
-    }
-
-    getSubscriptions(): Subscription[] | null {
-        return this.persistenceService.getJsonObject(ItemKeySubscriptions) as Subscription[];
-    }
-
     async fetchAllPoolInformationMessages(): Promise<PoolInformation[]> {
         return this.withBrsErrorTranslation<Promise<PoolInformation[]>>(async (): Promise<any> => {
             const getMessageText = (transaction: Transaction) =>
@@ -49,13 +40,13 @@ export class PoolService extends BurstService {
             const toMessage = (t: Transaction): PoolMessage => ({
                 sender: t.sender || '',
                 message: getMessageText(t),
-                blockTimestamp: t.blockTimestamp || 0,
+                timestamp: t.timestamp || 0,
             });
 
-            const toPoolInformation = ({message, blockTimestamp}: PoolMessage): PoolInformation | null => {
+            const toPoolInformation = ({message, timestamp}: PoolMessage): PoolInformation | null => {
                 try {
                     const info = JSON.parse(message) as PoolInformation;
-                    info.lastModified = convertBurstTimeToEpochTime(blockTimestamp);
+                    info.timestamp = timestamp;
                     return info;
                 } catch (e) {
                     return null;
@@ -66,6 +57,7 @@ export class PoolService extends BurstService {
 
             const isPoolInfoMessage = ({sender, message}: PoolMessage): boolean => sender === PoolAccountId && !isEmptyString(message);
 
+            // TODO: Consider >500 messages
             const {transactions} = await this.api.account.getAccountTransactions({
                 accountId: PoolAccountId,
                 subtype: TransactionArbitrarySubtype.Message,
@@ -80,10 +72,9 @@ export class PoolService extends BurstService {
         })
     }
 
-
     async fetchPoolInformation(): Promise<PoolInformation> {
         const poolInformationMessages = await this.fetchAllPoolInformationMessages();
-        const sortByModified = (a: PoolInformation, b: PoolInformation): number => b.lastModified - a.lastModified
+        const sortByModified = (a: PoolInformation, b: PoolInformation): number => b.timestamp - a.timestamp
         if (poolInformationMessages.length === 0) throw new Error("error.no_pool_info");
         return poolInformationMessages.sort(sortByModified)[0];
     }
@@ -109,7 +100,7 @@ export class PoolService extends BurstService {
                 PoolAccountId,
                 // TODO: consider the fixed version of setRewardRecipient
                 // convertNumberToNQTString(0.1),
-                '0.01',
+                '0.01', // This is a bug in burstjs --- calls it NQT but is expecting BURST
                 keys.publicKey,
                 keys.signPrivateKey,
             )

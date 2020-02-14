@@ -12,16 +12,11 @@ export const poolSlice = createSlice({
     initialState: {
         info: poolService.getPoolInfo(),
         isOrdering: false,
-        subscriptions: poolService.getSubscriptions() || [],
     },
     reducers: {
         setPool: (state, {payload: poolInfo}) => {
             poolService.storePoolInfo(poolInfo);
             state.info = poolInfo;
-        },
-        setSubscriptions: (state, {payload: subscriptions}) => {
-            poolService.storeSubscriptions(subscriptions);
-            state.subscriptions = subscriptions;
         },
         setIsOrdering: (state, {payload: isOrdering}) => {
             state.isOrdering = isOrdering;

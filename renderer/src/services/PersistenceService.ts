@@ -1,6 +1,6 @@
 import {IPersistenceService} from '../typings/IPersistenceService';
 
-export class PersistenceService implements IPersistenceService{
+export class PersistenceService implements IPersistenceService {
     storeItem(key: string, serializedData: string) {
         localStorage.setItem(key, serializedData);
     }
@@ -13,11 +13,11 @@ export class PersistenceService implements IPersistenceService{
         localStorage.removeItem(key)
     }
 
-    storeJsonObject(key: string, obj: object) {
+    storeJsonObject(key: string, obj: any) {
         this.storeItem(key, JSON.stringify(obj))
     }
 
-    getJsonObject(key: string): object | null {
+    getJsonObject(key: string): any {
         const serializedObj = this.getItem(key);
         return serializedObj ? JSON.parse(serializedObj) : null;
     }

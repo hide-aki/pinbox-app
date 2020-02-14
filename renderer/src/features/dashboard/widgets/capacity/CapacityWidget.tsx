@@ -8,8 +8,8 @@ import {ActionNames, createActions} from './actions';
 import {MenuAction} from '../../../../typings/MenuAction';
 import {useHistory} from 'react-router-dom';
 import {RouteProviders} from '../../../../routing/routes';
-import {subscriptionsSelector} from '../../../pool/selectors';
 import {convertCapacityToBig} from '../../../../utils/convertCapacityToBig';
+import {subscriptionsSelector} from '../../../account/selectors';
 
 interface CapacityWidgetProps {
 }

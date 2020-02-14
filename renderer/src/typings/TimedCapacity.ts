@@ -1,5 +1,5 @@
 import {Capacity} from './Capacity';
 
-export interface TimedCapacity extends Capacity{
+export interface TimedCapacity extends Capacity {
     periodSecs: number
 }
