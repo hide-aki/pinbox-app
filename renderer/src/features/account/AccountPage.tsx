@@ -1,6 +1,6 @@
 import React from 'react';
 import {createStyles, makeStyles, Paper, Theme} from '@material-ui/core';
-import {Page} from '../../components/Page';
+import {Page} from '../../app/components/Page';
 
 import AccountBackgroundImage from '../../images/background2.png';
 import {AccountDetails} from './components/details/AccountDetails';

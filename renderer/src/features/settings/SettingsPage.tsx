@@ -1,5 +1,5 @@
 import React from 'react';
-import {Page} from '../../components/Page';
+import {Page} from '../../app/components/Page';
 import {createStyles, makeStyles, Paper, Theme} from '@material-ui/core';
 import SettingsBackgroundImage from '../../images/background3.png';
 import {SettingsForm} from './SettingsForm';

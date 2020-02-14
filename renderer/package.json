@@ -24,6 +24,7 @@
     "electron-unhandled": "^3.0.2",
     "lodash": "^4.17.15",
     "lodash.debounce": "^4.0.8",
+    "material-table": "^1.57.2",
     "qrcode.react": "^1.0.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",

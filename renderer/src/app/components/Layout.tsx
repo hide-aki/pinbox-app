@@ -6,7 +6,7 @@ import {useSelector} from 'react-redux';
 import {selectHasEnteredPin} from '../selectors';
 import {RoutePaths} from '../../routing/routes';
 import {useLocation} from 'react-router-dom';
-import {ElectronContext} from '../../components/contexts/ElectronContext';
+import {ElectronContext} from './contexts/ElectronContext';
 import {ElectronService} from '../../services/ElectronService';
 import clsx from 'clsx';
 import {Notification} from './Notification';

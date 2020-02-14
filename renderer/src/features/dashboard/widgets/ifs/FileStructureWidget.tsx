@@ -8,7 +8,7 @@ import {ActionNames} from '../../components/FileTree/StyledTreeItem/actions';
 import {isEmptyString} from '../../../../utils/isEmptyString';
 import {ElectronService} from '../../../../services/ElectronService';
 import {FileDropMessage, RenameFileMessage} from '../../../ipcMessaging/outgoing/providers';
-import {ElectronContext} from '../../../../components/contexts/ElectronContext';
+import {ElectronContext} from '../../../../app/components/contexts/ElectronContext';
 import {useIntl} from 'react-intl';
 import {translate} from '../../../../utils/translate';
 import {RenameFileDialog} from '../../components/RenameFileDialog';

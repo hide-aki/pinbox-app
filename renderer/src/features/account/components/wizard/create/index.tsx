@@ -19,7 +19,7 @@ import {RoutePaths} from '../../../../../routing/routes';
 import {BurstAccountService} from '../../../../../services/BurstAccountService';
 import {accountSlice, accountThunks} from '../../../slice';
 import {useDispatch} from 'react-redux';
-import {ElectronContext} from '../../../../../components/contexts/ElectronContext';
+import {ElectronContext} from '../../../../../app/components/contexts/ElectronContext';
 import {NewAccountMessage} from '../../../../ipcMessaging/outgoing/providers';
 import {applicationSlice} from '../../../../../app/slice';
 import {voidFn} from '../../../../../utils/voidFn';

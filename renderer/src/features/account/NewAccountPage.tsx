@@ -1,6 +1,6 @@
 import React from 'react';
 import {createStyles, makeStyles, Paper, Theme} from '@material-ui/core';
-import {Page} from '../../components/Page';
+import {Page} from '../../app/components/Page';
 import {FormattedMessage} from 'react-intl';
 import {AccountCreator} from './components/wizard/create';
 import AccountBackgroundImage from '../../images/background2.png';

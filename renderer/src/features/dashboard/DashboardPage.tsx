@@ -1,6 +1,6 @@
 import React from 'react';
 import {Grid} from '@material-ui/core';
-import {Page} from '../../components/Page';
+import {Page} from '../../app/components/Page';
 import {Widget} from '../../app/components/Widget';
 import {useSelector} from 'react-redux';
 import {activationStateSelector, currentAccountSelector} from '../account/selectors';

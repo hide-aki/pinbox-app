@@ -119,7 +119,7 @@ export class BurstAccountService extends BurstService {
                 .sort(sortByTimestampAsc)[0];
 
             const startTimestamp = convertBurstTimeToEpochTime(startBurstTimestamp);
-            const endTimestamp = startTimestamp + relevantPoolInfo.gift.periodSecs;
+            const endTimestamp = startTimestamp + (relevantPoolInfo.gift.periodSecs*1000);
             return {
                 version: 1,
                 unit: relevantPoolInfo.gift.unit,
@@ -132,17 +132,8 @@ export class BurstAccountService extends BurstService {
     }
 
     private async fetchOrderedSubscriptions(accountId: string): Promise<Subscription[] | null> {
-
         // TODO: implement real fetch
         return Promise.resolve(null)
-        //     [{
-        //     // startTimestamp: Date.now(),
-        //     // endTimestamp: Date.now() + 3600 * 7,
-        //     // value: 5,
-        //     // unit: 'G',
-        //     // cancelable: true,
-        //     // version: 1,
-        // }])
     }
 
 

@@ -1,9 +1,9 @@
 import React from 'react';
-import {Page} from '../../components/Page';
+import {Page} from '../../app/components/Page';
 import {Grid, makeStyles, Theme} from '@material-ui/core';
 import PoolsBackgroundImage from '../../images/background4.png';
 import {NewSubscriptionWidget} from './widgets/NewSubscriptionWidget';
-import {SubscriptionListWidget} from './widgets/SubscriptionListWidget';
+import {SubscriptionsWidget} from './widgets/SubscriptionsWidget';
 
 const useStyle = makeStyles((theme: Theme) => ({
     root: {
@@ -30,7 +30,7 @@ export const SubscriptionsPage: React.FC = () => {
                     <NewSubscriptionWidget/>
                 </Grid>
                 <Grid item xs>
-                    <SubscriptionListWidget/>
+                    <SubscriptionsWidget/>
                 </Grid>
             </Grid>
         </Page>

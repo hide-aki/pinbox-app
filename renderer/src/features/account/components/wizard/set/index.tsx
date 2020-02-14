@@ -11,7 +11,7 @@ import {VerifyAccountStep} from './VerifyAccountStep';
 import {useDispatch} from 'react-redux';
 import {BurstAccountService} from '../../../../../services/BurstAccountService';
 import {accountThunks} from '../../../slice';
-import {ElectronContext} from '../../../../../components/contexts/ElectronContext';
+import {ElectronContext} from '../../../../../app/components/contexts/ElectronContext';
 import {NewAccountMessage} from '../../../../ipcMessaging/outgoing/providers';
 import {applicationSlice} from '../../../../../app/slice';
 
